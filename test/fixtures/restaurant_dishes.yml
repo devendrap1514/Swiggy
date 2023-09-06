@@ -3,7 +3,9 @@
 one:
   restaurant: one
   dish: one
+  price: 9.99
 
 two:
   restaurant: two
   dish: two
+  price: 9.99

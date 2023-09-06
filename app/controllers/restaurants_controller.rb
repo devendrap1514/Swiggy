@@ -57,7 +57,7 @@ class RestaurantsController < ApplicationController
         render json: { error: 'You ara not a Owner' }
       end
     rescue ActiveRecord::RecordNotFound
-      render json: { errors: 'User not found' }, status: :not_found
+      render json: { errors: 'Owner not found' }, status: :not_found
     end
 
     def restaurant_params
