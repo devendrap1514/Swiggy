@@ -23,7 +23,7 @@ class UsersController < ApplicationController
     render json: @user.destroy
   end
 
-  protected
+  private
     def find_user
       # to know which username get and what is the current user username
       if params[:_username] == @current_user.username
