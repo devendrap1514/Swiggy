@@ -4,6 +4,6 @@ class Category < ApplicationRecord
   before_validation :remove_whitespace
 
   def remove_whitespace
-    self.dish_name = self.dish_name.strip.squeeze(" ") unless self.name.nil?
+    self.category_name = self.category_name.strip.squeeze(" ") unless self.category_name.nil?
   end
 end
