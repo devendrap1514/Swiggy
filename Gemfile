@@ -44,6 +44,10 @@ group :development, :test do
   gem 'jwt'
   # Use ActiveModel has_secure_password
   gem 'bcrypt'
+  # serializer
+  gem 'active_model_serializers'
+  # ByeBug
+  gem 'byebug'
 end
 
 group :development do

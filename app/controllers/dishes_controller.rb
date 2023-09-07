@@ -1,5 +1,5 @@
 class DishesController < AuthenticationController
-  before_action :find_owner, except: %i[index show]
+  before_action :is_owner?, except: %i[index show]
 
   def index
     render json: Dish.all
@@ -42,7 +42,7 @@ class DishesController < AuthenticationController
       if dish.destroy
         render json: dish
       else
-        render json: nil, status: :unprocessable_entity
+        render json: { errors: "error while deleting" }
       end
     else
       render json: 'no such dish'
@@ -50,15 +50,6 @@ class DishesController < AuthenticationController
   end
 
   private
-    def find_owner
-      @user = @current_user
-      unless @user.type == 'Owner'
-        render json: { error: 'You ara not a Owner' }
-      end
-    rescue ActiveRecord::RecordNotFound
-      render json: { errors: 'Owner not found' }, status: :not_found
-    end
-
     def dish_params
       params.permit(:dish_name, :category_id)
     end

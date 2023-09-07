@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   resources :customers, param: :_username, only: [:create, :show, :update, :destroy]
   resources :restaurants, param: :_restaurant_name, only: [:index, :create, :show, :update, :destroy]
   resources :dishes, param: :_dish_name, only: [:index, :create, :show, :update, :destroy]
-  resources :categories, param: :_category_name, only: [:index, :create, :show, :update, :destroy]
+  resources :categories, param: :_category_name, only: [:index, :create, :show, :update]
   resources :restaurant_dishes, param: :_restaurant_dish_id, only: [:index, :create, :show, :update, :destroy]
 
   post '/auth/login', to: 'authentication#login'

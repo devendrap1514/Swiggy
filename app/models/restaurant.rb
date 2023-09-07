@@ -1,6 +1,6 @@
 class Restaurant < ApplicationRecord
   belongs_to :user
-  has_many :restaurant_dishes
+  has_many :restaurant_dishes, dependent: :destroy
   has_many :dishes, through: :restaurant_dishes
 
   validates :restaurant_name, :address, presence: true

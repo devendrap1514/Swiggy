@@ -13,6 +13,24 @@ class AuthenticationController < ApplicationController
     end
   end
 
+  def is_owner?
+    @user = @current_user
+    unless @user.type == 'Owner'
+      render json: { error: 'You ara not a Owner' }
+    end
+  rescue ActiveRecord::RecordNotFound
+    render json: { errors: 'Owner not found' }, status: :not_found
+  end
+
+  def is_customer?
+    @user = @current_user
+    unless @user.type == 'Customer'
+      render json: { error: 'You ara not a Customer' }
+    end
+  rescue ActiveRecord::RecordNotFound
+    render json: { errors: 'Customer not found' }, status: :not_found
+  end
+
   private
     def login_params
       params.permit(:username, :password)
