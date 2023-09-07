@@ -1,6 +1,5 @@
-class RestaurantDishesController < ApplicationController
-  before_action :authorize_request
-  before_action :find_owner, except: %i[index, show]
+class RestaurantDishesController < AuthenticationController
+  before_action :find_owner, except: %i[index show]
 
   def index
     render json: RestaurantDish.joins(:restaurant, :dish)

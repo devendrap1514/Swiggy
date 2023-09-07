@@ -1,6 +1,5 @@
-class DishesController < ApplicationController
-  before_action :authorize_request
-  before_action :find_owner, except: %i[index, show]
+class DishesController < AuthenticationController
+  before_action :find_owner, except: %i[index show]
 
   def index
     render json: Dish.all
