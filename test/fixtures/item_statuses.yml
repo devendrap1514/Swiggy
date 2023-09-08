@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  restaurant_dish: one
+  status: one
+  status_type: Status
+
+two:
+  restaurant_dish: two
+  status: two
+  status_type: Status

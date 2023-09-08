@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
   resources :users, only: [:index]
   resources :owners, param: :_username, only: [:create, :show, :update, :destroy]
-  resources :customers, param: :_username, only: [:create, :show, :update, :destroy]
+  resources :customers, param: :_username, only: [:create, :show, :update, :destroy] do
+    resource :cart, only: [:show, :update, :destroy]
+  end
   resources :restaurants, param: :_restaurant_name, only: [:index, :create, :show, :update, :destroy]
   resources :dishes, param: :_dish_name, only: [:index, :create, :show, :update, :destroy]
   resources :categories, param: :_category_name, only: [:index, :create, :show, :update]

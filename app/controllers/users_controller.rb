@@ -1,9 +1,12 @@
 class UsersController < AuthenticationController
-  before_action :authorize_request, except: :create
+  before_action :authorize_request, except: [:create]
   before_action :find_user, except: %i[create index]
 
   def index
     render json: User.all
+  end
+
+  def create
   end
 
   def show
