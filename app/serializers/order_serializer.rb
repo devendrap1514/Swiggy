@@ -1,4 +1,4 @@
 class OrderSerializer < ActiveModel::Serializer
-  attributes :id
+  attributes :id, :order_price
   has_many :item_statuses
 end

@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   resources :owners, param: :_username, only: [:create, :show, :update, :destroy]
   resources :customers, param: :_username, only: [:create, :show, :update, :destroy] do
     resource :cart, only: [:show, :destroy]
-    resources :orders, only: [:index, :create, :show, :destroy]
+    resources :orders, param: :_order_id, only: [:index, :create, :show, :destroy]
   end
   resources :restaurants, param: :_restaurant_name, only: [:index, :create, :show, :update, :destroy]
   resources :dishes, param: :_dish_name, only: [:index, :create, :show, :update, :destroy]
