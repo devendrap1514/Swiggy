@@ -2,7 +2,8 @@ class DishesController < AuthenticationController
   before_action :is_owner?, except: %i[index show]
 
   def index
-    render json: Dish.all
+    p params[:page_number]
+    render json: Dish.all.page(params[:page_number])
   end
 
   def create
@@ -17,7 +18,10 @@ class DishesController < AuthenticationController
   def show
     dish = Dish.find_by_dish_name(params[:_dish_name])
     if dish
-      render json: dish
+      render json: {
+        Dish: ActiveModelSerializers::SerializableResource.new(dish, {serializer: DishSerializer}),
+        Restaurant: ActiveModel::Serializer::CollectionSerializer.new(dish.restaurants, each_serializer: RestaurantSerializer)
+      }
     else
       render json: 'no such dish'
     end

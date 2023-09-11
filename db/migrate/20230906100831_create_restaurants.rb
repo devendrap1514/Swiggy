@@ -3,7 +3,7 @@ class CreateRestaurants < ActiveRecord::Migration[7.0]
     create_table :restaurants do |t|
       t.string :restaurant_name
       t.string :address
-      t.string :status, default: "open"
+      t.string :status
       t.references :user, null: false, foreign_key: true
 
       t.timestamps

@@ -48,6 +48,8 @@ group :development, :test do
   gem 'active_model_serializers'
   # ByeBug
   gem 'byebug'
+  # kaminari
+  gem 'kaminari'
 end
 
 group :development do

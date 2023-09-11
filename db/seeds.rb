@@ -16,10 +16,10 @@ customer2 = Customer.create(name: "Pradeep Patidar",username: "pp_123",password:
 p_e(customer1, customer2)
 
 Restaurant.destroy_all
-restaurant1 = Restaurant.create(restaurant_name: "Apna Sweet", address: "Vijay Nager", user_id: owner1.id)
-restaurant2 = Restaurant.create(restaurant_name: "Guru Kripa", address: "Sarvate", user_id: owner1.id)
-restaurant3 = Restaurant.create(restaurant_name: "Sayaji", address: "Meghdoot", user_id: owner2.id)
-restaurant4 = Restaurant.create(restaurant_name: "Maa ki Rasoi", address: "Palasia", user_id: owner2.id)
+restaurant1 = Restaurant.create(restaurant_name: "Apna Sweet", address: "Vijay Nager", user_id: owner1.id, status: 'open')
+restaurant2 = Restaurant.create(restaurant_name: "Guru Kripa", address: "Sarvate", user_id: owner1.id, status: 'close')
+restaurant3 = Restaurant.create(restaurant_name: "Sayaji", address: "Meghdoot", user_id: owner2.id, status: 'open')
+restaurant4 = Restaurant.create(restaurant_name: "Maa ki Rasoi", address: "Palasia", user_id: owner2.id, status: 'open')
 p_e restaurant1, restaurant2
 
 
@@ -49,4 +49,6 @@ p_e rd1, rd2, rd3, rd4
 ItemStatus.destroy_all
 is1 = customer1.cart.item_statuses.create(restaurant_dish_id: rd1.id, quantity: 1)
 is2 = customer1.cart.item_statuses.create(restaurant_dish_id: rd2.id, quantity: 1)
+
+
 

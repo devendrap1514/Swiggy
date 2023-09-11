@@ -17,7 +17,11 @@ class CategoriesController < AuthenticationController
   def show
     category = Category.find_by_category_name(params[:_category_name])
     if category
-      render json: category
+      # render json: category
+      render json: {
+        Dish: ActiveModelSerializers::SerializableResource.new(category, {serializer: CategorySerializer}).as_json,
+        Dishes: ActiveModel::Serializer::CollectionSerializer.new(category.dishes, each_serializer: DishSerializer)
+      }
     else
       render json: 'no such category'
     end

@@ -37,7 +37,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_08_054940) do
     t.integer "restaurant_dish_id"
     t.string "status_type", null: false
     t.integer "status_id", null: false
-    t.integer "quantity", default: 0
+    t.integer "quantity"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["restaurant_dish_id"], name: "index_item_statuses_on_restaurant_dish_id"
@@ -65,7 +65,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_08_054940) do
   create_table "restaurants", force: :cascade do |t|
     t.string "restaurant_name"
     t.string "address"
-    t.string "status", default: "open"
+    t.string "status"
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

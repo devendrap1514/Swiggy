@@ -2,7 +2,16 @@ class RestaurantsController < AuthenticationController
   before_action :is_owner?, except: %i[index show]
 
   def index
-    render json: Restaurant.all
+
+    if params[:status].nil?
+      render json: Restaurant.all
+    elsif ['open', 'close'].include? params[:status]
+      render json: Restaurant.where(status: params[:status])
+    else
+      render json: {
+        message: 'wrong status value value must be opne or close'
+      }
+    end
   end
 
   def create

@@ -6,6 +6,10 @@ class Restaurant < ApplicationRecord
   validates :restaurant_name, :address, presence: true
   validates :restaurant_name, uniqueness: true
 
+  VALID_STATUSES = ['open', 'close']
+
+  validates :status, inclusion: { in: VALID_STATUSES }
+
   before_validation :remove_whitespace
 
   def remove_whitespace
