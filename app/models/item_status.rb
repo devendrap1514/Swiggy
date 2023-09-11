@@ -2,6 +2,8 @@ class ItemStatus < ApplicationRecord
   belongs_to :restaurant_dish
   belongs_to :status, polymorphic: true
 
+  validates :restaurant_dish_id, uniqueness: true
+
   after_create :increase_cart_price
   before_destroy :decrease_cart_price
 

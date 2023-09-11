@@ -5,7 +5,7 @@ class Customer < User
   after_create :create_empty_cart
 
   def create_empty_cart
-    c = self.create_cart(cart_price: 1)
+    c = self.create_cart(cart_price: 0)
     p c.errors.full_messages
   end
 

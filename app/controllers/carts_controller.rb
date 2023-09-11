@@ -6,7 +6,6 @@ class CartsController < AuthenticationController
 
   def destroy
     if @user.cart.item_statuses.destroy_all
-      @user.cart.update(cart_price: 0)
       render json: 'Deleted Successfully'
     else
       render json: 'Error while deleting'
