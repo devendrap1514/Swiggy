@@ -24,7 +24,7 @@ class RestaurantsController < AuthenticationController
   end
 
   def show
-    restaurant = Restaurant.find_by_restaurant_name(params[:_restaurant_name])
+    restaurant = Restaurant.find_by_id(params[:_restaurant_id])
     if restaurant
       render json: restaurant
     else
@@ -33,7 +33,7 @@ class RestaurantsController < AuthenticationController
   end
 
   def update
-    restaurant = Restaurant.find_by_restaurant_name(params[:_restaurant_name])
+    restaurant = Restaurant.find_by_id(params[:_restaurant_id])
     if restaurant
       if restaurant.update(restaurant_params)
         render json: restaurant
@@ -46,7 +46,7 @@ class RestaurantsController < AuthenticationController
   end
 
   def destroy
-    restaurant = Restaurant.find_by_restaurant_name(params[:_restaurant_name])
+    restaurant = Restaurant.find_by_id(params[:_restaurant_id])
     if restaurant
       if restaurant.destroy
         render json: restaurant

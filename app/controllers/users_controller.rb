@@ -39,6 +39,6 @@ class UsersController < AuthenticationController
     end
 
     def user_params
-      params.permit(:name, :username, :password, :password_confirmation)
+      params.permit(:name, :username, :password, :password_confirmation, :profile_picture)
     end
 end

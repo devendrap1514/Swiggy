@@ -4,7 +4,7 @@ class Restaurant < ApplicationRecord
   has_many :dishes, through: :restaurant_dishes
 
   validates :restaurant_name, :address, presence: true
-  validates :restaurant_name, uniqueness: true
+  validates :restaurant_name, uniqueness: { scope: :address }
 
   VALID_STATUSES = ['open', 'close']
 

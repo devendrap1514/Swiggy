@@ -15,7 +15,7 @@ class CategoriesController < AuthenticationController
   end
 
   def show
-    category = Category.find_by_category_name(params[:_category_name])
+    category = Category.find_by_id(params[:_category_id])
     if category
       # render json: category
       render json: {
@@ -28,7 +28,7 @@ class CategoriesController < AuthenticationController
   end
 
   def update
-    category = Category.find_by_category_name(params[:_category_name])
+    category = Category.find_by_id(params[:_category_id])
     if category
       if category.update(category_params)
         render json: category
