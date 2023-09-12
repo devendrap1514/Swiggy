@@ -58,9 +58,9 @@ p_e rd1, rd2, rd3, rd4
 
 
 # Create Cart Items
-ItemStatus.destroy_all
-is1 = customer1.cart.item_statuses.create(restaurant_dish_id: rd1.id, quantity: 1)
-is2 = customer1.cart.item_statuses.create(restaurant_dish_id: rd2.id, quantity: 1)
+Item.destroy_all
+is1 = customer1.cart.items.create(restaurant_dish_id: rd1.id, quantity: 1)
+is2 = customer1.cart.items.create(restaurant_dish_id: rd2.id, quantity: 1)
 
 
 

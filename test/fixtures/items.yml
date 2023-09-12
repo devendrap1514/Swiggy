@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  restaurant_dish: one
+  item: one
+  item_type: Item
+  quantity: 1
+
+two:
+  restaurant_dish: two
+  item: two
+  item_type: Item
+  quantity: 1

@@ -1,8 +1,8 @@
 class RestaurantsController < AuthenticationController
   before_action :is_owner?, except: %i[index show]
+  before_action :find_restaurant, only: %i[show update destroy]
 
   def index
-
     if params[:status].nil?
       render json: Restaurant.all
     elsif ['open', 'close'].include? params[:status]
@@ -15,45 +15,39 @@ class RestaurantsController < AuthenticationController
   end
 
   def create
-    restaurant = @user.restaurants.new(restaurant_params)
-    if restaurant.save
-      render json: restaurant
+    @restaurant = @current_user.restaurants.new(restaurant_params)
+    if @restaurant.save
+      render json: @restaurant
     else
-      render json: { errors: restaurant.errors.full_messages }, status: :unprocessable_entity
+      render status: :unprocessable_entity,
+              json: { errors: @restaurant.errors.full_messages }
     end
   end
 
   def show
-    restaurant = Restaurant.find_by_id(params[:_restaurant_id])
-    if restaurant
-      render json: restaurant
-    else
-      render json: 'no such restaurant'
-    end
+      render json: @restaurant
   end
 
   def update
-    restaurant = Restaurant.find_by_id(params[:_restaurant_id])
-    if restaurant
-      if restaurant.update(restaurant_params)
-        render json: restaurant
-      else
-        render json: restaurant, status: :unprocessable_entity
-      end
+    if @restaurant.update(restaurant_params)
+      render json: @restaurant
     else
-      render json: 'no such restaurant'
+      render json: { errors: @restaurant.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
   def destroy
-    restaurant = Restaurant.find_by_id(params[:_restaurant_id])
-    if restaurant
-      if restaurant.destroy
-        render json: restaurant
-      else
-        render json: { errors: "error while deleting" }
-      end
+    if @restaurant.destroy
+      render json: @restaurant
     else
+      render json: { errors: "error while deleting" }
+    end
+  end
+
+  def find_restaurant
+    # Get only user restaurants
+    @restaurant = @current_user.restaurants.find_by_id(params[:_restaurant_id])
+    unless @restaurant
       render json: 'no such restaurant'
     end
   end

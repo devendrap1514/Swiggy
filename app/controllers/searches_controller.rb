@@ -1,0 +1,2 @@
+class SearchesController < AuthenticationController
+end

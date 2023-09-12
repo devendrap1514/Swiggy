@@ -1,19 +1,13 @@
 class OwnersController < UsersController
   def create
-    @owner = Owner.new(user_params)
-    if @owner.save
-      render json: @owner, status: :created
-    else
-      render json: { errors: @owner.errors.full_messages },
-             status: :unprocessable_entity
-    end
+    create_user("Owner")
   end
 
   def my_restaurant
-    render json: @user.restaurants
+    render json: @current_user.restaurants
   end
 
   def my_dishes
-    render json: @user.restaurants.joins(:dishes).pluck(:dish_name)
+    render json: @current_user.restaurants.joins(:dishes).pluck(:dish_name)
   end
 end

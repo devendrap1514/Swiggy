@@ -1,14 +1,17 @@
 class CartsController < AuthenticationController
   before_action :is_customer?
   def show
-    render json: @user.cart
+    render status: :ok,
+           json: @current_user.cart
   end
 
   def destroy
-    if @user.cart.item_statuses.destroy_all
-      render json: 'Deleted Successfully'
+    if @current_user.cart.items.destroy_all
+      render status: :ok,
+             json: 'Deleted Successfully'
     else
-      render json: 'Error while deleting'
+      render status: :internal_server_error,
+             json: 'Error while deleting'
     end
   end
 end

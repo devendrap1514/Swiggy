@@ -1,54 +1,50 @@
 class DishesController < AuthenticationController
   before_action :is_owner?, except: %i[index show]
+  before_action :find_dish, only: %i[show update destroy]
 
   def index
-    render json: Dish.all.page(params[:page_number])
+    render status: :ok,
+           json: Dish.all.page(params[:page_number])
   end
 
   def create
-    dish = Dish.new(dish_params)
-    if dish.save
-      render json: dish
+    @dish = Dish.new(dish_params)
+    if @dish.save
+      render status: :ok,
+             json: @dish
     else
-      render json: { errors: dish.errors.full_messages }, status: :unprocessable_entity
+      render status: :unprocessable_entity,
+             json: { errors: @dish.errors.full_messages }
     end
   end
 
   def show
-    dish = Dish.find_by_id(params[:_dish_id])
-    if dish
-      render json: {
-        Dish: ActiveModelSerializers::SerializableResource.new(dish, {serializer: DishSerializer}),
-        Restaurant: ActiveModel::Serializer::CollectionSerializer.new(dish.restaurants, each_serializer: RestaurantSerializer)
-      }
-    else
-      render json: 'no such dish'
-    end
+    render status: :ok,
+            json: @dish
   end
 
   def update
-    dish = Dish.find_by_id(params[:_dish_id])
-    if dish
-      if dish.update(dish_params)
-        render json: dish
-      else
-        render json: nil, status: :unprocessable_entity
-      end
+    if @dish.update(dish_params)
+      render json: @dish
     else
-      render json: 'no such dish'
+      render status: :unprocessable_entity,
+              json: nil
     end
   end
 
   def destroy
-    dish = Dish.find_by_id(params[:_dish_id])
-    if dish
-      if dish.destroy
-        render json: dish
-      else
-        render json: { errors: "error while deleting" }
-      end
+    if @dish.destroy
+      render json: @dish
     else
-      render json: 'no such dish'
+      render json: { errors: "error while deleting" }
+    end
+  end
+
+  def find_dish
+    @dish = Dish.find_by_id(params[:_dish_id])
+    unless @dish
+      render status: :not_found,
+              json: 'no such dish'
     end
   end
 

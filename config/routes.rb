@@ -16,7 +16,7 @@ Rails.application.routes.draw do
   resources :restaurant_dishes, param: :_restaurant_dish_id, only: [:index, :create, :show, :update, :destroy]
 
   scope '/cart' do
-    resources :item_statuses, path: "items", only: [:create]
+    resources :items, only: [:create, :destroy]
   end
 
   post '/auth/login', to: 'authentication#login'

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_11_112937) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_12_045856) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -40,7 +40,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_11_112937) do
   end
 
   create_table "carts", force: :cascade do |t|
-    t.decimal "cart_price"
+    t.decimal "cart_price", null: false
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -48,32 +48,32 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_11_112937) do
   end
 
   create_table "categories", force: :cascade do |t|
-    t.string "category_name"
+    t.string "category_name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "dishes", force: :cascade do |t|
-    t.string "dish_name"
+    t.string "dish_name", null: false
     t.integer "category_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["category_id"], name: "index_dishes_on_category_id"
   end
 
-  create_table "item_statuses", force: :cascade do |t|
+  create_table "items", force: :cascade do |t|
     t.integer "restaurant_dish_id"
-    t.string "status_type", null: false
-    t.integer "status_id", null: false
-    t.integer "quantity"
+    t.string "item_type", null: false
+    t.integer "item_id", null: false
+    t.integer "quantity", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["restaurant_dish_id"], name: "index_item_statuses_on_restaurant_dish_id"
-    t.index ["status_type", "status_id"], name: "index_item_statuses_on_status"
+    t.index ["item_type", "item_id"], name: "index_items_on_item"
+    t.index ["restaurant_dish_id"], name: "index_items_on_restaurant_dish_id"
   end
 
   create_table "orders", force: :cascade do |t|
-    t.decimal "order_price"
+    t.decimal "order_price", null: false
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -83,7 +83,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_11_112937) do
   create_table "restaurant_dishes", force: :cascade do |t|
     t.integer "restaurant_id", null: false
     t.integer "dish_id", null: false
-    t.decimal "price"
+    t.decimal "price", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["dish_id"], name: "index_restaurant_dishes_on_dish_id"
@@ -91,9 +91,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_11_112937) do
   end
 
   create_table "restaurants", force: :cascade do |t|
-    t.string "restaurant_name"
-    t.string "address"
-    t.string "status"
+    t.string "restaurant_name", null: false
+    t.string "address", null: false
+    t.string "status", null: false
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -101,10 +101,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_11_112937) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "name"
-    t.string "username"
-    t.string "password_digest"
-    t.string "type"
+    t.string "name", null: false
+    t.string "username", null: false
+    t.string "password_digest", null: false
+    t.string "type", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -113,7 +113,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_11_112937) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "carts", "users"
   add_foreign_key "dishes", "categories"
-  add_foreign_key "item_statuses", "restaurant_dishes"
+  add_foreign_key "items", "restaurant_dishes"
   add_foreign_key "orders", "users"
   add_foreign_key "restaurant_dishes", "dishes"
   add_foreign_key "restaurant_dishes", "restaurants"
