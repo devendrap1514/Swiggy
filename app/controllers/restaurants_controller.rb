@@ -4,12 +4,12 @@ class RestaurantsController < AuthenticationController
 
   def index
     if params[:status].nil?
-      render json: Restaurant.all
+      render json: Restaurant.all.page(params[:page])
     elsif ['open', 'close'].include? params[:status]
-      render json: Restaurant.where(status: params[:status])
+      render json: Restaurant.where(status: params[:status]).page(params[:page])
     else
       render json: {
-        message: 'wrong status value value must be opne or close'
+        message: 'wrong status value, value must be opne or close'
       }
     end
   end

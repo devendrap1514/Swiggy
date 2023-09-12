@@ -4,7 +4,7 @@ class DishesController < AuthenticationController
 
   def index
     render status: :ok,
-           json: Dish.all.page(params[:page_number])
+           json: Dish.all.page(params[:page])
   end
 
   def create

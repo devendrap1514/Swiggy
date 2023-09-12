@@ -1,11 +1,12 @@
 class ItemsController < AuthenticationController
   before_action :is_customer?
   def create
-    item = @current_user.cart.items.create(items_params)
-    if is.save
-      render json: is
+    item = @current_user.cart.items.new(items_params)
+    if item.save
+      render json: item
     else
-      render json: { errors: is.errors.full_messages }, status: :unprocessable_entity
+      render status: :unprocessable_entity,
+              json: { errors: item.errors.full_messages }
     end
   end
 

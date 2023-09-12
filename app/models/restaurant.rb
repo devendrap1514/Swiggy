@@ -1,4 +1,5 @@
 class Restaurant < ApplicationRecord
+  paginates_per 2
   belongs_to :user
   has_many :restaurant_dishes, dependent: :destroy
   has_many :dishes, through: :restaurant_dishes
