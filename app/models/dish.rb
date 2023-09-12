@@ -3,6 +3,7 @@ class Dish < ApplicationRecord
   belongs_to :category
   has_many :restaurant_dishes, dependent: :destroy
   has_many :restaurants, through: :restaurant_dishes
+  has_many_attached :dish_images
 
   validates :dish_name, presence: true, uniqueness: { case_sensitive: false }
 

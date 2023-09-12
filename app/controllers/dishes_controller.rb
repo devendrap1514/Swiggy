@@ -2,7 +2,6 @@ class DishesController < AuthenticationController
   before_action :is_owner?, except: %i[index show]
 
   def index
-    p params[:page_number]
     render json: Dish.all.page(params[:page_number])
   end
 
@@ -16,7 +15,7 @@ class DishesController < AuthenticationController
   end
 
   def show
-    dish = Dish.find_by_dish_name(params[:_dish_name])
+    dish = Dish.find_by_id(params[:_dish_id])
     if dish
       render json: {
         Dish: ActiveModelSerializers::SerializableResource.new(dish, {serializer: DishSerializer}),
@@ -28,7 +27,7 @@ class DishesController < AuthenticationController
   end
 
   def update
-    dish = Dish.find_by_dish_name(params[:_dish_name])
+    dish = Dish.find_by_id(params[:_dish_id])
     if dish
       if dish.update(dish_params)
         render json: dish
@@ -41,7 +40,7 @@ class DishesController < AuthenticationController
   end
 
   def destroy
-    dish = Dish.find_by_dish_name(params[:_dish_name])
+    dish = Dish.find_by_id(params[:_dish_id])
     if dish
       if dish.destroy
         render json: dish
@@ -55,6 +54,6 @@ class DishesController < AuthenticationController
 
   private
     def dish_params
-      params.permit(:dish_name, :category_id)
+      params.permit(:dish_name, :category_id, dish_images: [])
     end
 end

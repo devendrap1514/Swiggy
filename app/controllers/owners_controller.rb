@@ -8,4 +8,12 @@ class OwnersController < UsersController
              status: :unprocessable_entity
     end
   end
+
+  def my_restaurant
+    render json: @user.restaurants
+  end
+
+  def my_dishes
+    render json: @user.restaurants.joins(:dishes).pluck(:dish_name)
+  end
 end
