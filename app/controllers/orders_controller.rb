@@ -1,8 +1,9 @@
 class OrdersController < AuthenticationController
   before_action :is_customer?
+  before_action :find_order, only: [:show, :destroy]
 
   def index
-    render json: Order.all
+    render json: @current_user.orders
   end
 
   def create
@@ -18,21 +19,22 @@ class OrdersController < AuthenticationController
   end
 
   def show
-    order = Order.find_by_id(params[:_order_id])
-    if order
-      render json: order
-    else
-      render status: :not_found,
-              json: 'Order not found'
-    end
+    render json: @order
   end
 
   def destroy
-    order = Order.find_by_id(params[:_order_id])
-    if order
-      order.destroy
+    begin
+      @order.destroy
       render json: 'Order deleted successfully'
-    else
+    rescue Exception => e
+      render status: :internal_server_error,
+              json: e.message
+    end
+  end
+
+  def find_order
+    @order = @current_user.orders.find_by_id(params[:_order_id])
+    unless @order
       render status: :not_found,
               json: 'Order not found'
     end

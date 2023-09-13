@@ -4,22 +4,22 @@ Rails.application.routes.draw do
     get '/my_restaurant', action: :my_restaurant, on: :member
     get '/my_dishes', action: :my_dishes, on: :member
   end
-  resources :customers, param: :_username, only: [:create, :show, :update, :destroy] do
-    resource :cart, only: [:show, :destroy]
-    resources :orders, param: :_order_id, only: [:index, :create, :show, :destroy]
+  resources :customers, param: :_username, only: [:create, :show, :update, :destroy]
+  resource :cart, only: [:show, :destroy] do
+    resources :items, param: :_item_id, only: [:create, :destroy]
   end
-  resources :restaurants, param: :_restaurant_id, only: [:index, :create, :show, :update, :destroy]
-  resources :dishes, param: :_dish_id, only: [:index, :create, :show, :update, :destroy]
-  resources :categories, param: :_category_id, only: [:index, :create, :show, :update]
+  resources :orders, param: :_order_id, only: [:index, :create, :show, :destroy]
+  resources :restaurants, param: :_restaurant_id, only: [:index, :create, :show, :update, :destroy] do
+    get '/dishes', action: :restaurant_dishes, on: :member
+  end
+  resources :dishes, param: :_dish_id, only: [:index, :show]
+  resources :categories, param: :_category_id, only: [:index, :show]
   resources :restaurant_dishes, param: :_restaurant_dish_id, only: [:index, :create, :show, :update, :destroy]
-
-  scope '/cart' do
-    resources :items, only: [:create, :destroy]
-  end
 
   resources :searches, path: "search", only: [] do
     get '/search_by_restaurant', action: :search_by_restaurant, on: :collection
     get '/search_by_category', action: :search_by_category, on: :collection
+    get '/search_by_dish', action: :search_by_dish, on: :collection
   end
 
   post '/auth/login', to: 'authentication#login'

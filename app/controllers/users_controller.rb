@@ -23,7 +23,7 @@ class UsersController < AuthenticationController
   end
 
   def show
-    render json: @current_user, status: :ok
+    render json: @current_user
   end
 
   def update
@@ -36,11 +36,12 @@ class UsersController < AuthenticationController
   end
 
   def destroy
-    if @current_user.destroy
+    begin
+      @current_user.destroy
       render json: "Deleted Successfully"
-    else
+    rescue Exception => e
       render status: :internal_server_error,
-              json: "Error while deleting"
+              json: e.message
     end
   end
 
@@ -48,7 +49,8 @@ class UsersController < AuthenticationController
     def check_username_with_token
       # to know which username get and what is the current user username
       unless params[:_username] == @current_user.username
-        render json: { errors: 'bad_request' }
+        render status: :bad_request,
+                json: { errors: 'bad_request' }
       end
     rescue ActiveRecord::RecordNotFound
       render status: :not_found,

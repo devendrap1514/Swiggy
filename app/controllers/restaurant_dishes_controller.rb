@@ -6,23 +6,23 @@ class RestaurantDishesController < AuthenticationController
   end
 
   def create
-    rd = RestaurantDish.new(restaurant_dish_params)
-    if rd.save
-      render json: rd
+    restaurant_dish = RestaurantDish.new(restaurant_dish_params)
+    if restaurant_dish.save
+      render json: restaurant_dish
     else
       render status: :unprocessable_entity,
-              json: { errors: rd.errors.full_messages }
+              json: { errors: restaurant_dish.errors.full_messages }
     end
   end
 
   def update
-    rd = RestaurantDish.find_by_id(params[:_restaurant_dish_id])
-    if rd
-      if rd.update(restaurant_dish_params)
-        render json: rd
+    restaurant_dish = RestaurantDish.find_by_id(params[:_restaurant_dish_id])
+    if restaurant_dish
+      if restaurant_dish.update(restaurant_dish_params)
+        render json: restaurant_dish
       else
         render status: :unprocessable_entity,
-                json: { errors: rd.errors.full_messages }
+                json: { errors: restaurant_dish.errors.full_messages }
       end
     else
       render status: :not_found,
@@ -31,10 +31,10 @@ class RestaurantDishesController < AuthenticationController
   end
 
   def destroy
-    rd = RestaurantDish.find_by_id(params[:_restaurant_dish_id])
-    if rd
-      if rd.destroy
-        render json: rd
+    restaurant_dish = RestaurantDish.find_by_id(params[:_restaurant_dish_id])
+    if restaurant_dish
+      if restaurant_dish.destroy
+        render json: restaurant_dish
       else
         render json: { errors: "error while deleting" }
       end

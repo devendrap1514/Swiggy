@@ -5,6 +5,22 @@ def p_e(*obj)
 end
 
 
+# Create Category
+Dish.destroy_all
+Category.destroy_all
+category_chinese = Category.create(category_name: "Chinese")
+category_indian = Category.create(category_name: "Indian")
+category_mexican = Category.create(category_name: "Mexican")
+p_e category_chinese, category_indian, category_mexican
+
+
+# Create Dishes
+dish1 = Dish.create(dish_name: "Manchurian", category_id: category_chinese.id)
+dish2 = Dish.create(dish_name: "Noodles", category_id: category_chinese.id)
+dish3 = Dish.create(dish_name: "Paneer", category_id: category_indian.id)
+dish4 = Dish.create(dish_name: "Dal", category_id: category_indian.id)
+p_e dish1, dish2, dish3, dish4
+
 
 # Create Owner
 Owner.destroy_all
@@ -31,29 +47,12 @@ restaurant6 = Restaurant.create(restaurant_name: "Guru Kripa", address: "Palasia
 p_e restaurant1, restaurant2, restaurant3, restaurant4, restaurant5, restaurant6
 
 
-# Create Category
-Dish.destroy_all
-Category.destroy_all
-category_chinese = Category.create(category_name: "Chinese")
-category_indian = Category.create(category_name: "Indian")
-category_mexican = Category.create(category_name: "Mexican")
-p_e category_chinese, category_indian, category_mexican
-
-
-# Create Dishes
-dish1 = Dish.create(dish_name: "Manchurian", category_id: category_chinese.id)
-dish2 = Dish.create(dish_name: "Noodles", category_id: category_chinese.id)
-dish3 = Dish.create(dish_name: "Paneer", category_id: category_indian.id)
-dish4 = Dish.create(dish_name: "Dal", category_id: category_indian.id)
-p_e dish1, dish2, dish3, dish4
-
-
 # Create Restaurant Dishes
 RestaurantDish.destroy_all
 rd1 = RestaurantDish.create(restaurant_id: restaurant1.id, dish_id: dish1.id, price: 40)
 rd2 = RestaurantDish.create(restaurant_id: restaurant1.id, dish_id: dish2.id, price: 20)
-rd3 = RestaurantDish.create(restaurant_id: restaurant2.id, dish_id: dish3.id, price: 120)
-rd4 = RestaurantDish.create(restaurant_id: restaurant2.id, dish_id: dish4.id, price: 70)
+rd3 = RestaurantDish.create(restaurant_id: restaurant3.id, dish_id: dish3.id, price: 120)
+rd4 = RestaurantDish.create(restaurant_id: restaurant3.id, dish_id: dish4.id, price: 70)
 p_e rd1, rd2, rd3, rd4
 
 

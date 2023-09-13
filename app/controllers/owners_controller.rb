@@ -8,6 +8,14 @@ class OwnersController < UsersController
   end
 
   def my_dishes
-    render json: @current_user.restaurants.joins(:dishes).pluck(:dish_name)
+    byebug
+    if params[:category].nil?
+      dishes = Dish.joins(:restaurants, :category).where("restaurants.user_id = #{@current_user.id}").page(params[:page])
+      render json: dishes
+    else
+      dishes = Dish.joins(:restaurants, :category).where("restaurants.user_id = #{@current_user.id} and categories.category_name LIKE '#{params[:category]}'").page(params[:page])
+      render json: dishes
+
+    end
   end
 end
