@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_12_045856) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_13_150333) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -39,8 +39,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_12_045856) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "cart_items", force: :cascade do |t|
+    t.integer "restaurant_dish_id", null: false
+    t.integer "cart_id", null: false
+    t.integer "quantity", null: false
+    t.decimal "price", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cart_id"], name: "index_cart_items_on_cart_id"
+    t.index ["restaurant_dish_id"], name: "index_cart_items_on_restaurant_dish_id"
+  end
+
   create_table "carts", force: :cascade do |t|
-    t.decimal "cart_price", null: false
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -61,19 +71,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_12_045856) do
     t.index ["category_id"], name: "index_dishes_on_category_id"
   end
 
-  create_table "items", force: :cascade do |t|
+  create_table "order_items", force: :cascade do |t|
     t.integer "restaurant_dish_id"
-    t.string "item_type", null: false
-    t.integer "item_id", null: false
+    t.integer "order_id", null: false
     t.integer "quantity", null: false
+    t.decimal "price", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["item_type", "item_id"], name: "index_items_on_item"
-    t.index ["restaurant_dish_id"], name: "index_items_on_restaurant_dish_id"
+    t.index ["order_id"], name: "index_order_items_on_order_id"
+    t.index ["restaurant_dish_id"], name: "index_order_items_on_restaurant_dish_id"
   end
 
   create_table "orders", force: :cascade do |t|
-    t.decimal "order_price", null: false
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -93,7 +102,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_12_045856) do
   create_table "restaurants", force: :cascade do |t|
     t.string "restaurant_name", null: false
     t.string "address", null: false
-    t.string "status", null: false
+    t.string "status", default: "open", null: false
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -111,9 +120,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_12_045856) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "cart_items", "carts"
+  add_foreign_key "cart_items", "restaurant_dishes"
   add_foreign_key "carts", "users"
   add_foreign_key "dishes", "categories"
-  add_foreign_key "items", "restaurant_dishes"
+  add_foreign_key "order_items", "orders"
+  add_foreign_key "order_items", "restaurant_dishes"
   add_foreign_key "orders", "users"
   add_foreign_key "restaurant_dishes", "dishes"
   add_foreign_key "restaurant_dishes", "restaurants"

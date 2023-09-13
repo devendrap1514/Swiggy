@@ -7,11 +7,17 @@ class OrdersController < AuthenticationController
   end
 
   def create
-    cart = @current_user.cart
-    unless cart.items.empty?
-      order = @current_user.orders.create(order_price: cart.cart_price)
-      cart.update(cart_price: 0)
-      Item.where(item_type: 'Cart', item_id: cart.id).update_all(item_type: 'Order', item_id: order.id)
+    cart_items = @current_user.cart.cart_items
+    unless cart_items.empty?
+      order = @current_user.orders.create
+      cart_items.each do |item|
+        order.order_items.create(
+          restaurant_dish_id: item.restaurant_dish_id,
+          quantity: item.quantity,
+          price: item.price
+        )
+      end
+      cart_items.destroy_all
       render json: order
     else
       render json: 'Cart is empty'

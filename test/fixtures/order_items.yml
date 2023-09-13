@@ -2,12 +2,12 @@
 
 one:
   restaurant_dish: one
-  item: one
-  item_type: Item
+  order: one
   quantity: 1
+  price: 9.99
 
 two:
   restaurant_dish: two
-  item: two
-  item_type: Item
+  order: two
   quantity: 1
+  price: 9.99

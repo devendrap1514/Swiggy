@@ -1,6 +1,12 @@
 class OwnersController < UsersController
   def create
-    create_user("Owner")
+    owner = Owner.new(user_params)
+    if owner.save
+      render json: owner, status: :created
+    else
+      render status: :unprocessable_entity,
+              json: { errors: owner.errors.full_messages }
+    end
   end
 
   def my_restaurant
@@ -8,15 +14,7 @@ class OwnersController < UsersController
   end
 
   def my_dishes
-    if params[:category].nil? and params[:dish].nil?
-      dishes = Dish.joins(:restaurants, :category).where("restaurants.user_id = #{@current_user.id}").page(params[:page])
-      render json: dishes
-    elsif params[:dish]
-      dishes = Dish.joins(:restaurants, :category).where("restaurants.user_id = #{@current_user.id} and dishes.dish_name LIKE '#{params[:dish]}'").page(params[:page])
-      render json: dishes
-    elsif params[:category]
-      dishes = Dish.joins(:restaurants, :category).where("restaurants.user_id = #{@current_user.id} and categories.category_name LIKE '#{params[:category]}'").page(params[:page])
-      render json: dishes
-    end
+    dishes = Dish.joins(:restaurants).where("restaurants.user_id = #{@current_user.id}").filter_by_dish_name(params[:dish]).filter_by_category(params[:category]).filter_by_restaurant_name(params[:restaurant_name]).page(params[:page])
+    render json: dishes
   end
 end

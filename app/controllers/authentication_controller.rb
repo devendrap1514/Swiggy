@@ -16,7 +16,6 @@ class AuthenticationController < ApplicationController
 
   def is_owner?
     @user = @current_user
-    p "-------------------------------.\n\n\n",@user
     unless @user.type == 'Owner'
       render status: :ok, json: { error: 'You ara not a Owner' }
     end

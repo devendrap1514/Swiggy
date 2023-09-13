@@ -1,5 +1,5 @@
-class ItemsSerializer < ActiveModel::Serializer
-  attributes :id, :quantity, :dish_name, :restaurant_name
+class OrderItemSerializer < ActiveModel::Serializer
+  attributes :id, :quantity, :dish_name, :restaurant_name, :price
   def dish_name
     object.restaurant_dish.dish.dish_name
   rescue NoMethodError

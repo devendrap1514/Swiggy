@@ -1,6 +1,6 @@
 class Order < ApplicationRecord
-  belongs_to :user
-  has_many :items, as: :item, dependent: :destroy
+  belongs_to :customer, foreign_key: 'user_id'
+  has_many :order_items, dependent: :destroy
 
-  validates :order_price, numericality: { greater_than_or_equal_to: 0 }
+  scope :order_price, -> { self.order_price.sum(:price) }
 end

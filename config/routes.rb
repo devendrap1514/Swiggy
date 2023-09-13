@@ -1,13 +1,15 @@
 Rails.application.routes.draw do
-  resources :owners, param: :_username, only: [:create, :show, :update, :destroy] do
+  resource :owner, only: [:create, :show, :update, :destroy] do
     get '/my_restaurant', action: :my_restaurant, on: :member
     get '/my_dishes', action: :my_dishes, on: :member
   end
-  resources :customers, param: :_username, only: [:create, :show, :update, :destroy]
+  resource :customer, only: [:create, :show, :update, :destroy]
   resource :cart, only: [:show, :destroy] do
-    resources :items, param: :_item_id, only: [:create, :destroy]
+    resources :cart_items, param: :_cart_item_id, only: [:create, :destroy]
   end
-  resources :orders, param: :_order_id, only: [:index, :create, :show, :destroy]
+  resources :orders, param: :_order_id, only: [:index, :create, :show, :destroy] do
+    resources :order_items, param: :_order_item_id, only: [:create, :destroy]
+  end
   resources :restaurants, param: :_restaurant_id, only: [:index, :create, :show, :update, :destroy] do
     get '/dishes', action: :restaurant_dishes, on: :member
   end

@@ -7,7 +7,7 @@ class CartsController < AuthenticationController
 
   def destroy
     begin
-      @current_user.cart.items.destroy_all
+      @current_user.cart.cart_items.destroy_all
       render json: 'Deleted Successfully'
     rescue Exception => e
       render status: :internal_server_error,

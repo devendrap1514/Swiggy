@@ -3,14 +3,13 @@ class RestaurantsController < AuthenticationController
   before_action :find_restaurant, only: %i[show update destroy restaurant_dishes]
 
   def index
-    if params[:status].nil?
-      render json: Restaurant.all.page(params[:page])
-    elsif ['open', 'close'].include? params[:status]
-      render json: Restaurant.filter_by_status(params[:status]).page(params[:page])
+    case params[:status]
+    when 'open'
+      render json: Restaurant.open.page(params[:page])
+    when 'close'
+      render json: Restaurant.close.page(params[:page])
     else
-      render json: {
-        message: 'wrong status value, value must be opne or close'
-      }
+      render json: Restaurant.all.page(params[:page])
     end
   end
 
