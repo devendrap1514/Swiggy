@@ -4,18 +4,19 @@ class OwnersController < UsersController
   end
 
   def my_restaurant
-    render json: @current_user.restaurants
+    render json: @current_user.restaurants.page(params[:page])
   end
 
   def my_dishes
-    byebug
-    if params[:category].nil?
+    if params[:category].nil? and params[:dish].nil?
       dishes = Dish.joins(:restaurants, :category).where("restaurants.user_id = #{@current_user.id}").page(params[:page])
       render json: dishes
-    else
+    elsif params[:dish]
+      dishes = Dish.joins(:restaurants, :category).where("restaurants.user_id = #{@current_user.id} and dishes.dish_name LIKE '#{params[:dish]}'").page(params[:page])
+      render json: dishes
+    elsif params[:category]
       dishes = Dish.joins(:restaurants, :category).where("restaurants.user_id = #{@current_user.id} and categories.category_name LIKE '#{params[:category]}'").page(params[:page])
       render json: dishes
-
     end
   end
 end
