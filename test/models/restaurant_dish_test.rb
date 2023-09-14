@@ -1,4 +1,4 @@
-require "test_helper"
+require 'test_helper'
 
 class RestaurantDishTest < ActiveSupport::TestCase
   # test "the truth" do

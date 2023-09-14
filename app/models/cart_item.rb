@@ -4,5 +4,11 @@ class CartItem < ApplicationRecord
 
   validates :restaurant_dish_id, uniqueness: true
   validates :quantity, numericality: { greater_than_or_equal_to: 1, less_than: 100 }
-  validates :price, presence: true, numericality: { greater_than_or_equal_to: 1, less_than: 1000 }
+
+  after_create :initialize_price
+
+  def initialize_price
+    cart_dish_price = quantity * restaurant_dish.price
+    update(price: cart_dish_price)
+  end
 end

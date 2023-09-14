@@ -1,4 +1,9 @@
 class ApplicationController < ActionController::API
+  rescue_from CanCan::AccessDenied do |exception|
+    render json: exception.message
+  end
+
+  before_action :authorize_request
 
   def not_found
     render json: { errors: 'No such routes' }
@@ -16,4 +21,7 @@ class ApplicationController < ActionController::API
       render status: :unauthorized, json: { errors: e.message }
     end
   end
+
+  # CanCan expects a current_user method to exist in the controller.
+  attr_reader :current_user
 end

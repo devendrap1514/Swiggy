@@ -5,11 +5,8 @@ class Customer < User
   after_create :create_empty_cart
 
   def create_empty_cart
-    begin
-      self.create_cart
-    rescue Exception => e
-      render json: 'cart not created'
-    end
+    create_cart
+  rescue Exception => e
+    render json: 'cart not created'
   end
-
 end

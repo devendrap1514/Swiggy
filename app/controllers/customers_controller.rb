@@ -5,7 +5,7 @@ class CustomersController < UsersController
       render json: customer, status: :created
     else
       render status: :unprocessable_entity,
-              json: { errors: customer.errors.full_messages }
+             json: { errors: customer.errors.full_messages }
     end
   end
 end

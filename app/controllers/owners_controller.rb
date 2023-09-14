@@ -5,7 +5,7 @@ class OwnersController < UsersController
       render json: owner, status: :created
     else
       render status: :unprocessable_entity,
-              json: { errors: owner.errors.full_messages }
+             json: { errors: owner.errors.full_messages }
     end
   end
 
@@ -14,7 +14,9 @@ class OwnersController < UsersController
   end
 
   def my_dishes
-    dishes = Dish.joins(:restaurants).where("restaurants.user_id = #{@current_user.id}").filter_by_dish_name(params[:dish]).filter_by_category(params[:category]).filter_by_restaurant_name(params[:restaurant_name]).page(params[:page])
+    dish_name = StripAndSqueeze.apply(params[:dish_name])
+    category_name = StripAndSqueeze.apply(params[:category_name])
+    dishes = Dish.joins(:restaurants).where("restaurants.user_id = #{@current_user.id}").filter_by_dish_name(dish_name).filter_by_category_name(category_name).page(params[:page])
     render json: dishes
   end
 end

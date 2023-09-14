@@ -1,5 +1,6 @@
-class UsersController < AuthenticationController
-  before_action :authorize_request, except: [:create]
+class UsersController < ApplicationController
+  before_action :authorize_request, except: %i[create login]
+  authorize_resource except: %i[login create]
 
   def show
     render json: @current_user
@@ -10,22 +11,38 @@ class UsersController < AuthenticationController
       render json: @current_user
     else
       render status: :unprocessable_entity,
-              json: { errors: @current_user.errors.full_messages }
+             json: { errors: @current_user.errors.full_messages }
     end
   end
 
   def destroy
-    begin
-      @current_user.destroy
-      render json: "Deleted Successfully"
-    rescue Exception => e
-      render status: :internal_server_error,
-              json: e.message
+    @current_user.destroy
+    render json: 'Deleted Successfully'
+  rescue Exception => e
+    render status: :internal_server_error,
+           json: e.message
+  end
+
+  def login
+    @user = User.find_by_username(params[:username])
+    if @user&.authenticate(params[:password])
+      token = JsonWebToken.encode(user_id: @user.id)
+      time = Time.now + 24.hours.to_i
+      render status: :ok, json: { token:, exp: time.strftime('%m-%d-%Y %H:%M'),
+                                  username: @user.username }
+      response.headers['Token'] = token
+    else
+      render status: :unauthorized, json: { error: 'unauthorized' }
     end
   end
 
   private
-    def user_params
-      params.permit(:name, :username, :password, :password_confirmation, :profile_picture)
-    end
+
+  def login_params
+    params.permit(:username, :password)
+  end
+
+  def user_params
+    params.permit(:name, :username, :password, :password_confirmation, :profile_picture)
+  end
 end
