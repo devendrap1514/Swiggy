@@ -10,6 +10,7 @@ class Ability
     if user.type == 'Owner'
       can :manage, [User]
       can :manage, Restaurant
+      can :manage, Dish
       can :manage, RestaurantDish
     elsif user.type == 'Customer'
       can :manage, [User]

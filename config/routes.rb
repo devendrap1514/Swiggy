@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   resources :restaurants, only: %i[index create show update destroy] do
     get '/dishes', action: :restaurant_dishes, on: :member
   end
-  resources :dishes, only: %i[index show]
+  resources :dishes, only: %i[index show create update]
   resources :categories, only: %i[index show]
   resources :restaurant_dishes, only: %i[index create show update destroy]
 
