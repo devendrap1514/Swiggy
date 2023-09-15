@@ -4,14 +4,12 @@ class RestaurantsController < ApplicationController
   authorize_resource
 
   def index
-    restaurants = case params[:status]
-                  when 'open'
-                    Restaurant.open
-                  when 'close'
-                    Restaurant.close
+    restaurants = if params[:status].present?
+                    Restaurant.send(params[:status].to_s.downcase)
                   else
                     Restaurant.all
                   end
+
     restaurant_name = StripAndSqueeze.apply(params[:restaurant_name])
     restaurants = restaurants.filter_by_restaurant_name(restaurant_name).page(params[:page])
     render json: restaurants
@@ -50,10 +48,7 @@ class RestaurantsController < ApplicationController
 
   def find_current_user_restaurant
     @current_user_restaurant = @current_user.restaurants.find_by_id(params[:id])
-    return if @current_user_restaurant
-
-    render status: :not_found,
-           json: 'no such restaurant'
+    return render status: :not_found, json: 'no such restaurant' unless @current_user_restaurant
   end
 
   def find_restaurant

@@ -4,6 +4,7 @@ class DishesController < ApplicationController
   def index
     dish_name = StripAndSqueeze.apply(params[:dish_name])
     category_name = StripAndSqueeze.apply(params[:category_name])
+    # Filter by Restaurant name is
     render json: Dish.filter_by_dish_name(dish_name).filter_by_category_name(category_name).page(params[:page])
   end
 
@@ -17,15 +18,10 @@ class DishesController < ApplicationController
   end
 
   def update
-    dish = Dish.find_by_id(params[:id])
-    if dish
-      if dish.update(dish_params)
-        render json: dish
-      else
-        render json: nil, status: :unprocessable_entity
-      end
+    if dish.update(dish_params)
+      render json: dish
     else
-      render json: 'no such dish'
+      render json: nil, status: :unprocessable_entity
     end
   end
 

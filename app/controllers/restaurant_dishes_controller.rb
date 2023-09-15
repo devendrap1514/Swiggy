@@ -1,11 +1,11 @@
 class RestaurantDishesController < ApplicationController
-  before_action :find_restaurant_dish, only: %i[update destroy]
+  before_action :find_restaurant_dish, only: %i[show update destroy]
   authorize_resource
 
+  # In Progess
   def find_restaurant_dish
     @restaurant_dish = RestaurantDish.find_by_id(params[:id])
     return if @restaurant_dish
-
     render status: :not_found, json: 'no such restaurant dish is available'
   end
 
@@ -21,6 +21,10 @@ class RestaurantDishesController < ApplicationController
       render status: :unprocessable_entity,
              json: { errors: @restaurant_dish.errors.full_messages }
     end
+  end
+
+  def show
+    render json: @restaurant_dish
   end
 
   def update

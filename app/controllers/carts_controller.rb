@@ -1,14 +1,20 @@
 class CartsController < ApplicationController
+  before_action :find_cart
   authorize_resource
   def show
-    render json: @current_user.cart
+    render json: @cart
   end
 
   def destroy
-    @current_user.cart.cart_items.destroy_all
+    @cart.destroy
     render json: 'Deleted Successfully'
   rescue Exception => e
     render status: :internal_server_error,
            json: e.message
+  end
+
+  def find_cart
+    @cart = @current_user.cart
+    render json: "Cart is empty" unless @cart.present?
   end
 end

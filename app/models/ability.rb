@@ -8,17 +8,18 @@ class Ability
 
     can :read, [Dish, Category, Restaurant, RestaurantDish]
     if user.type == 'Owner'
-      can :manage, [User]
       can :manage, Restaurant
       can :manage, Dish
       can :manage, RestaurantDish
     elsif user.type == 'Customer'
-      can :manage, [User]
       can :manage, Cart
       can :manage, Order
       can :manage, CartItem
       can :manage, OrderItem
+    end
 
+    if user.type == "Owner" or user.type == "Customer"
+      can :manage, [User]
     end
   end
 end
