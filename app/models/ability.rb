@@ -7,6 +7,7 @@ class Ability
     # User, Owner, Customer, Category, Restaurant, Dish, RestaurantDish, Cart, CartItem, Order, OrderItem
 
     can :read, [Dish, Category, Restaurant, RestaurantDish]
+    can :restaurant_dishes, [Restaurant]
     if user.type == 'Owner'
       can :manage, Restaurant
       can :manage, Dish

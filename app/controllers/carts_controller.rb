@@ -1,6 +1,7 @@
 class CartsController < ApplicationController
   before_action :find_cart
   authorize_resource
+
   def show
     render json: @cart
   end

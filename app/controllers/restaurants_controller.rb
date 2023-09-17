@@ -13,6 +13,8 @@ class RestaurantsController < ApplicationController
     restaurant_name = StripAndSqueeze.apply(params[:restaurant_name])
     restaurants = restaurants.filter_by_restaurant_name(restaurant_name).page(params[:page])
     render json: restaurants
+  rescue
+    render json: 'Status value in (open, close)'
   end
 
   def create
@@ -60,7 +62,8 @@ class RestaurantsController < ApplicationController
   end
 
   def restaurant_dishes
-    render json: @restaurant.dishes.page(params[:page])
+    dish_name = StripAndSqueeze.apply params[:dish_name]
+    render json: @restaurant.dishes.filter_by_dish_name(dish_name).page(params[:page])
   end
 
   private

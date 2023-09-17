@@ -7,22 +7,18 @@ class OrdersController < ApplicationController
   end
 
   def create
-    cart_items = @current_user.cart.cart_items
-
-    if cart_items.empty?
+    unless @current_user.cart.present?
       render json: 'Cart is empty'
     else
-      # Create Empty Order
-      order = @current_user.orders.create
-
-      order_now(order, cart_items)
+      cart_items = @current_user.cart.cart_items
+      order_now(cart_items)
 
       begin
         cart_items.destroy_all
+        render json: "Order successfully completed"
       rescue Exception => e
         render status: :internal_server_error, json: e.message
       end
-      render json: order
     end
   end
 
@@ -38,15 +34,19 @@ class OrdersController < ApplicationController
            json: e.message
   end
 
-  def order_now(order, cart_items)
-    # Add Cart Item in Order Item
-    cart_items.each do |item|
-      order.order_items.create(
-        restaurant_dish_id: item.restaurant_dish_id,
-        quantity: item.quantity,
-        price: item.price
-      )
+  def order_now(cart_items)
+    ActiveRecord::Base.transaction do
+      order = @current_user.orders.create
+      cart_items.each do |item|
+        order.order_items.create(
+          restaurant_dish_id: item.restaurant_dish_id,
+          quantity: item.quantity,
+          price: item.price
+        )
+      end
     end
+  rescue Exception => e
+    puts "Oops. Order not placed"
   end
 
   def find_order

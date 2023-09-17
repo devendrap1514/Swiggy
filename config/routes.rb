@@ -12,11 +12,12 @@ Rails.application.routes.draw do
   end
   resources :restaurants, only: %i[index create show update destroy] do
     get '/dishes', action: :restaurant_dishes, on: :member
+
   end
   resources :dishes, only: %i[index show create update]
   resources :categories, only: %i[index show]
   resources :restaurant_dishes, only: %i[index create show update destroy]
 
   post '/auth/login', to: 'users#login'
-  get '/*a', to: 'application#not_found'
+  # get '/*a', to: 'application#not_found'
 end

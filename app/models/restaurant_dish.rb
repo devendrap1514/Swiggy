@@ -4,7 +4,9 @@ class RestaurantDish < ApplicationRecord
   has_many :cart_items, dependent: :destroy
   has_many :order_items, dependent: :nullify
 
-  validates :restaurant_id,
-            uniqueness: { scope: :dish_id, message: 'Restaurant has already been taken with this Dish Name' }
+  validates :restaurant_id, uniqueness: { scope: :dish_id, message: 'Restaurant has already been taken with this Dish Name' }
   validates :price, presence: true, numericality: { greater_than: 0, less_than: 5000 }
+
+  scope :filter_by_restaurant_name, ->(restaurant_name) { joins(:restaurant).where("restaurants.restaurant_name LIKE ?", "%#{restaurant_name}%") }
+  scope :filter_by_dish_name, ->(dish_name) { joins(:dish).where("dishes.dish_name LiKE ?", "%#{dish_name}%") }
 end

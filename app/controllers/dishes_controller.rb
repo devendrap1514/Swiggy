@@ -1,10 +1,10 @@
 class DishesController < ApplicationController
   before_action :find_dish, only: :show
   authorize_resource
+
   def index
     dish_name = StripAndSqueeze.apply(params[:dish_name])
     category_name = StripAndSqueeze.apply(params[:category_name])
-    # Filter by Restaurant name is
     render json: Dish.filter_by_dish_name(dish_name).filter_by_category_name(category_name).page(params[:page])
   end
 

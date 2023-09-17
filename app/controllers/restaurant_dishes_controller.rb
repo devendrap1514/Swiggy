@@ -2,15 +2,16 @@ class RestaurantDishesController < ApplicationController
   before_action :find_restaurant_dish, only: %i[show update destroy]
   authorize_resource
 
-  # In Progess
-  def find_restaurant_dish
-    @restaurant_dish = RestaurantDish.find_by_id(params[:id])
-    return if @restaurant_dish
-    render status: :not_found, json: 'no such restaurant dish is available'
-  end
-
   def index
-    render json: RestaurantDish.all, include: ['dish.category', 'restaurant']
+    restaurant_name = StripAndSqueeze.apply(params[:restaurant_name])
+    dish_name = StripAndSqueeze.apply(params[:dish_name])
+    if params[:restaurant_name]
+      render json: RestaurantDish.filter_by_restaurant_name(restaurant_name), include: [:restaurant]
+    elsif params[:dish_name]
+      render json: RestaurantDish.filter_by_dish_name(dish_name), include: [:dish]
+    else
+      render json: RestaurantDish.all
+    end
   end
 
   def create
@@ -42,6 +43,12 @@ class RestaurantDishesController < ApplicationController
   rescue Exception => e
     render status: :internal_server_error,
            json: e.message
+  end
+
+  def find_restaurant_dish
+    @restaurant_dish = RestaurantDish.find_by_id(params[:id])
+    return if @restaurant_dish
+    render status: :not_found, json: 'No such restaurant dish is available'
   end
 
   private
