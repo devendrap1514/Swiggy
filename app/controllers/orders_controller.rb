@@ -7,18 +7,18 @@ class OrdersController < ApplicationController
   end
 
   def create
-    unless @current_user.cart.present?
-      render json: 'Cart is empty'
-    else
+    if @current_user.cart.present?
       cart_items = @current_user.cart.cart_items
-      order_now(cart_items)
+      order = order_now(cart_items)
 
       begin
         cart_items.destroy_all
-        render json: "Order successfully completed"
+        render json: { message: 'Order successfully completed', order: order }
       rescue Exception => e
         render status: :internal_server_error, json: e.message
       end
+    else
+      render json: 'Cart is empty'
     end
   end
 
@@ -44,9 +44,10 @@ class OrdersController < ApplicationController
           price: item.price
         )
       end
+      order
     end
   rescue Exception => e
-    puts "Oops. Order not placed"
+    puts 'Oops. Order not placed'
   end
 
   def find_order

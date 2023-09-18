@@ -19,8 +19,8 @@ class Ability
       can :manage, OrderItem
     end
 
-    if user.type == "Owner" or user.type == "Customer"
-      can :manage, [User]
-    end
+    return unless user.type == 'Owner' or user.type == 'Customer'
+
+    can :manage, [User]
   end
 end

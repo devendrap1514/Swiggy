@@ -16,6 +16,6 @@ class CartsController < ApplicationController
 
   def find_cart
     @cart = @current_user.cart
-    render json: "Cart is empty" unless @cart.present?
+    render json: 'Cart is empty' unless @cart.present?
   end
 end

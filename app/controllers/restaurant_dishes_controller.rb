@@ -5,13 +5,15 @@ class RestaurantDishesController < ApplicationController
   def index
     restaurant_name = StripAndSqueeze.apply(params[:restaurant_name])
     dish_name = StripAndSqueeze.apply(params[:dish_name])
-    if params[:restaurant_name]
-      render json: RestaurantDish.filter_by_restaurant_name(restaurant_name), include: [:restaurant]
-    elsif params[:dish_name]
-      render json: RestaurantDish.filter_by_dish_name(dish_name), include: [:dish]
-    else
-      render json: RestaurantDish.all
-    end
+    output = if params[:restaurant_name]
+               # render json: RestaurantDish.filter_by_restaurant_name(restaurant_name), include: [:restaurant]
+               Restaurant.filter_by_restaurant_name(restaurant_name)
+             elsif params[:dish_name]
+               RestaurantDish.filter_by_dish_name(dish_name)
+             else
+               RestaurantDish.all
+             end
+    render json: output.page(params[:page])
   end
 
   def create
@@ -48,6 +50,7 @@ class RestaurantDishesController < ApplicationController
   def find_restaurant_dish
     @restaurant_dish = RestaurantDish.find_by_id(params[:id])
     return if @restaurant_dish
+
     render status: :not_found, json: 'No such restaurant dish is available'
   end
 

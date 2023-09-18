@@ -17,8 +17,7 @@ class Dish < ApplicationRecord
                                       joins(:restaurants).where('restaurant_name LIKE ?', "%#{restaurant_name}%")
                                     }
 
-
-    def remove_whitespace
-      self.dish_name = StripAndSqueeze.apply(self.dish_name)
-    end
+  def remove_whitespace
+    self.dish_name = StripAndSqueeze.apply(dish_name)
+  end
 end

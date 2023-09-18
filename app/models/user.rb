@@ -8,6 +8,7 @@ class User < ApplicationRecord
   validates :password, format: { with: /\A(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{6,}\z/ },
                        if: -> { new_record? } # contain atleast one small and capital letter, a number
   validates :name, presence: true
+  validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }
 
   before_validation :remove_whitespace
 
@@ -16,5 +17,27 @@ class User < ApplicationRecord
     # replace all whitespace with nothing and small case
     self.username = username.gsub(/\s+/, '').downcase unless username.nil?
     self.password = password.gsub(/\s+/, '') unless password.nil? # replace all whitespace with nothing
+  end
+
+  # forgot and reset password method
+  def generate_password_token!
+    update(reset_password_token: generate_token, reset_password_sent_at: Time.now.utc)
+  end
+
+  def password_token_valid?
+    (reset_password_sent_at + 4.hours) > Time.now.utc
+  end
+
+  def reset_password!(password)
+    byebug
+    return update(reset_password_token: nil) if update(password:)
+
+    false
+  end
+
+  private
+
+  def generate_token
+    SecureRandom.hex(10)
   end
 end
