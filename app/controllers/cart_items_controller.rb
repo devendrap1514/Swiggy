@@ -3,6 +3,7 @@ class CartItemsController < ApplicationController
   before_action :find_cart_or_create, only: :create
   before_action :is_same_restaurant?, only: :create
   before_action :find_cart, only: %i[show update destroy]
+  before_action :find_cart_item, only: %i[show update destroy]
 
   def is_same_restaurant?
     return if @cart.cart_items.empty?
@@ -73,7 +74,6 @@ class CartItemsController < ApplicationController
   def find_cart
     @cart = @current_user.cart
     return render json: 'Cart is empty' unless @cart
-    find_cart_item
   end
 
   def find_cart_or_create
