@@ -1,17 +1,15 @@
 Rails.application.routes.draw do
   concern :passwordable do
-    post '/forgot_password', action: :forgot_password, on: :collection
-    post '/reset_password', action: :reset_password, on: :collection
+    post '/forgot_password', to: 'passwords#forgot_password'
+    post '/reset_password', to: 'passwords#reset_password'
   end
 
-  resource :owner, only: %i[create show update destroy], concern: :passwordable
+  resource :owner, only: %i[create show update destroy], concerns: :passwordable do
     get '/my_restaurant', action: :my_restaurant, on: :member
     get '/my_dishes', action: :my_dishes, on: :member
   end
 
-  resource :customer, only: %i[create show update destroy], concern: :passwordable
-
-  end
+  resource :customer, only: %i[create show update destroy], concerns: :passwordable
 
   resource :cart, only: %i[show destroy] do
     resources :cart_items, only: %i[create show update destroy]

@@ -1,12 +1,10 @@
 class User < ApplicationRecord
   has_secure_password
-  has_secure_password validations: false
 
   has_one_attached :profile_picture
   validates :username, presence: true, uniqueness: { case_sensitive: false },
                        format: { with: /\A[0-9A-Za-z_]+\z/ } # allow only alphanumeric and underscore
-  validates :password, format: { with: /\A(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{6,}\z/ },
-                       if: -> { new_record? } # contain atleast one small and capital letter, a number
+  validates :password, format: { with: /\A(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{6,}\z/ }, if: -> { new_record? || password_digest_changed? } # contain atleast one small and capital letter, a number
   validates :name, presence: true
   validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }
 
@@ -28,11 +26,8 @@ class User < ApplicationRecord
     (reset_password_sent_at + 4.hours) > Time.now.utc
   end
 
-  def reset_password!(password)
-    byebug
-    return update(reset_password_token: nil) if update(password:)
-
-    false
+  def reset_password!(_password)
+    return update(reset_password_token: nil) if update(password: _password)
   end
 
   private
