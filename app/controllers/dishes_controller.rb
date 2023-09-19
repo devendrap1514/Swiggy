@@ -1,6 +1,5 @@
 class DishesController < ApplicationController
   before_action :find_dish, only: :show
-  authorize_resource
 
   def index
     dish_name = StripAndSqueeze.apply(params[:dish_name])

@@ -1,6 +1,8 @@
 class UsersController < ApplicationController
-  before_action :authorize_request, except: %i[create login]
-  authorize_resource except: %i[login create]
+  include PasswordManager
+  include AuthenticationManager
+
+  before_action :authorize_request, except: %i[create login forgot_password reset_password]
 
   def show
     render json: @current_user
@@ -21,19 +23,6 @@ class UsersController < ApplicationController
   rescue Exception => e
     render status: :internal_server_error,
            json: e.message
-  end
-
-  def login
-    @user = User.find_by_username(params[:username])
-    if @user&.authenticate(params[:password])
-      token = JsonWebToken.encode(user_id: @user.id)
-      time = Time.now + 24.hours.to_i
-      render status: :ok, json: { token:, exp: time.strftime('%m-%d-%Y %H:%M'),
-                                  username: @user.username }
-      response.headers['Token'] = token
-    else
-      render status: :unauthorized, json: { error: 'unauthorized' }
-    end
   end
 
   private

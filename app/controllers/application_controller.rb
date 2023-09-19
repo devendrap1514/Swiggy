@@ -4,6 +4,7 @@ class ApplicationController < ActionController::API
   end
 
   before_action :authorize_request
+  authorize_resource
 
   def not_found
     render json: { errors: 'No such routes' }

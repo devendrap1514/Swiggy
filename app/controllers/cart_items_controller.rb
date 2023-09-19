@@ -3,8 +3,6 @@ class CartItemsController < ApplicationController
   before_action :find_cart_or_create, only: :create
   before_action :is_same_restaurant?, only: :create
   before_action :find_cart, only: %i[show update destroy]
-  before_action :find_cart_item, only: %i[show update destroy]
-  authorize_resource
 
   def is_same_restaurant?
     return if @cart.cart_items.empty?
@@ -26,12 +24,14 @@ class CartItemsController < ApplicationController
     cart_item = @cart.cart_items.find_by(restaurant_dish_id: params[:restaurant_dish_id])
     return render json: update_quantity(cart_item) if cart_item
 
-    @cart_item = @cart.cart_items.new(items_params)
-    if @cart_item.save
-      render json: @cart_item
+    cart_item = @cart.cart_items.new(items_params)
+    if cart_item.save
+      render json: cart_item
     else
+      @cart.cart_items.delete(cart_item)
+      destroy_cart_if_empty
       render status: :unprocessable_entity,
-             json: { errors: @cart_item.errors.full_messages }
+             json: { errors: cart_item.errors.full_messages }
     end
   end
 
@@ -49,7 +49,7 @@ class CartItemsController < ApplicationController
 
   def destroy
     @cart_item.destroy
-    @cart.destroy if @cart.cart_items.empty?
+    destroy_cart_if_empty
     render status: :ok,
            json: 'Item removed from cart'
   rescue Exception => e
@@ -72,7 +72,8 @@ class CartItemsController < ApplicationController
 
   def find_cart
     @cart = @current_user.cart
-    render json: 'Cart is empty' unless @cart
+    return render json: 'Cart is empty' unless @cart
+    find_cart_item
   end
 
   def find_cart_or_create
@@ -83,6 +84,10 @@ class CartItemsController < ApplicationController
     end
   rescue Exception => e
     render status: :internal_server_error, json: e.message
+  end
+
+  def destroy_cart_if_empty
+    @cart.destroy if @cart.cart_items.empty?
   end
 
   private

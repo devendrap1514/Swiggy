@@ -2,12 +2,10 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    user ||= User.new
+    user ||= User.new  # Guest user
 
-    # User, Owner, Customer, Category, Restaurant, Dish, RestaurantDish, Cart, CartItem, Order, OrderItem
+    can [:create, :login, :forgot_password, :reset_password], User
 
-    can :read, [Dish, Category, Restaurant, RestaurantDish]
-    can :restaurant_dishes, [Restaurant]
     if user.type == 'Owner'
       can :manage, Restaurant
       can :manage, Dish
@@ -22,5 +20,7 @@ class Ability
     return unless user.type == 'Owner' or user.type == 'Customer'
 
     can :manage, [User]
+    can :read, [Dish, Category, Restaurant, RestaurantDish]
+    can :restaurant_dishes, [Restaurant]
   end
 end

@@ -1,7 +1,6 @@
 class RestaurantsController < ApplicationController
   before_action :find_current_user_restaurant, only: %i[update destroy]
   before_action :find_restaurant, only: %i[show restaurant_dishes]
-  authorize_resource
 
   def index
     restaurants = if params[:status].present?

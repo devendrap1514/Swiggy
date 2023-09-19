@@ -1,12 +1,10 @@
 class RestaurantDishesController < ApplicationController
   before_action :find_restaurant_dish, only: %i[show update destroy]
-  authorize_resource
 
   def index
     restaurant_name = StripAndSqueeze.apply(params[:restaurant_name])
     dish_name = StripAndSqueeze.apply(params[:dish_name])
     output = if params[:restaurant_name]
-               # render json: RestaurantDish.filter_by_restaurant_name(restaurant_name), include: [:restaurant]
                Restaurant.filter_by_restaurant_name(restaurant_name)
              elsif params[:dish_name]
                RestaurantDish.filter_by_dish_name(dish_name)

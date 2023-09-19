@@ -1,6 +1,5 @@
-class PasswordsController < ApplicationController
-  before_action :authorize_request, except: %i[forgot_password reset_password]
-  authorize_resource except: %i[forgot_password reset_password]
+module PasswordManager
+  extend ActiveSupport::Concern
 
   def forgot_password
     return render json: 'Username must be pass' unless params[:username]

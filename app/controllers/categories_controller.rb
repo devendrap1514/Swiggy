@@ -1,6 +1,4 @@
 class CategoriesController < ApplicationController
-  authorize_resource
-
   def index
     render status: :ok,
            json: Category.all

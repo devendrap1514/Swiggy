@@ -1,6 +1,5 @@
 class OrdersController < ApplicationController
   before_action :find_order, only: %i[show destroy]
-  authorize_resource
 
   def index
     render json: @current_user.orders

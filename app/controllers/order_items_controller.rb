@@ -1,6 +1,4 @@
-class OrderItemsController < AuthenticatApplicationControllerionController
-  authorize_resource
-
+class OrderItemsController < ApplicationController
   def index
     order = @current_user.orders.find_by_id(params[:id])
     if order
