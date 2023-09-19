@@ -1,14 +1,16 @@
 Rails.application.routes.draw do
-  resource :owner, only: %i[create show update destroy] do
-    get '/my_restaurant', action: :my_restaurant, on: :member
-    get '/my_dishes', action: :my_dishes, on: :member
+  concern :passwordable do
     post '/forgot_password', action: :forgot_password, on: :collection
     post '/reset_password', action: :reset_password, on: :collection
   end
 
-  resource :customer, only: %i[create show update destroy] do
-    post '/forgot_password', action: :forgot_password, on: :collection
-    post '/reset_password', action: :reset_password, on: :collection
+  resource :owner, only: %i[create show update destroy], concern: :passwordable
+    get '/my_restaurant', action: :my_restaurant, on: :member
+    get '/my_dishes', action: :my_dishes, on: :member
+  end
+
+  resource :customer, only: %i[create show update destroy], concern: :passwordable
+
   end
 
   resource :cart, only: %i[show destroy] do
