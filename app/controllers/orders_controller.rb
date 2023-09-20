@@ -12,6 +12,7 @@ class OrdersController < ApplicationController
 
       begin
         cart_items.destroy_all
+        # can't write 'Order placed successfully' bcz serializer won't run
         render json: order
       rescue Exception => e
         render status: :internal_server_error, json: e.message

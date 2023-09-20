@@ -2,7 +2,8 @@ class UsersController < ApplicationController
   include PasswordManager
   include AuthenticationManager
 
-  before_action :authorize_request, except: %i[create login forgot_password reset_password]
+  #---------don't use before_action bcz it will not execute authorize_request before authorise_resource
+  skip_before_action :authorize_request, only: %i[create login forgot_password reset_password]
 
   def create(user)
     UserMailer.with(user: user).welcome_email.deliver_now

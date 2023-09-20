@@ -43,7 +43,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_18_093914) do
     t.integer "restaurant_dish_id", null: false
     t.integer "cart_id", null: false
     t.integer "quantity", null: false
-    t.decimal "price", null: false
+    t.decimal "price", default: "0.0", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["cart_id"], name: "index_cart_items_on_cart_id"
@@ -75,7 +75,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_18_093914) do
     t.integer "restaurant_dish_id"
     t.integer "order_id", null: false
     t.integer "quantity", null: false
-    t.decimal "price", null: false
+    t.decimal "price", default: "0.0", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["order_id"], name: "index_order_items_on_order_id"

@@ -1,5 +1,5 @@
 class DishesController < ApplicationController
-  before_action :find_dish, only: :show
+  before_action :find_dish, only: [:show, :update]
 
   def index
     dish_name = StripAndSqueeze.apply(params[:dish_name])
@@ -17,10 +17,10 @@ class DishesController < ApplicationController
   end
 
   def update
-    if dish.update(dish_params)
-      render json: dish
+    if @dish.update(dish_params)
+      render json: @dish
     else
-      render json: nil, status: :unprocessable_entity
+      render json: { errors: @dish.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
