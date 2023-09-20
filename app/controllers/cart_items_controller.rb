@@ -1,11 +1,11 @@
 class CartItemsController < ApplicationController
-  # not change flow of below line that affect on find_cart method
   before_action :find_cart_or_create, only: :create
   before_action :is_same_restaurant?, only: :create
   before_action :find_cart, only: %i[show update destroy]
   before_action :find_cart_item, only: %i[show update destroy]
 
   def is_same_restaurant?
+    return unless @cart.present?
     return if @cart.cart_items.empty?
 
     new_restaurant_dish = RestaurantDish.find_by_id(params[:restaurant_dish_id])

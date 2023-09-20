@@ -4,9 +4,10 @@ class OwnersController < UsersController
     if owner.save
       render json: owner, status: :created
     else
-      render status: :unprocessable_entity,
+      return render status: :unprocessable_entity,
              json: { errors: owner.errors.full_messages }
     end
+    super(owner)
   end
 
   def my_restaurant

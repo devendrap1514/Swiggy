@@ -4,6 +4,10 @@ class UsersController < ApplicationController
 
   before_action :authorize_request, except: %i[create login forgot_password reset_password]
 
+  def create(user)
+    UserMailer.with(user: user).welcome_email.deliver_now
+  end
+
   def show
     render json: @current_user
   end

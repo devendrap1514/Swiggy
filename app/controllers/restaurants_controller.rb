@@ -24,7 +24,7 @@ class RestaurantsController < ApplicationController
       render status: :unprocessable_entity,
              json: { errors: @restaurant.errors.full_messages }
     end
-  rrescue Exception => e
+  rescue Exception => e
     render status: :internal_server_error, json: { message: 'Status value in (open, close)', error: e.message }
   end
 

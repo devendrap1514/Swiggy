@@ -4,8 +4,9 @@ class CustomersController < UsersController
     if customer.save
       render json: customer, status: :created
     else
-      render status: :unprocessable_entity,
+      return render status: :unprocessable_entity,
              json: { errors: customer.errors.full_messages }
     end
+    super(customer)
   end
 end

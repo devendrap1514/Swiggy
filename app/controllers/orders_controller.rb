@@ -12,7 +12,7 @@ class OrdersController < ApplicationController
 
       begin
         cart_items.destroy_all
-        render json: { message: 'Order successfully completed', order: order }
+        render json: order
       rescue Exception => e
         render status: :internal_server_error, json: e.message
       end

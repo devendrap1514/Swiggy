@@ -1,6 +1,6 @@
 class OrderItemsController < ApplicationController
   def index
-    order = @current_user.orders.find_by_id(params[:id])
+    order = @current_user.orders.find_by_id(params[:order_id])
     if order
       render json: order.order_items
     else
