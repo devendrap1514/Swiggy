@@ -1,4 +1,4 @@
-class DishesController < ApplicationController
+class DishesController < SessionsController
   before_action :find_dish, only: [:show, :update]
 
   def index

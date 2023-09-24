@@ -1,4 +1,4 @@
-class OrderItemsController < ApplicationController
+class OrderItemsController < SessionsController
   def index
     order = @current_user.orders.find_by_id(params[:order_id])
     if order

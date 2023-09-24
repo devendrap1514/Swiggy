@@ -1,4 +1,4 @@
-class CategoriesController < ApplicationController
+class CategoriesController < SessionsController
   def index
     render status: :ok,
            json: Category.all

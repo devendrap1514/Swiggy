@@ -1,4 +1,4 @@
-class CartsController < ApplicationController
+class CartsController < SessionsController
   before_action :find_cart
 
   def show
