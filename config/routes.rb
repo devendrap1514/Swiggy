@@ -1,17 +1,15 @@
 Rails.application.routes.draw do
   post '/login', to: 'users#login'
+  delete '/logout', to: 'users#logout'
+  post '/forgot_password', to: 'users#forgot_password'
+  post '/reset_password', to: 'users#reset_password'
 
-  concern :add_on_action_to_user do
-    post '/forgot_password', to: 'users#forgot_password'
-    post '/reset_password', to: 'users#reset_password'
-  end
-
-  resource :owner, only: %i[create show update destroy], concerns: :add_on_action_to_user do
+  resource :owner, only: %i[create show update destroy] do
     get '/my_restaurant', action: :my_restaurant, on: :member
     get '/my_dishes', action: :my_dishes, on: :member
   end
 
-  resource :customer, only: %i[create show update destroy], concerns: :add_on_action_to_user
+  resource :customer, only: %i[create show update destroy]
 
   resource :cart, only: %i[show destroy] do
     resources :cart_items, only: %i[create show update destroy]

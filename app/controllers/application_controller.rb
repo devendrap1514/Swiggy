@@ -3,7 +3,7 @@ class ApplicationController < ActionController::API
     render json: exception.message
   end
 
-  before_action :authorize_request
+  before_action :authorize_request, if: :is_login?
   authorize_resource
 
   def not_found
@@ -11,16 +11,22 @@ class ApplicationController < ActionController::API
   end
 
   def authorize_request
-    header = request.headers['Authorization']
-    header = header.split(' ').last if header
+    unless session[:token]
+      return render json: "First Login"
+    end
     begin
-      @decoded = JsonWebToken.decode(header)
+      @decoded = JsonWebToken.decode(session[:token])
       @current_user = User.find(@decoded[:user_id])
     rescue ActiveRecord::RecordNotFound => e
       render status: :unauthorized, json: { errors: e.message }
     rescue JWT::DecodeError => e
       render status: :unauthorized, json: { errors: e.message }
     end
+  end
+
+  def is_login?
+    return true if session[:token]
+    false
   end
 
   # CanCan expects a current_user method to exist in the controller.
