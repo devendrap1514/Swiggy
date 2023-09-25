@@ -1,4 +1,4 @@
-class OrdersController < SessionsController
+class OrdersController < ApplicationController
   before_action :find_order, only: %i[show destroy]
 
   def index

@@ -1,4 +1,4 @@
-class RestaurantDishesController < SessionsController
+class RestaurantDishesController < ApplicationController
   before_action :find_restaurant_dish, only: %i[show update destroy]
 
   def index

@@ -1,5 +1,10 @@
-class UsersController < SessionsController
-  skip_before_action :authorize_request, only: %i[create]
+class UsersController < ApplicationController
+  include PasswordManager
+  include AuthenticationManager
+
+  #---------don't use before_action bcz it will not execute authorize_request before authorise_resource
+  skip_before_action :authorize_request, only: %i[create login forgot_password reset_password]
+
   def create(user)
     UserMailer.with(user: user).welcome_email.deliver_now
   end
@@ -26,6 +31,10 @@ class UsersController < SessionsController
   end
 
   private
+
+  def login_params
+    params.permit(:username, :password)
+  end
 
   def user_params
     params.permit(:name, :username, :email, :password, :password_confirmation, :profile_picture)

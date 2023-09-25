@@ -1,4 +1,4 @@
-class RestaurantsController < SessionsController
+class RestaurantsController < ApplicationController
   before_action :find_current_user_restaurant, only: %i[update destroy]
   before_action :find_restaurant, only: %i[show restaurant_dishes]
 

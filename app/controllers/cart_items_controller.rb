@@ -1,4 +1,4 @@
-class CartItemsController < SessionsController
+class CartItemsController < ApplicationController
   before_action :find_cart_or_create, only: :create
   before_action :is_same_restaurant?, only: :create
   before_action :find_cart, only: %i[show update destroy]
