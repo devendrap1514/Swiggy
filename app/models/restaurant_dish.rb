@@ -13,4 +13,12 @@ class RestaurantDish < ApplicationRecord
                                       joins(:restaurant).where('restaurants.restaurant_name LIKE ?', "%#{restaurant_name}%")
                                     }
   scope :filter_by_dish_name, ->(dish_name) { joins(:dish).where('dishes.dish_name LiKE ?', "%#{dish_name}%") }
+
+  def self.ransackable_attributes(auth_object = nil)
+    ["created_at", "dish_id", "id", "price", "restaurant_id", "updated_at"]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    ["cart_items", "dish", "order_items", "restaurant"]
+  end
 end

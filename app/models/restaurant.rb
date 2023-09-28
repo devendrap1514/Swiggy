@@ -21,4 +21,12 @@ class Restaurant < ApplicationRecord
     self.restaurant_name = restaurant_name.strip.squeeze(' ') unless restaurant_name.nil?
     self.address = address.strip.squeeze(' ') unless address.nil?
   end
+
+  def self.ransackable_attributes(auth_object = nil)
+    ["address", "created_at", "id", "restaurant_name", "status", "updated_at", "user_id"]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    ["dishes", "owner", "restaurant_dishes"]
+  end
 end

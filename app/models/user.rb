@@ -30,6 +30,14 @@ class User < ApplicationRecord
     return update(reset_password_token: nil) if update(password: _password)
   end
 
+  def self.ransackable_attributes(auth_object = nil)
+    ["created_at", "email", "id", "name", "password_digest", "reset_password_sent_at", "reset_password_token", "type", "updated_at", "username"]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    ["profile_picture_attachment", "profile_picture_blob"]
+  end
+
   private
 
   def generate_token

@@ -11,4 +11,8 @@ class CartItem < ApplicationRecord
     # update -> save -> update -> save -> update ∞
     self.price = cart_dish_price
   end
+
+  def self.ransackable_attributes(auth_object = nil)
+    ["cart_id", "created_at", "id", "price", "quantity", "restaurant_dish_id", "updated_at"]
+  end
 end
