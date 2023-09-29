@@ -7,7 +7,7 @@ class RestaurantDish < ApplicationRecord
 
   validates :restaurant_id,
             uniqueness: { scope: :dish_id, message: 'Restaurant has already been taken with this Dish Name' }
-  validates :price, presence: true, numericality: { greater_than: 0, less_than: 5000 }
+  validates :price, presence: true, numericality: { greater_than_or_equal_to: 1 }
 
   scope :filter_by_restaurant_name, lambda { |restaurant_name|
                                       joins(:restaurant).where('restaurants.restaurant_name LIKE ?', "%#{restaurant_name}%")
@@ -15,7 +15,7 @@ class RestaurantDish < ApplicationRecord
   scope :filter_by_dish_name, ->(dish_name) { joins(:dish).where('dishes.dish_name LiKE ?', "%#{dish_name}%") }
 
   def self.ransackable_attributes(auth_object = nil)
-    ["created_at", "dish_id", "id", "price", "restaurant_id", "updated_at"]
+    ["created_at", "price", "updated_at"]
   end
 
   def self.ransackable_associations(auth_object = nil)

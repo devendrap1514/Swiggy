@@ -40,6 +40,6 @@ class DishesController < ApiController
   private
 
   def dish_params
-    params.permit(:dish_name, :category_id)
+    params.permit(:dish_name, :category_id, dish_images: [])
   end
 end
