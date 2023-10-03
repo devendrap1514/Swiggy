@@ -3,10 +3,6 @@ ActiveAdmin.register Restaurant do
   filter :restaurant_name
   filter :address
 
-  form do |f|
-
-  end
-
   index do
     column :id
     column :restaurant_name

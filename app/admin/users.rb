@@ -1,4 +1,5 @@
 ActiveAdmin.register User do
+  permit_params(:type, :name, :username, :email, :password, :password_confirmation)
 
   filter :name
   filter :username
@@ -6,9 +7,9 @@ ActiveAdmin.register User do
   filter :type
 
   index do
-    # column :profile do |user|
-    #   image_tag(user.profile_picture, size: "50x40") if user.profile_picture.present?
-    # end
+    column :profile do |user|
+      image_tag(user.profile_picture, size: "50x40") if user.profile_picture.present?
+    end
     column :type
     column :id
     column :username
@@ -30,7 +31,5 @@ ActiveAdmin.register User do
       row :updated_at
     end
   end
-
-  permit_params(:type, :name, :username, :email, :password, :password_confirmation)
   
 end

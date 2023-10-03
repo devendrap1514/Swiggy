@@ -54,4 +54,6 @@ rd2 = RestaurantDish.create(restaurant_id: restaurant1.id, dish_id: dish2.id, pr
 rd3 = RestaurantDish.create(restaurant_id: restaurant3.id, dish_id: dish3.id, price: 120)
 rd4 = RestaurantDish.create(restaurant_id: restaurant3.id, dish_id: dish4.id, price: 70)
 p_e rd1, rd2, rd3, rd4
+
+AdminUser.destroy_all
 AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
