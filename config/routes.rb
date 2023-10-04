@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
+
+  # why not i use custom contoller of user_sessions
+  # bcz the model not present that why it produce error
   post '/login', to: 'users#login'
   delete '/logout', to: 'users#logout'
   post '/forgot_password', to: 'users#forgot_password'
@@ -26,7 +29,10 @@ Rails.application.routes.draw do
   end
 
   resources :dishes, only: %i[index show create update]
-  resources :categories, only: %i[index show]
+  resources :categories, only: %i[index show] do
+    get '/dishes', action: :category_dishes, on: :member
+  end
+
   resources :restaurant_dishes, only: %i[index create show update destroy]
 
   # get '/*a', to: 'application#not_found'

@@ -20,12 +20,4 @@ class Dish < ApplicationRecord
   def remove_whitespace
     self.dish_name = StripAndSqueeze.apply(dish_name)
   end
-
-  def self.ransackable_attributes(auth_object = nil)
-    ["category_id", "created_at", "dish_name", "id", "updated_at"]
-  end
-
-  def self.ransackable_associations(auth_object = nil)
-    ["category", "dish_images_attachments", "dish_images_blobs", "restaurant_dishes", "restaurants"]
-  end
 end

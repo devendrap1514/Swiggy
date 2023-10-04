@@ -1,14 +1,24 @@
 ActiveAdmin.register Category do
   filter :category_name
 
+  index do
+    column :id
+    column :category_name
+    # Not work as i expected PENDING
+    column 'Dishes' do |category|
+      category.dishes.count
+    end
+    actions
+  end
+
   show do |category|
     attributes_table do
       row :id
       row :category_name
-    end
-    panel "Dishes" do
-      table_for category.dishes.joins(:restaurants) do
-        column :dish_name
+      row :created_at
+      row :updated_at
+      row :dishes_count do |category|
+        category.dishes.count
       end
     end
   end

@@ -7,6 +7,8 @@ ActiveAdmin.register Restaurant do
     column :id
     column :restaurant_name
     column :address
+    column :created_at
+    column :updated_at
     column :dishes_count do |restaurant|
       restaurant.dishes.count
     end
@@ -21,16 +23,10 @@ ActiveAdmin.register Restaurant do
       row :id
       row :restaurant_name
       row :address
+      row :created_at
+      row :updated_at
       row :dishes_count do |restaurant|
         restaurant.dishes.count
-      end
-    end
-    panel 'Dishes' do
-      table_for restaurant.dishes do |dish|
-        dish.column :dish_name
-        column 'category' do |d|
-          d.category.category_name
-        end
       end
     end
   end

@@ -6,6 +6,18 @@ ActiveAdmin.register User do
   filter :email
   filter :type
 
+  form do |f|
+    f.inputs do
+      f.input :type, as: :select, collection: ['Owner', 'Customer']
+      f.input :name
+      f.input :email
+      f.input :username
+      f.input :password
+      f.input :password_confirmation
+    end
+    f.actions
+  end
+
   index do
     column :profile do |user|
       image_tag(user.profile_picture, size: "50x40") if user.profile_picture.present?
@@ -15,7 +27,7 @@ ActiveAdmin.register User do
     column :username
     column :name
     column :email
-    columns :created_at
+    column :created_at
     column :updated_at
     actions
   end

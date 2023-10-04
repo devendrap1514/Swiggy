@@ -8,6 +8,8 @@ class User < ApplicationRecord
   validates :name, presence: true
   validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }
 
+  validates :type, presence: true
+
   before_validation :remove_whitespace
 
   def remove_whitespace
@@ -28,14 +30,6 @@ class User < ApplicationRecord
 
   def reset_password!(_password)
     return update(reset_password_token: nil) if update(password: _password)
-  end
-
-  def self.ransackable_attributes(auth_object = nil)
-    ["created_at", "email", "id", "name", "password_digest", "reset_password_sent_at", "reset_password_token", "type", "updated_at", "username"]
-  end
-
-  def self.ransackable_associations(auth_object = nil)
-    ["profile_picture_attachment", "profile_picture_blob"]
   end
 
   private

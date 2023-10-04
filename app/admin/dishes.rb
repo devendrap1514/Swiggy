@@ -2,9 +2,14 @@ ActiveAdmin.register Dish do
 	filter :dish_name
 
   form do |f|
-    f.input :dish_name
-    f.input :category_id, as: :select, collection: Category.ids
-    f.input :dish_images, as: :file, input_html: { multiple: true }
+    f.inputs do
+      # attributes_names return array of key
+      # f.semantic_errors *f.object.errors.attribute_names
+      f.input :dish_name
+      f.input :category_id
+      f.semantic_errors :category
+      f.input :dish_images, as: :file, input_html: { multiple: true }
+    end
     f.actions
   end
 
@@ -25,6 +30,18 @@ ActiveAdmin.register Dish do
     end
     actions
 	end
+
+  show do |dish|
+    attributes_table do
+      row :id
+      row :dish_name
+      row :category do |dish|
+        dish.category.category_name
+      end
+      row :updated_at
+      row :created_at
+    end
+  end
 
   controller do
   end
