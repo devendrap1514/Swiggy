@@ -1,0 +1,9 @@
+<% context.instance_eval do
+  column :id
+  column :category_name
+  # Not work as i expected PENDING
+  column 'Dishes' do |category|
+    category.dishes.count
+  end
+  actions
+end %>

@@ -1,0 +1,15 @@
+<% context.instance_eval do
+  column :id
+  column "cart_id, username" do |cart_item|
+    "#{cart_item.cart_id}, #{cart_item.cart.customer.name}"
+  end
+  column "restaurant_dish_id, dish_name" do |cart_item|
+    "#{cart_item.restaurant_dish_id}, #{cart_item.restaurant_dish.dish.dish_name}"
+  end
+  column :quantity
+  column :price do |cart_item|
+    cart_item.price
+  end
+  column :created_at
+  column :updated_at
+end %>

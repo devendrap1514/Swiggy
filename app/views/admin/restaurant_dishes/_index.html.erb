@@ -1,0 +1,11 @@
+<% context.instance_eval do
+  column :id
+  column :restraurant_name do |r|
+    link_to(r.restaurant.restaurant_name, admin_restaurant_path(r.restaurant.id))
+  end
+  column :dish_name do |r|
+    link_to(r.dish.dish_name, admin_dish_path(r.dish.id))
+  end
+  column :price
+  actions
+end %>

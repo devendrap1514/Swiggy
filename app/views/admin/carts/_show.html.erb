@@ -1,0 +1,15 @@
+<% context.instance_eval do
+  attributes_table do
+    row :id
+    row :user do |cart|
+      "#{cart.user_id}, #{cart.customer.name}"
+    end
+    row :created_at
+    row :updated_at
+  end
+  panel "Cart Items" do
+    table_for cart.cart_items do
+      render 'admin/cart_items/cart_items', context: self
+    end
+  end
+end %>

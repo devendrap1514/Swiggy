@@ -1,0 +1,14 @@
+<% context.instance_eval do
+  column :id
+  column :restaurant_name
+  column :address
+  column :created_at
+  column :updated_at
+  column :dishes_count do |restaurant|
+    restaurant.dishes.count
+  end
+  column :owner do |restaurant|
+    restaurant.owner
+  end
+  actions
+end %>

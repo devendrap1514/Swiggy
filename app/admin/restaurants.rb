@@ -1,35 +1,16 @@
 ActiveAdmin.register Restaurant do
+  menu parent: "RestaurantDish"
+
+  permit_params(:restaurant_name, :user_id, :address)
 
   filter :restaurant_name
   filter :address
 
   index do
-    column :id
-    column :restaurant_name
-    column :address
-    column :created_at
-    column :updated_at
-    column :dishes_count do |restaurant|
-      restaurant.dishes.count
-    end
-    column :owner do |restaurant|
-      restaurant.owner
-    end
-    actions
+    render 'admin/restaurants/index', context: self
   end
 
   show do |restaurant|
-    attributes_table do
-      row :id
-      row :restaurant_name
-      row :address
-      row :created_at
-      row :updated_at
-      row :dishes_count do |restaurant|
-        restaurant.dishes.count
-      end
-    end
+    render 'admin/restaurants/show', context: self
   end
-
-  permit_params(:restaurant_name, :user_id, :address)
 end

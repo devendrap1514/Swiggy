@@ -1,0 +1,3 @@
+<h6>Total User with Cart: <%= CartItem.select(:cart_id).distinct.count %></h6>
+<h6>Total Cart Itmes: <%= CartItem.select(:restaurant_dish_id).distinct.count %></h6>
+<h6>Total Cart Items Price: <%= CartItem.sum(:price) %></h6>

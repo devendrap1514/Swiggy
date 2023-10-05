@@ -1,0 +1,11 @@
+<% context.instance_eval do
+  attributes_table do
+    row :id
+    row :category_name
+    row :created_at
+    row :updated_at
+    row :dishes_count do |category|
+      category.dishes.count
+    end
+  end
+end %>

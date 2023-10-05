@@ -1,0 +1,5 @@
+<% context.instance_eval do
+  table_for CartItem.group(:restaurant_dish_id).count do |cart_item|
+    column :count
+  end
+end %>

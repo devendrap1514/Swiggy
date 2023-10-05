@@ -8,6 +8,7 @@ class CartItem < ApplicationRecord
 
   def initialize_price
     cart_dish_price = quantity * restaurant_dish.price
+    # update trigger
     # update -> save -> update -> save -> update ∞
     self.price = cart_dish_price
   end

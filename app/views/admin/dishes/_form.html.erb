@@ -1,0 +1,11 @@
+<% context.instance_eval do
+  inputs do
+    # attributes_names return array of key
+    # f.semantic_errors *f.object.errors.attribute_names
+    input :dish_name
+    input :category_id
+    semantic_errors :category
+    input :dish_images, as: :file, input_html: { multiple: true }
+  end
+  actions
+end %>
