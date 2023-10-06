@@ -4,7 +4,7 @@ ActiveAdmin.register CartItem do
 
   index do
     render 'admin/cart_items/status', context: self
-    # render 'admin/cart_items/most_added_item', context: self
+    render 'admin/cart_items/most_added_item', context: self
     render 'admin/cart_items/index', context: self
   end
 end

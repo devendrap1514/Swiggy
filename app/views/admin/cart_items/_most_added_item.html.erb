@@ -1,5 +1,13 @@
 <% context.instance_eval do
-  table_for CartItem.group(:restaurant_dish_id).count do |cart_item|
-    column :count
+  table_for CartItem.group(:restaurant_dish_id).count.to_a do |arr|
+    column "restaurant_dish_id" do |arr|
+      restaurant_dish = RestaurantDish.find_by_id(arr[0].to_i)
+      "#{arr[0]},
+      #{restaurant_dish.restaurant.restaurant_name},
+      #{restaurant_dish.dish.dish_name}"
+    end
+    column "count" do |arr|
+      arr[1]
+    end
   end
 end %>

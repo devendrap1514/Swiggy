@@ -1,13 +1,13 @@
 <% context.instance_eval do
-  column :profile do |user|
-      image_tag(user.profile_picture, size: "50x40") if user.profile_picture.present?
-    end
-    column :type
-    column :id
-    column :username
-    column :name
-    column :email
-    column :created_at
-    column :updated_at
-    actions
+  column "profile_picture" do |user|
+    image_tag(user.profile_picture, size: "50x40") if user.profile_picture.attached?
+  end
+  column :type
+  column :id
+  column :username
+  column :name
+  column :email
+  column :created_at
+  column :updated_at
+  actions
 end %>

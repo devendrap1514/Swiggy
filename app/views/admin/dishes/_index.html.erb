@@ -1,10 +1,14 @@
 <% context.instance_eval do
   column "Images" do |dish|
-    ul do
-      dish.dish_images.each do |img|
-        li image_tag(img, size: "50x40")
-      end
-     end
+    # showing multiple images
+    # ul do
+    #   dish.dish_images.each do |img|
+    #     li image_tag(img, size: "50x40")
+    #   end
+    # end
+
+    # Showing only one image
+    image_tag(dish.dish_images[0], size: "50x40") unless dish.dish_images.empty?
   end
   column :id
   column :dish_name
