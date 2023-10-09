@@ -2,10 +2,11 @@ class User < ApplicationRecord
   has_secure_password
 
   has_one_attached :profile_picture
+
+  validates :name, presence: true
   validates :username, presence: true, uniqueness: { case_sensitive: false },
                        format: { with: /\A[0-9A-Za-z_]+\z/ } # allow only alphanumeric and underscore
   validates :password, format: { with: /\A(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{6,}\z/ }, if: -> { new_record? || password_digest_changed? } # contain atleast one small and capital letter, a number
-  validates :name, presence: true
   validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }
 
   validates :type, presence: true

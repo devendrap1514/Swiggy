@@ -1,27 +1,18 @@
 require 'rails_helper'
 
+require_relative 'shared/user_spec'
+
 RSpec.describe Owner, type: :model do
-  subject {
+  let(:owner) {
     described_class.new(
-      name: "Vinay Sharma",
-      username: "vinay",
+      name: "Devendra Patidar",
+      username: "devendra",
       email: "devendrap@shriffle.com",
-      password: "Vinay123",
-      password_confirmation: "Vinay123",
-      type: "Owner")
+      password: "Dev123",
+      password_confirmation: "Dev123")
   }
-  it "is valid with valid attributes" do
-    expect(subject).to be_valid
+
+  include_examples "user_spec" do
+    let(:user) {owner}
   end
-  it "is not valid without a name" do
-    subject.name = nil
-    expect(subject).to_not be_valid
-  end
-  it "is not valid without a username" do
-    subject.username = nil
-    expect(subject).to_not be_valid
-  end
-  it "is not valid without a email"
-  it "is not valid without a password"
-  it "is not valid without a confirmation_password"
 end
