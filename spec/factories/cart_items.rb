@@ -20,21 +20,11 @@
 #  cart_id             (cart_id => carts.id)
 #  restaurant_dish_id  (restaurant_dish_id => restaurant_dishes.id)
 #
-class CartItem < ApplicationRecord
-  belongs_to :restaurant_dish
-  belongs_to :cart
-
-  # validates_presence_of :quantity, :price
-
-  validates :quantity, presence: true, numericality: { greater_than_or_equal_to: 1, less_than: 1000 }
-  validates :price, presence: true, numericality: { greater_than_or_equal_to: 1 }
-
-  before_save :initialize_price
-
-  def initialize_price
-    cart_dish_price = quantity * restaurant_dish.price
-    # update trigger
-    # update -> save -> update -> save -> update ∞
-    self.price = cart_dish_price
+FactoryBot.define do
+  factory :cart_item do
+    price { 100 }
+    quantity { 5 }
+    cart { FactoryBot.create(:cart) }
+    restaurant_dish { FactoryBot.create(:restaurant_dish) }
   end
 end

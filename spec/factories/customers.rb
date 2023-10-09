@@ -13,13 +13,14 @@
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #
+require 'faker'
 
-# This model initially had no columns defined. If you add columns to the
-# model remove the "{}" from the fixture names and add the columns immediately
-# below each fixture, per the syntax in the comments below
-#
-one: {}
-# column: value
-#
-two: {}
-# column: value
+FactoryBot.define do
+  factory :customer, class: Customer do
+    name { Faker.name }
+    username { Faker::Internet.username(separators: ['_']) }
+    email { Faker::Internet.email(name: name) }
+    password { Faker::Internet.password(min_length: 6, mix_case: true, special_characters: true) }
+    password_confirmation { password }
+  end
+end

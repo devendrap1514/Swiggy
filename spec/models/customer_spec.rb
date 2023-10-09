@@ -15,30 +15,16 @@
 #
 require 'rails_helper'
 
-require_relative 'shared/user_spec'
+require_relative 'shared/user_shared_example'
 
 RSpec.describe Customer, type: :model do
-  # subject {
-  #   described_class.new(
-  #     name: "Devendra Patidar",
-  #     username: "devendra",
-  #     email: "devendrap@shriffle.com",
-  #     password: "Dev123",
-  #     password_confirmation: "Dev123",
-  #     type: "Customer")
-  # }
+  let(:customer) { create :customer }
 
-  let(:customer) {
-    described_class.new(
-      name: "Devendra Patidar",
-      username: "devendra",
-      email: "devendrap@shriffle.com",
-      password: "Dev123",
-      password_confirmation: "Dev123")
-  }
-
-  include_examples "user_spec" do
-    let(:user) {customer}
+  include_examples 'user_shared_example' do
+    let(:user) { customer }
   end
 
+  describe 'Outputs' do
+    it { puts("Customer: #{customer.as_json}") }
+  end
 end

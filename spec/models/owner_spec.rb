@@ -15,19 +15,16 @@
 #
 require 'rails_helper'
 
-require_relative 'shared/user_spec'
+require_relative 'shared/user_shared_example'
 
 RSpec.describe Owner, type: :model do
-  let(:owner) {
-    described_class.new(
-      name: "Devendra Patidar",
-      username: "devendra",
-      email: "devendrap@shriffle.com",
-      password: "Dev123",
-      password_confirmation: "Dev123")
-  }
+  let(:owner) { create(:owner) }
 
-  include_examples "user_spec" do
-    let(:user) {owner}
+  include_examples 'user_shared_example' do
+    let(:user) { owner }
+  end
+
+  describe 'Outputs' do
+    it { puts("Owner: #{owner.as_json}") }
   end
 end

@@ -26,6 +26,7 @@ class Restaurant < ApplicationRecord
 
   validates :restaurant_name, :address, presence: true
   validates :restaurant_name, uniqueness: { scope: :address }
+  validates :status, presence: true
 
   enum :status, {
     open: 'open',

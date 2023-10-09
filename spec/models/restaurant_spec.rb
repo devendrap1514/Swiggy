@@ -21,5 +21,34 @@
 require 'rails_helper'
 
 RSpec.describe Restaurant, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  let(:restaurant) { create(:restaurant) }
+
+  describe 'Associations' do
+    it { should belong_to(:owner) }
+  end
+
+  describe 'Validations' do
+    it 'is valid with valid attributes' do
+      expect(restaurant).to be_valid
+    end
+
+    it 'is not valid without a address' do
+      restaurant.address = nil
+      expect(restaurant).to_not be_valid
+    end
+
+    it 'is not valid without a restaurant_name' do
+      restaurant.restaurant_name = nil
+      expect(restaurant).to_not be_valid
+    end
+
+    it 'is not valid without a status' do
+      restaurant.status = nil
+      expect(restaurant).to_not be_valid
+    end
+  end
+
+  describe 'Outputs' do
+    it { puts("Restaurant: #{restaurant.as_json}") }
+  end
 end
