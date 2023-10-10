@@ -6,7 +6,7 @@ module AuthenticationManager
     if @user&.authenticate(params[:password])
       token = JsonWebToken.encode(user_id: @user.id)
       session[:token] = token
-      render json: "Successfully Login"
+      render json: { message: "Successfully Login", token: token }
     else
       render status: :unauthorized, json: { error: 'unauthorized' }
     end

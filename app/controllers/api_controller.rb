@@ -1,9 +1,9 @@
 class ApiController < ActionController::API
   rescue_from CanCan::AccessDenied do |exception|
-    render json: exception.message
+    render status: :unauthorized, json: exception.message
   end
 
-  before_action :authorize_request, if: :is_login?
+  before_action :authorize_request
   authorize_resource
 
   def not_found
@@ -11,11 +11,13 @@ class ApiController < ActionController::API
   end
 
   def authorize_request
+    header = request.headers["Authorization"]
+    token = header.split(' ')[1] if header
     unless session[:token]
-      return render json: "First Login"
-    end
+      return render status: :unauthorized, json: "First Login"
+    end unless token
     begin
-      @decoded = JsonWebToken.decode(session[:token])
+      @decoded = JsonWebToken.decode(token || session[:token])
       @current_user = User.find(@decoded[:user_id])
     rescue ActiveRecord::RecordNotFound => e
       render status: :unauthorized, json: { errors: e.message }

@@ -13,13 +13,12 @@
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #
-require 'faker'
-
 FactoryBot.define do
-  factory :owner, class: Owner do
+  factory :user do
     name { Faker.name }
     username { Faker::Internet.username(separators: ['_']) }
     email { Faker::Internet.email(name: name) }
+    type { "Customer" }
     password { Faker::Internet.password(min_length: 8, mix_case: true, special_characters: true) }
     password_confirmation { password }
   end
