@@ -1,47 +1,32 @@
 require 'rails_helper'
-require 'faker'
-require 'json'
-require './spec/support/controller_helpers'
+require_relative 'shared/user_shared_request'
+
+require './spec/support/token_helper'
 
 RSpec.configure do |c|
-  c.include ControllerHelpers
+  c.include TokenHelper
 end
 
 RSpec.describe "Owners", type: :request do
 
-  let(:owner) { create(:owner) }
+  let(:owner) { create(:user, type: Owner) }
+  let(:token) { owner_token }
+  let(:path) { "owner" }
 
-  describe "POST create" do
-    let(:owner) {
-      name = Faker.name
-      username = Faker::Internet.username(separators: ['_'])
-      email = Faker::Internet.email(name: Faker.name)
-      password = Faker::Internet.password(min_length: 8, mix_case: true, special_characters: true)
-      password_confirmation = password
-      {
-        name: name,
-        username: username,
-        email: email,
-        password: password,
-        password_confirmation: password
-      }
-    }
-    it 'return a successful response' do
-      post '/owner', params: owner.as_json
-      expect(response).to have_http_status(:created)
-      data = JSON.parse(response.body)
-      expect(data['username']).to eq owner[:username]
+  include_examples "user_shared_request" do
+    let(:user) { owner }
+  end
+
+  describe "GET /my_restaurant" do
+    it "return owner restaurant" do
+      get "/owner/my_restaurant", headers: { Authorization: "bearer #{owner_token}" }
+      expect(response).to have_http_status(:ok)
     end
   end
 
-  describe "GET /owner" do
-    before do
-      user_login(owner)
-    end
-
-    it "return user data" do
-      get '/owner'
-      # data = JSON.parse(response.body)
+  describe "GET /my_dishes" do
+    it "return owner dishes" do
+      get "/owner/my_dishes", headers: { Authorization: "bearer #{owner_token}" }
       expect(response).to have_http_status(:ok)
     end
   end

@@ -22,6 +22,5 @@ RSpec.describe Category, type: :model do
   end
 
   describe 'Outputs' do
-    it { puts("Category: #{category.as_json}") }
   end
 end

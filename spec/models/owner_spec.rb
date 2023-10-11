@@ -18,13 +18,12 @@ require 'rails_helper'
 require_relative 'shared/user_shared_example'
 
 RSpec.describe Owner, type: :model do
-  let(:owner) { create(:owner) }
+  let(:owner) { create(:user, type: "Owner") }
 
   include_examples 'user_shared_example' do
     let(:user) { owner }
   end
 
   describe 'Outputs' do
-    it { puts("Owner: #{owner.as_json}") }
   end
 end

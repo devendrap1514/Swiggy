@@ -31,6 +31,8 @@ RSpec.describe Cart, type: :model do
   end
 
   describe 'Outputs' do
-    it { puts("Cart: #{cart.as_json}") }
+    it "price return positive integer" do
+      expect(cart.cart_price).to be >= 0
+    end
   end
 end

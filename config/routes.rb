@@ -9,6 +9,10 @@ Rails.application.routes.draw do
   post '/forgot_password', to: 'users#forgot_password'
   post '/reset_password', to: 'users#reset_password'
 
+  # resources :user, only: %i[show update destroy] do
+
+  # end
+
   resource :owner, only: %i[create show update destroy] do
     get '/my_restaurant', action: :my_restaurant, on: :member
     get '/my_dishes', action: :my_dishes, on: :member

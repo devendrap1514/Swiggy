@@ -21,5 +21,7 @@ FactoryBot.define do
     type { "Customer" }
     password { Faker::Internet.password(min_length: 8, mix_case: true, special_characters: true) }
     password_confirmation { password }
+    reset_password_token { SecureRandom.hex(10) }
+    reset_password_sent_at { Time.now.utc }
   end
 end

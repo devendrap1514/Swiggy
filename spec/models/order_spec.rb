@@ -31,6 +31,8 @@ RSpec.describe Order, type: :model do
   end
 
   describe 'Outputs' do
-    it { puts("Order: #{order.as_json}") }
+    it "price return positive integer" do
+      expect(order.order_price).to be >= 0
+    end
   end
 end

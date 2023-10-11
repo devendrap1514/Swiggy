@@ -8,12 +8,12 @@ module AuthenticationManager
       session[:token] = token
       render json: { message: "Successfully Login", token: token }
     else
-      render status: :unauthorized, json: { error: 'unauthorized' }
+      render status: :unauthorized, json: { error: "username & possword doesn't match" }
     end
   end
 
   def logout
     session.delete(:token)
-    render json: "Successfully Logout"
+    render status: :ok, json: "Successfully Logout"
   end
 end

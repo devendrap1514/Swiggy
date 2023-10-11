@@ -49,6 +49,5 @@ RSpec.describe Restaurant, type: :model do
   end
 
   describe 'Outputs' do
-    it { puts("Restaurant: #{restaurant.as_json}") }
   end
 end

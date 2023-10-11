@@ -18,13 +18,12 @@ require 'rails_helper'
 require_relative 'shared/user_shared_example'
 
 RSpec.describe Customer, type: :model do
-  let(:customer) { create :customer }
+  let(:customer) { create(:user, type: "Owner") }
 
   include_examples 'user_shared_example' do
     let(:user) { customer }
   end
 
   describe 'Outputs' do
-    it { puts("Customer: #{customer.as_json}") }
   end
 end

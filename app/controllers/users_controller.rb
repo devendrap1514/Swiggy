@@ -3,7 +3,7 @@ class UsersController < ApiController
   include AuthenticationManager
 
   #---------don't use before_action bcz it will not execute authorize_request before authorise_resource
-  skip_before_action :authorize_request, only: %i[create login forgot_password reset_password]
+  skip_before_action :authorize_request, only: %i[create login logout forgot_password reset_password]
 
   def create(user)
     UserMailer.with(user: user).welcome_email.deliver_now
@@ -26,8 +26,7 @@ class UsersController < ApiController
     @current_user.destroy
     render json: 'Deleted Successfully'
   rescue Exception => e
-    render status: :internal_server_error,
-           json: e.message
+    render status: :internal_server_error, json: e.message
   end
 
   private

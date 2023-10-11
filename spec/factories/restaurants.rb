@@ -18,13 +18,11 @@
 #
 #  user_id  (user_id => users.id)
 #
-require 'faker'
-
 FactoryBot.define do
   factory :restaurant, class: Restaurant do
     address { Faker::Address.street_name }
     restaurant_name { Faker::Restaurant.name }
     status { 'open' }
-    user_id { FactoryBot.create(:owner).id }
+    user_id { FactoryBot.create(:user, type: "Owner").id }
   end
 end

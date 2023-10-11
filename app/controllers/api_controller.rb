@@ -6,21 +6,19 @@ class ApiController < ActionController::API
   before_action :authorize_request
   authorize_resource
 
-  def not_found
-    render json: { errors: 'No such routes' }
-  end
-
   def authorize_request
     header = request.headers["Authorization"]
     token = header.split(' ')[1] if header
+
     unless session[:token]
       return render status: :unauthorized, json: "First Login"
     end unless token
+
     begin
       @decoded = JsonWebToken.decode(token || session[:token])
       @current_user = User.find(@decoded[:user_id])
     rescue ActiveRecord::RecordNotFound => e
-      render status: :unauthorized, json: { errors: e.message }
+      render status: :not_found, json: { errors: e.message }
     rescue JWT::DecodeError => e
       render status: :unauthorized, json: { errors: e.message }
     end
