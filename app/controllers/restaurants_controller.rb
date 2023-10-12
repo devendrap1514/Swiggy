@@ -29,20 +29,20 @@ class RestaurantsController < ApiController
   end
 
   def show
-    render json: @restaurant
+    render status: :ok, json: @restaurant
   end
 
   def update
     if @current_user_restaurant.update(restaurant_params)
       render json: @current_user_restaurant
     else
-      render json: { errors: @restaurant.errors.full_messages }, status: :unprocessable_entity
+      render json: { errors: @current_user_restaurant.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
   def destroy
     @current_user_restaurant.destroy
-    render json: 'Deleted Successfully'
+    render status: :ok, json: 'Deleted Successfully'
   rescue Exception => e
     render status: :internal_server_error, json: e.message
   end

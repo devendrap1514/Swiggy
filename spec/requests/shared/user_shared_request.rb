@@ -1,29 +1,19 @@
 shared_examples "user_shared_request" do
   describe "POST create" do
-    let(:user) {
-      name = Faker.name
-      username = Faker::Internet.username(separators: ["_"])
-      email = Faker::Internet.email(name: name)
-      password = Faker::Internet.password(min_length: 8, mix_case: true, special_characters: true)
-      password_confirmation = password
-      {
-        name: name,
-        username: username,
-        email: email,
-        password: password,
-        password_confirmation: password
-      }
-    }
+    let(:new_user) { FactoryBot.build_stubbed(:user) }
+    let(:new_user_json) { new_user.as_json(only: [:name, :username, :email]).merge({password: new_user.password, password_confirmation: new_user.password}) }
+
     it "return a successful response" do
-      post "/#{path}", params: user.as_json
+      new_user_json[:profile_picture] = fixture_file_upload(Rails.root.join('app/assets/test_image.png'), 'image/png')
+      post "/#{path}", params: new_user_json
       expect(response).to have_http_status(:created)
       data = JSON.parse(response.body)
-      expect(data["username"]).to eq user[:username]
+      expect(data["username"]).to eq new_user[:username]
     end
 
     it "return unprocessable_entity for user" do
-      user[:username] = "--d--"
-      post "/#{path}", params: user.as_json
+      new_user_json[:username] = "--d--"
+      post "/#{path}", params: new_user_json
       expect(response).to have_http_status(:unprocessable_entity)
     end
   end
@@ -33,9 +23,12 @@ shared_examples "user_shared_request" do
       get "/#{path}", headers: { Authorization: "bearer #{token}" }
       expect(response).to have_http_status(:ok)
     end
-    it "return record not_found" do
-      byebug
-      user.destroy
+    it "return unauthorized" do
+      get "/#{path}", headers: { Authorization: "bearer #{0000}" }
+      expect(response).to have_http_status(:unauthorized)
+    end
+    it "return record not found" do
+      token = JsonWebToken.encode(user_id: 0)
       get "/#{path}", headers: { Authorization: "bearer #{token}" }
       expect(response).to have_http_status(:not_found)
     end
@@ -43,7 +36,7 @@ shared_examples "user_shared_request" do
 
   describe "PUT /user" do
     it "return successful message" do
-      put "/#{path}", headers: { Authorization: "bearer #{token}" }
+      put "/#{path}", params: user.as_json, headers: { Authorization: "bearer #{token}" }
       expect(response).to have_http_status(:ok)
     end
     it "return unprocessable_entity user" do

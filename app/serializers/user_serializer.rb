@@ -18,7 +18,6 @@ class UserSerializer < ActiveModel::Serializer
   def profile_picture
     return unless object.profile_picture.attached?
 
-    Rails.application.routes.url_helpers.rails_blob_url(object.profile_picture,
-                                                        only_path: true)
+    Rails.application.routes.url_helpers.rails_blob_url(object.profile_picture, only_path: true)
   end
 end
