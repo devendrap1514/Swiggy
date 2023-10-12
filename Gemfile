@@ -98,3 +98,4 @@ gem "activeadmin"
 gem "devise"
 gem "sass-rails"
 gem 'simplecov', require: false, group: :test
+gem 'arctic_admin'
