@@ -2,7 +2,10 @@ class OwnersController < UsersController
   def create
     owner = Owner.new(user_params)
     if owner.save
-      render json: {message: "success", data: owner}, status: :created
+      output = {}
+      output[:data] = UserSerializer.new owner
+      output[:message] = "success"
+      render status: :created, json: output
     else
       return render status: :unprocessable_entity,
              json: { message: owner.errors.full_messages }

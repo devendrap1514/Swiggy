@@ -10,12 +10,15 @@ class UsersController < ApiController
   end
 
   def show
-    render json: { message: "Success", data: @current_user }
+    output = {}
+    output[:data] = @current_user
+    output[:message] = "success"
+    render json: output
   end
 
   def update
     if @current_user.update(user_params)
-      render json: { message: "Update Successfully", data: @current_user }
+      render json: { message: "Update Successfully", data: UserSerializer.new(@current_user) }
     else
       render status: :unprocessable_entity,
              json: { message: @current_user.errors.full_messages }

@@ -11,6 +11,7 @@ shared_examples "user_shared_request" do
       expect(response).to have_http_status(:created)
       data = JSON.parse(response.body)
       expect(data["data"]['username']).to eq new_user[:username]
+      expect(data["data"]['profile_picture']).to_not eq nil
     end
 
     it "return unprocessable_entity for user" do

@@ -2,9 +2,11 @@ Rails.application.routes.draw do
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
 
+
+  resources :user_authentications, only: [:new, :create]
+
   # why not i use custom contoller of user_sessions
   # bcz the model not present that why it produce error
-  get '/login', to: 'users#new_login'
   post '/login', to: 'users#login'
   delete '/logout', to: 'users#logout'
   post '/forgot_password', to: 'users#forgot_password'

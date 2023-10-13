@@ -6,14 +6,23 @@ module AuthenticationManager
     if @user&.authenticate(params[:password])
       token = JsonWebToken.encode(user_id: @user.id)
       session[:token] = token
-      render json: { message: "Successfully Login", token: token }
+
+      output = {}
+      output[:message] = "Successfully Login"
+      output[:token] = token
+      render status: :ok, json: output
     else
-      render status: :unauthorized, json: { error: "username & possword doesn't match" }
+      output = {}
+      output[:message] = "username & possword doesn't match"
+      render status: :unauthorized, json: output
     end
   end
 
   def logout
     session.delete(:token)
-    render status: :ok, json: { message: "Successfully Logout" }
+
+    output = {}
+    output[:message] = "Successfully Logout"
+    render status: :ok, json: output
   end
 end

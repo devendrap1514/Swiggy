@@ -9,12 +9,11 @@ class CartsController < ApiController
     @cart.destroy
     render json: {message: 'Deleted Successfully'}
   rescue Exception => e
-    render status: :internal_server_error,
-           json: e.message
+    render status: :internal_server_error, json: e.message
   end
 
   def find_cart
     @cart = @current_user.cart
-    render json: {message: 'Cart is empty' unless @cart.present?}
+    render status: :no_content, json: {message: 'Cart is empty'} unless @cart.present?
   end
 end

@@ -4,6 +4,7 @@ class Ability
   def initialize(user)
     user ||= User.new  # Guest user
 
+    # can [:new, :create], UserAuthentication
     can [:create, :login, :logout, :forgot_password, :reset_password], User
     # can [:create, :login, :logout, :forgot_password, :reset_password], :auth
 
