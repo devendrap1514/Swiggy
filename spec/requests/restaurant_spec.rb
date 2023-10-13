@@ -50,7 +50,7 @@ RSpec.describe "Restaurants", type: :request do
 
     it "return unauthorized for customer" do
       post '/restaurants', params: restaurant.as_json, headers: { Authorization: "bearer #{customer_token}" }
-      expect(response).to have_http_status(:unauthorized)
+      expect(response).to have_http_status(:forbidden)
     end
   end
 

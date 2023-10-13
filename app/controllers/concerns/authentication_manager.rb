@@ -14,6 +14,6 @@ module AuthenticationManager
 
   def logout
     session.delete(:token)
-    render status: :ok, json: "Successfully Logout"
+    render status: :ok, json: { message: "Successfully Logout" }
   end
 end

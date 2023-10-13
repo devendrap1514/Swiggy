@@ -10,23 +10,23 @@ class UsersController < ApiController
   end
 
   def show
-    render json: @current_user
+    render json: { message: "Success", data: @current_user }
   end
 
   def update
     if @current_user.update(user_params)
-      render json: @current_user
+      render json: { message: "Update Successfully", data: @current_user }
     else
       render status: :unprocessable_entity,
-             json: { errors: @current_user.errors.full_messages }
+             json: { message: @current_user.errors.full_messages }
     end
   end
 
   def destroy
     @current_user.destroy
-    render json: 'Deleted Successfully'
+    render status: :ok, json: { message:'Deleted Successfully' }
   rescue Exception => e
-    render status: :internal_server_error, json: e.message
+    render status: :internal_server_error, json: { messages: e.message }
   end
 
   private

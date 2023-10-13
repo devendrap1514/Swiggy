@@ -1,6 +1,6 @@
 class ApiController < ActionController::API
   rescue_from CanCan::AccessDenied do |exception|
-    render status: :unauthorized, json: exception.message
+    render status: :forbidden, json: exception.message
   end
 
   before_action :authorize_request

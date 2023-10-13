@@ -10,7 +10,7 @@ module PasswordManager
       UserMailer.with(user:user).forgot_password_token.deliver_now
       render json: 'Email Send Successfully'
     else
-      render json: { error: ['Username not found. Please check and try again.'] }, status: :not_found
+      render json: { message: ['Username not found. Please check and try again.'] }, status: :not_found
     end
   end
 
@@ -27,7 +27,7 @@ module PasswordManager
         render status: :unprocessable_entity, json: { errors: user.errors.full_messages }
       end
     else
-      render status: :gone, json: { error: ['Link not valid or expired. Try generating a new link.'] }
+      render status: :gone, json: { message: ['Link not valid or expired. Try generating a new link.'] }
     end
   end
 end

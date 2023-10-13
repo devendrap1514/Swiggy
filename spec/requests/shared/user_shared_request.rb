@@ -1,19 +1,21 @@
 shared_examples "user_shared_request" do
   describe "POST create" do
     let(:new_user) { FactoryBot.build_stubbed(:user) }
-    let(:new_user_json) { new_user.as_json(only: [:name, :username, :email]).merge({password: new_user.password, password_confirmation: new_user.password}) }
 
     it "return a successful response" do
+      new_user_json = new_user.as_json(only: [:name, :username, :email, :profile_picture]).merge({password: new_user.password, password_confirmation: new_user.password})
+
       new_user_json[:profile_picture] = fixture_file_upload(Rails.root.join('app/assets/test_image.png'), 'image/png')
+
       post "/#{path}", params: new_user_json
       expect(response).to have_http_status(:created)
       data = JSON.parse(response.body)
-      expect(data["username"]).to eq new_user[:username]
+      expect(data["data"]['username']).to eq new_user[:username]
     end
 
     it "return unprocessable_entity for user" do
-      new_user_json[:username] = "--d--"
-      post "/#{path}", params: new_user_json
+      new_user.username = "--d--"
+      post "/#{path}", params: new_user.as_json(only: [:name, :username, :email])
       expect(response).to have_http_status(:unprocessable_entity)
     end
   end

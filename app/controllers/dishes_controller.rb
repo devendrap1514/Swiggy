@@ -10,31 +10,29 @@ class DishesController < ApiController
   def create
     dish = Dish.new(dish_params)
     if dish.save
-      render json: dish
+      render status: :created, json: { message: "success", data: dish}
     else
-      render json: { errors: dish.errors.full_messages }, status: :unprocessable_entity
+      render json: { message: dish.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
   def update
     if @dish.update(dish_params)
-      render json: @dish
+      render json: { message: "success", data: @dish }
     else
-      render json: { errors: @dish.errors.full_messages }, status: :unprocessable_entity
+      render json: { message: @dish.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
   def show
-    render status: :ok,
-           json: @dish
+    render status: :ok, json: {message: "success", data: @dish}
   end
 
   def find_dish
     @dish = Dish.find_by_id(params[:id])
     return if @dish
 
-    render status: :not_found,
-           json: 'no such dish'
+    render status: :not_found, json: {message: 'no such dish'}
   end
 
   private

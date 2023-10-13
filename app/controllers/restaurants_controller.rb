@@ -13,7 +13,7 @@ class RestaurantsController < ApiController
     restaurants = restaurants.filter_by_restaurant_name(restaurant_name).page(params[:page])
     render json: restaurants
   rescue Exception => e
-    render status: :internal_server_error, json: { message: 'Status value in (open, close)', error: e.message }
+    render status: :internal_server_error, json: { message: [ e.message, 'Status value in (open, close)'] }
   end
 
   def create
@@ -22,10 +22,10 @@ class RestaurantsController < ApiController
       render json: @restaurant
     else
       render status: :unprocessable_entity,
-             json: { errors: @restaurant.errors.full_messages }
+             json: { message: @restaurant.errors.full_messages }
     end
   rescue Exception => e
-    render status: :internal_server_error, json: { message: 'Status value in (open, close)', error: e.message }
+    render status: :internal_server_error, json: { message: 'Status value in (open, close)', message: e.message }
   end
 
   def show
@@ -36,7 +36,7 @@ class RestaurantsController < ApiController
     if @current_user_restaurant.update(restaurant_params)
       render json: @current_user_restaurant
     else
-      render json: { errors: @current_user_restaurant.errors.full_messages }, status: :unprocessable_entity
+      render json: { message: @current_user_restaurant.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
@@ -44,7 +44,7 @@ class RestaurantsController < ApiController
     @current_user_restaurant.destroy
     render status: :ok, json: 'Deleted Successfully'
   rescue Exception => e
-    render status: :internal_server_error, json: e.message
+    render status: :internal_server_error, json: { message: e.message }
   end
 
   def find_current_user_restaurant

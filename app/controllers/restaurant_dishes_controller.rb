@@ -20,7 +20,7 @@ class RestaurantDishesController < ApiController
       render json: @restaurant_dish
     else
       render status: :unprocessable_entity,
-             json: { errors: @restaurant_dish.errors.full_messages }
+             json: { message: @restaurant_dish.errors.full_messages }
     end
   end
 
@@ -33,7 +33,7 @@ class RestaurantDishesController < ApiController
       render json: @restaurant_dish
     else
       render status: :unprocessable_entity,
-             json: { errors: @restaurant_dish.errors.full_messages }
+             json: { message: @restaurant_dish.errors.full_messages }
     end
   end
 
@@ -42,7 +42,7 @@ class RestaurantDishesController < ApiController
     render json: 'Deleted Successfully'
   rescue Exception => e
     render status: :internal_server_error,
-           json: e.message
+           json: { message: e.message }
   end
 
   def find_restaurant_dish
