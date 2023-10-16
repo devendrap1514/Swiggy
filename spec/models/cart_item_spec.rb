@@ -45,10 +45,11 @@ RSpec.describe CartItem, type: :model do
       expect(cart_item.quantity).to_not be > -1
     end
 
-    it 'is not valid without a price' do
-      cart_item.price = nil
-      expect(cart_item).to_not be_valid
-    end
+    # # price automatically set when validation run
+    # it 'is not valid without a price' do
+    #   cart_item.price = nil
+    #   expect(cart_item).to_not be_valid
+    # end
 
     it 'is not valid with negative price' do
       cart_item.price = -1

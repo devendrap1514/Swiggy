@@ -10,7 +10,10 @@ class DishesController < ApiController
   def create
     dish = Dish.new(dish_params)
     if dish.save
-      render status: :created, json: { message: "success", data: dish}
+      output = {}
+      output[:message] = "success"
+      output[:data] = DishSerializer.new dish
+      render status: :created, json: output
     else
       render json: { message: dish.errors.full_messages }, status: :unprocessable_entity
     end

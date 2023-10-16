@@ -1,7 +1,5 @@
 require 'rails_helper'
 
-require './spec/support/token_helper'
-
 RSpec.configure do |c|
   c.include TokenHelper
 end
@@ -26,7 +24,9 @@ RSpec.describe "Dishes", type: :request do
       new_dish_json = new_dish.as_json
       new_dish_json[:dish_images] = [fixture_file_upload(Rails.root.join('app/assets/test_image.png'), 'image/png')]
       post '/dishes', params: new_dish_json, headers: { Authorization: "bearer #{token}" }
+      data = JSON.parse(response.body)
       expect(response).to have_http_status(:created)
+      expect(data["data"]['dish_images']).to_not eq nil
     end
 
     it "return unprocessable_entity" do

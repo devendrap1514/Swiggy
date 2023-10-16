@@ -9,8 +9,8 @@ module AuthenticationManager
 
       output = {}
       output[:message] = "Successfully Login"
-      output[:token] = token
       render status: :ok, json: output
+      response.headers['Token'] = token
     else
       output = {}
       output[:message] = "username & possword doesn't match"

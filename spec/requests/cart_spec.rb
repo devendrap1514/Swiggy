@@ -10,7 +10,7 @@ RSpec.describe "Carts", type: :request do
   describe "GET /cart" do
     it "return empty cart" do
       get '/cart', headers: { Authorization: "bearer #{customer_token}" }
-      expect(response).to have_http_status(:no_content)
+      expect(response).to have_http_status(:not_found)
     end
     it "return cart" do
       cart_item # let is lazy initializer

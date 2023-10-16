@@ -31,8 +31,7 @@ class CartItemsController < ApiController
     else
       @cart.cart_items.delete(cart_item)
       destroy_cart_if_empty
-      render status: :unprocessable_entity,
-             json: { errors: cart_item.errors.full_messages }
+      render status: :unprocessable_entity, json: { message: cart_item.errors.full_messages }
     end
   end
 
@@ -73,7 +72,7 @@ class CartItemsController < ApiController
 
   def find_cart
     @cart = @current_user.cart
-    return render json: 'Cart is empty' unless @cart
+    return render status: :not_found, json: 'Cart is empty' unless @cart
   end
 
   def find_cart_or_create

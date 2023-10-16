@@ -2,7 +2,10 @@ class OrdersController < ApiController
   before_action :find_order, only: %i[show destroy]
 
   def index
-    render json: { message: "success", data: @current_user.orders }
+    output = {}
+    output[:message] = "success"
+    output[:data] = ActiveModelSerializers::SerializableResource.new(@current_user.orders, each_serializer: OrderSerializer)
+    render json: output
   end
 
   def create
@@ -11,19 +14,24 @@ class OrdersController < ApiController
       order = order_now(cart_items)
 
       begin
-        cart_items.destroy_all
-        # can't write 'Order placed successfully' bcz serializer won't run
-        render json: {message: "success", data: order}
+        @current_user.cart.destroy
+        output = {}
+        output[:message] = "success"
+        output[:message] = OrderSerializer.new order
+        render json: output
       rescue Exception => e
         render status: :internal_server_error, json: { message: e.message }
-      end
+      end if order
     else
-      render json: { message: 'Cart is empty'}
+      render status: :not_found, json: { message: "Cart is empty" }
     end
   end
 
   def show
-    render json: {message: "succuss", data: @order}
+    output = {}
+    output[:message] = "success"
+    output[:data] = @order
+    render json: output
   end
 
   def destroy

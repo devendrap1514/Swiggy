@@ -1,7 +1,5 @@
 require 'rails_helper'
 
-require './spec/support/token_helper'
-
 RSpec.configure do |c|
   c.include TokenHelper
 end

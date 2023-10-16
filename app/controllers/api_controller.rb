@@ -11,16 +11,16 @@ class ApiController < ActionController::API
     token = header.split(' ')[1] if header
 
     unless session[:token]
-      return render status: :unauthorized, json: "First Login"
+      return render status: :unauthorized, json: {message: "First Login"}
     end unless token
 
     begin
       decoded = JsonWebToken.decode(token || session[:token])
       @current_user = User.find(decoded[:user_id])
     rescue ActiveRecord::RecordNotFound => e
-      render status: :not_found, json: { errors: e.message }
+      render status: :not_found, json: { message: e.message }
     rescue JWT::DecodeError => e
-      render status: :unauthorized, json: { errors: e.message }
+      render status: :unauthorized, json: { message: e.message }
     end
   end
 

@@ -1,8 +1,6 @@
 require 'rails_helper'
 require_relative 'shared/user_shared_request'
 
-require './spec/support/token_helper'
-
 RSpec.configure do |c|
   c.include TokenHelper
 end

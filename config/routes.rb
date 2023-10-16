@@ -3,7 +3,14 @@ Rails.application.routes.draw do
   ActiveAdmin.routes(self)
 
 
-  resources :user_authentications, only: [:new, :create]
+  resources :user_authentications, path: "auth", only: [:new, :create, :destroy] do
+    collection do
+      get '/forgot_password', action: "forgot_password"
+      post '/send_token_to_mail', action: "send_token_to_mail"
+      get '/reset_password', action: :reset_password
+      post '/set_password', action: :set_password
+    end
+  end
 
   # why not i use custom contoller of user_sessions
   # bcz the model not present that why it produce error

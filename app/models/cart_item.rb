@@ -27,11 +27,13 @@ class CartItem < ApplicationRecord
   # validates_presence_of :quantity, :price
 
   validates :quantity, presence: true, numericality: { greater_than_or_equal_to: 1, less_than: 1000 }
-  validates :price, presence: true, numericality: { greater_than_or_equal_to: 1 }
+  validate :initialize_price
+  # validates :price, presence: true, numericality: { greater_than_or_equal_to: 1 }
 
-  before_save :initialize_price
+  # before_save :initialize_price
 
   def initialize_price
+    return unless errors.blank?
     cart_dish_price = quantity * restaurant_dish.price
     # update trigger
     # update -> save -> update -> save -> update ∞

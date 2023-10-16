@@ -7,8 +7,9 @@ class UserAuthentication
   include ActiveModel::Naming
 
   attr_accessor :username, :password
-  validates :username, format: { with: /\A[0-9A-Za-z_]+\z/ }
-  validates :password, format: { with: /\A(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{6,}\z/ }
+
+  validates :username, format: { with: /\A[0-9A-Za-z_]+\z/ }, if: :username_exist?
+  # validates :password, format: { with: /\A(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{6,}\z/ }
 
   def initialize(attributes = {})
     attributes.each do |key, value|
@@ -16,17 +17,21 @@ class UserAuthentication
     end
   end
 
-  def is_valid_password?
+  def username_exist?
     user = User.find_by_username(username)
-    if user
-      if user&.authenticate(password)
-        true
-      else
-        errors.add(:base, "username and password doesn't match")
-        false
-      end
+    unless user
+      errors.add(:username, "username doesn't exist")
+      false
+    end
+    true
+  end
+
+  def is_match?
+    user = User.find_by_username(username)
+    if user&.authenticate(password)
+      true
     else
-      errors.add(:base, "user doesn't exist")
+      errors.add(:base, "username and password doesn't match")
       false
     end
   end

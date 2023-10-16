@@ -8,8 +8,8 @@ shared_examples "user_shared_request" do
       new_user_json[:profile_picture] = fixture_file_upload(Rails.root.join('app/assets/test_image.png'), 'image/png')
 
       post "/#{path}", params: new_user_json
-      expect(response).to have_http_status(:created)
       data = JSON.parse(response.body)
+      expect(response).to have_http_status(:created)
       expect(data["data"]['username']).to eq new_user[:username]
       expect(data["data"]['profile_picture']).to_not eq nil
     end

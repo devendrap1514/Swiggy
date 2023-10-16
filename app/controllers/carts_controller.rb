@@ -2,7 +2,10 @@ class CartsController < ApiController
   before_action :find_cart
 
   def show
-    render json: {message: "success", data: @cart}
+    output = {}
+    output[:message] = "success"
+    output[:data] = CartSerializer.new @cart
+    render json: output
   end
 
   def destroy
@@ -14,6 +17,8 @@ class CartsController < ApiController
 
   def find_cart
     @cart = @current_user.cart
-    render status: :no_content, json: {message: 'Cart is empty'} unless @cart.present?
+    output = {}
+    output[:message] = "cart is empty"
+      render status: :not_found, json: output unless @cart.present?
   end
 end
