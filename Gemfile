@@ -58,6 +58,7 @@ group :development, :test do
   gem 'shoulda-matchers'
   gem 'factory_bot_rails'
   gem 'faker'
+  gem 'database_cleaner'
 end
 
 group :development do
