@@ -13,37 +13,37 @@ RSpec.describe "Orders", type: :request do
 
   describe "GET /orders" do
     it "return all order" do
-      get "/orders", headers: header
+      get "/api/v1/orders", headers: header
       expect(response).to have_http_status(:ok)
     end
   end
 
   describe "POST /orders" do
     it "return empty cart" do
-      post '/orders', headers: header
+      post '/api/v1/orders', headers: header
       expect(response).to have_http_status(:not_found)
     end
     it "return successful order" do
       cart_item
-      post '/orders', headers: header
+      post '/api/v1/orders', headers: header
       expect(response).to have_http_status(:ok)
     end
   end
 
   describe "GET /orders/id" do
     it "return order" do
-      get "/orders/#{order.id}", headers: header
+      get "/api/v1/orders/#{order.id}", headers: header
       expect(response).to have_http_status(:ok)
     end
     it "return not found" do
-      get "/orders/0", headers: header
+      get "/api/v1/orders/0", headers: header
       expect(response).to have_http_status(:not_found)
     end
   end
 
   describe "DELETE /orders/id" do
     it "return order deleted" do
-      delete "/orders/#{order.id}", headers: header
+      delete "/api/v1/orders/#{order.id}", headers: header
       expect(response).to have_http_status(:ok)
     end
   end

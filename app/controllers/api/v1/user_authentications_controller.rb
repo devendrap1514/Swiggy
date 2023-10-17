@@ -1,13 +1,6 @@
-class UserAuthenticationsController < ApiController
+class Api::V1::UserAuthenticationsController < Api::V1::ApiController
   #---------don't use before_action bcz it will not execute authorize_request before authorise_resource
   skip_before_action :authorize_request, only: %i[create destroy send_mail set_password]
-
-  # def new
-  #   if is_login?
-  #     redirect_to "http://www.google.com", allow_other_host: true
-  #   end
-  #   @user_authentication = UserAuthentication.new
-  # end
 
   def create
     @user_authentication = UserAuthentication.new(user_authentication_params)
@@ -17,8 +10,8 @@ class UserAuthenticationsController < ApiController
       session[:token] = token
       output = {}
       output[:message] = "Successfully Login"
-      render status: :ok, json: output
       response.headers['Token'] = token
+      render status: :ok, json: output
     else
       output = {}
       output[:message] = "username & possword doesn't match"
@@ -34,10 +27,6 @@ class UserAuthenticationsController < ApiController
     render status: :ok, json: output
   end
 
-  def forgot_password
-
-  end
-
   def send_mail
     return render status: :not_found, json: 'Username must be pass' unless params[:username]
 
@@ -49,10 +38,6 @@ class UserAuthenticationsController < ApiController
     else
       render json: { message: ['Username not found. Please check and try again.'] }, status: :not_found
     end
-  end
-
-  def reset_password
-
   end
 
   def set_password

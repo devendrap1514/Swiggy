@@ -1,4 +1,4 @@
-class DishesController < ApiController
+class Api::V1::DishesController < Api::V1::ApiController
   before_action :find_dish, only: [:show, :update]
 
   def index

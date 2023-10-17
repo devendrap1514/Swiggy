@@ -1,4 +1,4 @@
-class RestaurantsController < ApiController
+class Api::V1::RestaurantsController < Api::V1::ApiController
   before_action :find_current_user_restaurant, only: %i[update destroy]
   before_action :find_restaurant, only: %i[show restaurant_dishes]
 
@@ -25,7 +25,7 @@ class RestaurantsController < ApiController
              json: { message: @restaurant.errors.full_messages }
     end
   rescue Exception => e
-    render status: :internal_server_error, json: { message: 'Status value in (open, close)', message: e.message }
+    render status: :internal_server_error, json: { message: 'Status value in (open, close)', error: e.message }
   end
 
   def show

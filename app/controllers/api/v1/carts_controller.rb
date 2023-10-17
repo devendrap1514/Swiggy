@@ -1,4 +1,4 @@
-class CartsController < ApiController
+class Api::V1::CartsController < Api::V1::ApiController
   before_action :find_cart
 
   def show

@@ -1,4 +1,4 @@
-class OwnersController < UsersController
+class Api::V1::OwnersController < Api::V1::UsersController
   def create
     owner = Owner.new(user_params)
     if owner.save

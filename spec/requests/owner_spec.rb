@@ -14,14 +14,14 @@ RSpec.describe "Owners", type: :request do
 
   describe "GET /my_restaurant" do
     it "return owner restaurant" do
-      get "/owner/my_restaurant", headers: { Authorization: "bearer #{token}" }
+      get "/api/v1/owner/my_restaurant", headers: { Authorization: "bearer #{token}" }
       expect(response).to have_http_status(:ok)
     end
   end
 
   describe "GET /my_dishes" do
     it "return owner dishes" do
-      get "/owner/my_dishes", headers: { Authorization: "bearer #{token}" }
+      get "/api/v1/owner/my_dishes", headers: { Authorization: "bearer #{token}" }
       expect(response).to have_http_status(:ok)
     end
   end

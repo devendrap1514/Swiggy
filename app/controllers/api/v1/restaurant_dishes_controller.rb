@@ -1,4 +1,4 @@
-class RestaurantDishesController < ApiController
+class Api::V1::RestaurantDishesController < Api::V1::ApiController
   before_action :find_restaurant_dish, only: %i[show update destroy]
 
   def index

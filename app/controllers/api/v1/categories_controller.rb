@@ -1,4 +1,4 @@
-class CategoriesController < ApiController
+class Api::V1::CategoriesController < Api::V1::ApiController
   before_action :set_category
 
   def index

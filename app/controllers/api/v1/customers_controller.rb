@@ -1,4 +1,4 @@
-class CustomersController < UsersController
+class Api::V1::CustomersController < Api::V1::UsersController
   def create
     customer = Customer.new(user_params)
     if customer.save

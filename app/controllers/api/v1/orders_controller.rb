@@ -1,4 +1,4 @@
-class OrdersController < ApiController
+class Api::V1::OrdersController < Api::V1::ApiController
   before_action :find_order, only: %i[show destroy]
 
   def index

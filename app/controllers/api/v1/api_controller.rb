@@ -1,4 +1,4 @@
-class ApiController < ActionController::API
+class Api::V1::ApiController < ActionController::API
   rescue_from CanCan::AccessDenied do |exception|
     render status: :forbidden, json: exception.message
   end
@@ -22,6 +22,11 @@ class ApiController < ActionController::API
     rescue JWT::DecodeError => e
       render status: :unauthorized, json: { message: e.message }
     end
+  end
+
+  def is_login?
+    return true if session[:token]
+    false
   end
 
   # CanCan expects a current_user method to exist in the controller.

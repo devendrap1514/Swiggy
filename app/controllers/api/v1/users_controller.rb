@@ -1,4 +1,4 @@
-class UsersController < ApiController
+class Api::V1::UsersController < Api::V1::ApiController
   #---------don't use before_action bcz it will not execute authorize_request before authorise_resource
   skip_before_action :authorize_request, only: %i[create]
 
@@ -8,8 +8,8 @@ class UsersController < ApiController
 
   def show
     output = {}
-    output[:data] = @current_user
     output[:message] = "success"
+    output[:data] = UserSerializer.new @current_user
     render json: output
   end
 

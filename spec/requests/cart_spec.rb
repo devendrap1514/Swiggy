@@ -11,12 +11,12 @@ RSpec.describe "Carts", type: :request do
 
   describe "GET /cart" do
     it "return empty cart" do
-      get '/cart', headers: { Authorization: "bearer #{customer_token}" }
+      get '/api/v1/cart', headers: { Authorization: "bearer #{customer_token}" }
       expect(response).to have_http_status(:not_found)
     end
     it "return cart" do
       cart_item # let is lazy initializer
-      get '/cart', headers: { Authorization: "bearer #{customer_token}" }
+      get '/api/v1/cart', headers: { Authorization: "bearer #{customer_token}" }
       expect(response).to have_http_status(:ok)
     end
   end
@@ -24,7 +24,7 @@ RSpec.describe "Carts", type: :request do
   describe "DELETE /cart" do
     it "return successful deleted" do
       cart # cart not created untill we access it
-      delete '/cart', headers: { Authorization: "bearer #{customer_token}" }
+      delete '/api/v1/cart', headers: { Authorization: "bearer #{customer_token}" }
       expect(response).to have_http_status(:ok)
     end
   end
