@@ -1,8 +1,6 @@
 require 'rails_helper'
 
-RSpec.configure do |c|
-  c.include TokenHelper
-end
+include TokenHelper
 
 RSpec.describe "Restaurants", type: :request do
 

@@ -1,9 +1,7 @@
 require 'rails_helper'
 require_relative 'shared/user_shared_request'
 
-RSpec.configure do |c|
-  c.include TokenHelper
-end
+include TokenHelper
 
 RSpec.describe "Owners", type: :request do
   let(:owner) { create(:user, type: Owner) }

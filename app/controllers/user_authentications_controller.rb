@@ -1,28 +1,44 @@
-class UserAuthenticationsController < ApplicationController
-  def new
-    @user_authentication = UserAuthentication.new
-  end
+class UserAuthenticationsController < ApiController
+  #---------don't use before_action bcz it will not execute authorize_request before authorise_resource
+  skip_before_action :authorize_request, only: %i[create destroy send_mail set_password]
+
+  # def new
+  #   if is_login?
+  #     redirect_to "http://www.google.com", allow_other_host: true
+  #   end
+  #   @user_authentication = UserAuthentication.new
+  # end
 
   def create
     @user_authentication = UserAuthentication.new(user_authentication_params)
     if @user_authentication.is_match?
-      # token = JsonWebToken.encode(user_id: @user.id)
-      # session[:token] = token
-      redirect_to "http://www.google.com", allow_other_host: true
+      user = @user_authentication.get_user
+      token = JsonWebToken.encode(user_id: user.id)
+      session[:token] = token
+      output = {}
+      output[:message] = "Successfully Login"
+      render status: :ok, json: output
+      response.headers['Token'] = token
     else
-      render :new
+      output = {}
+      output[:message] = "username & possword doesn't match"
+      render status: :unauthorized, json: output
     end
   end
 
   def destroy
     session.delete(:token)
+
+    output = {}
+    output[:message] = "Successfully Logout"
+    render status: :ok, json: output
   end
 
   def forgot_password
 
   end
 
-  def send_token_to_mail
+  def send_mail
     return render status: :not_found, json: 'Username must be pass' unless params[:username]
 
     user = User.find_by_username(params[:username])
@@ -58,6 +74,6 @@ class UserAuthenticationsController < ApplicationController
 
   private
   def user_authentication_params
-    params.require(:user_authentication).permit(:username, :password)
+    params.permit(:username, :password)
   end
 end

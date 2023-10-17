@@ -1,8 +1,6 @@
 require 'rails_helper'
 
-RSpec.configure do |c|
-  c.include TokenHelper
-end
+include TokenHelper
 
 RSpec.describe "OrderItems", type: :request do
   let(:customer) { FactoryBot.create(:user, type: Customer) }

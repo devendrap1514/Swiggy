@@ -1,8 +1,6 @@
 require 'rails_helper'
 
-RSpec.configure do |c|
-  c.include TokenHelper
-end
+include TokenHelper
 
 RSpec.describe "Dishes", type: :request do
   let(:new_dish) { build_stubbed(:dish) }

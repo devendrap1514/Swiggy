@@ -4,9 +4,8 @@ class Ability
   def initialize(user)
     user ||= User.new  # Guest user
 
-    # can [:new, :create], UserAuthentication
-    can [:create, :login, :logout, :forgot_password, :reset_password], User
-    # can [:create, :login, :logout, :forgot_password, :reset_password], :auth
+    can [:create, :destroy, :send_mail, :set_password], UserAuthentication
+    can [:create], User
 
     if user.type == 'Owner'
       can :manage, Restaurant

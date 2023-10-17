@@ -1,5 +1,7 @@
 require 'rails_helper'
 
+include TokenHelper
+
 RSpec.describe "Carts", type: :request do
   let(:customer) { FactoryBot.create(:user, type: Customer) }
   let(:customer_token) { user_token(customer) }

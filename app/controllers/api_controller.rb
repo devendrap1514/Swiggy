@@ -24,11 +24,6 @@ class ApiController < ActionController::API
     end
   end
 
-  # def is_login?
-  #   return true if session[:token]
-  #   false
-  # end
-
   # CanCan expects a current_user method to exist in the controller.
   attr_reader :current_user
 end

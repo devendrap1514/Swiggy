@@ -6,7 +6,9 @@
 </br>
 
 <%= form_for @user_authentication do |form| %>
-  <%= form.text_field :username %>
-  <%= form.text_field :password %>
-  <%= form.submit %>
+  <%= form.label :username %>
+  <%= form.text_field :username %><br>
+  <%= form.label :password %>
+  <%= form.text_field :password %><br>
+  <%= form.submit :login%>
 <% end %>
