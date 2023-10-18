@@ -24,19 +24,22 @@ class CartItem < ApplicationRecord
   belongs_to :restaurant_dish
   belongs_to :cart
 
-  # validates_presence_of :quantity, :price
-
   validates :quantity, presence: true, numericality: { greater_than_or_equal_to: 1, less_than: 1000 }
-  validate :initialize_price
-  # validates :price, presence: true, numericality: { greater_than_or_equal_to: 1 }
 
-  # before_save :initialize_price
+  before_save :initialize_price
+
+  def update_quantity(quantity)
+    quantity = self.quantity + quantity
+    self.update(quantity: quantity)
+    self
+  end
 
   def initialize_price
     return unless errors.blank?
     cart_dish_price = quantity * restaurant_dish.price
     # update trigger
     # update -> save -> update -> save -> update ∞
+    # this value store only local variable for this object
     self.price = cart_dish_price
   end
 end

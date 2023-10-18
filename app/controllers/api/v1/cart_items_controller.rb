@@ -14,16 +14,16 @@ class Api::V1::CartItemsController < Api::V1::ApiController
       cart_restaurant_dish = RestaurantDish.find_by_id(cart_item.restaurant_dish_id)
 
       unless new_restaurant_dish.restaurant_id == cart_restaurant_dish.restaurant_id
-        render json: 'You order only one restaurant at a time'
+        render json: { message: 'You order only one restaurant at a time' }
       end
     else
-      render json: 'No Restaurant Dish Available'
+      render json: { message: 'No Restaurant Dish Available' }
     end
   end
 
   def create
     cart_item = @cart.cart_items.find_by(restaurant_dish_id: params[:restaurant_dish_id])
-    return render json: update_quantity(cart_item) if cart_item
+    return render json: cart_item.update_quantity(params[:quantity].to_i) if cart_item
 
     cart_item = @cart.cart_items.new(items_params)
     if cart_item.save
@@ -54,12 +54,6 @@ class Api::V1::CartItemsController < Api::V1::ApiController
            json: 'Item removed from cart'
   rescue Exception => e
     render status: :internal_server_error, json: e.message
-  end
-
-  def update_quantity(cart_item)
-    quantity = cart_item.quantity + params[:quantity].to_i
-    cart_item.update(quantity: quantity)
-    return cart_item
   end
 
   def find_cart_item
