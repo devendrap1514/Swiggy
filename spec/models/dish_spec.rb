@@ -2,11 +2,11 @@
 #
 # Table name: dishes
 #
-#  id          :integer          not null, primary key
+#  id          :bigint           not null, primary key
 #  dish_name   :string           not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
-#  category_id :integer          not null
+#  category_id :bigint           not null
 #
 # Indexes
 #
@@ -14,7 +14,7 @@
 #
 # Foreign Keys
 #
-#  category_id  (category_id => categories.id)
+#  fk_rails_...  (category_id => categories.id)
 #
 require 'rails_helper'
 

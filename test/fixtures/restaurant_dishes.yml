@@ -2,12 +2,12 @@
 #
 # Table name: restaurant_dishes
 #
-#  id            :integer          not null, primary key
+#  id            :bigint           not null, primary key
 #  price         :decimal(, )      not null
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
-#  dish_id       :integer          not null
-#  restaurant_id :integer          not null
+#  dish_id       :bigint           not null
+#  restaurant_id :bigint           not null
 #
 # Indexes
 #
@@ -16,8 +16,8 @@
 #
 # Foreign Keys
 #
-#  dish_id        (dish_id => dishes.id)
-#  restaurant_id  (restaurant_id => restaurants.id)
+#  fk_rails_...  (dish_id => dishes.id)
+#  fk_rails_...  (restaurant_id => restaurants.id)
 #
 
 one:

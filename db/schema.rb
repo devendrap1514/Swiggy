@@ -11,13 +11,16 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.0].define(version: 2023_09_28_090044) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
     t.string "resource_type"
-    t.integer "resource_id"
+    t.bigint "resource_id"
     t.string "author_type"
-    t.integer "author_id"
+    t.bigint "author_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["author_type", "author_id"], name: "index_active_admin_comments_on_author"
@@ -66,8 +69,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_28_090044) do
   end
 
   create_table "cart_items", force: :cascade do |t|
-    t.integer "restaurant_dish_id", null: false
-    t.integer "cart_id", null: false
+    t.bigint "restaurant_dish_id", null: false
+    t.bigint "cart_id", null: false
     t.integer "quantity", null: false
     t.decimal "price", default: "0.0", null: false
     t.datetime "created_at", null: false
@@ -77,7 +80,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_28_090044) do
   end
 
   create_table "carts", force: :cascade do |t|
-    t.integer "user_id", null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_carts_on_user_id"
@@ -91,15 +94,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_28_090044) do
 
   create_table "dishes", force: :cascade do |t|
     t.string "dish_name", null: false
-    t.integer "category_id", null: false
+    t.bigint "category_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["category_id"], name: "index_dishes_on_category_id"
   end
 
   create_table "order_items", force: :cascade do |t|
-    t.integer "restaurant_dish_id"
-    t.integer "order_id", null: false
+    t.bigint "restaurant_dish_id"
+    t.bigint "order_id", null: false
     t.integer "quantity", null: false
     t.decimal "price", default: "0.0", null: false
     t.datetime "created_at", null: false
@@ -109,15 +112,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_28_090044) do
   end
 
   create_table "orders", force: :cascade do |t|
-    t.integer "user_id", null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
   create_table "restaurant_dishes", force: :cascade do |t|
-    t.integer "restaurant_id", null: false
-    t.integer "dish_id", null: false
+    t.bigint "restaurant_id", null: false
+    t.bigint "dish_id", null: false
     t.decimal "price", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -129,7 +132,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_28_090044) do
     t.string "restaurant_name", null: false
     t.string "address", null: false
     t.string "status", default: "open", null: false
-    t.integer "user_id", null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_restaurants_on_user_id"
