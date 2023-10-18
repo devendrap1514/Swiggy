@@ -20,7 +20,7 @@ class Api::V1::OwnersController < Api::V1::UsersController
   def my_dishes
     dish_name = StripAndSqueeze.apply(params[:dish_name])
     category_name = StripAndSqueeze.apply(params[:category_name])
-    dishes = Dish.joins(:restaurants).where("restaurants.user_id = #{@current_user.id}").filter_by_dish_name(dish_name).filter_by_category_name(category_name).page(params[:page])
+    dishes = Dish.joins(:restaurants).where("restaurants.owner_id = #{@current_user.id}").filter_by_dish_name(dish_name).filter_by_category_name(category_name).page(params[:page])
     render json: { message: "success", data: dishes }
   end
 end

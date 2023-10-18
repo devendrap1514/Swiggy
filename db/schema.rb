@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_28_090044) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_18_065417) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -80,10 +80,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_28_090044) do
   end
 
   create_table "carts", force: :cascade do |t|
-    t.bigint "user_id", null: false
+    t.bigint "customer_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_carts_on_user_id"
+    t.index ["customer_id"], name: "index_carts_on_customer_id"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -112,10 +112,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_28_090044) do
   end
 
   create_table "orders", force: :cascade do |t|
-    t.bigint "user_id", null: false
+    t.bigint "customer_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_orders_on_user_id"
+    t.index ["customer_id"], name: "index_orders_on_customer_id"
   end
 
   create_table "restaurant_dishes", force: :cascade do |t|
@@ -132,10 +132,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_28_090044) do
     t.string "restaurant_name", null: false
     t.string "address", null: false
     t.string "status", default: "open", null: false
-    t.bigint "user_id", null: false
+    t.bigint "owner_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_restaurants_on_user_id"
+    t.index ["owner_id"], name: "index_restaurants_on_owner_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -154,12 +154,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_28_090044) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "cart_items", "carts"
   add_foreign_key "cart_items", "restaurant_dishes"
-  add_foreign_key "carts", "users"
+  add_foreign_key "carts", "users", column: "customer_id"
   add_foreign_key "dishes", "categories"
   add_foreign_key "order_items", "orders"
   add_foreign_key "order_items", "restaurant_dishes"
-  add_foreign_key "orders", "users"
+  add_foreign_key "orders", "users", column: "customer_id"
   add_foreign_key "restaurant_dishes", "dishes"
   add_foreign_key "restaurant_dishes", "restaurants"
-  add_foreign_key "restaurants", "users"
+  add_foreign_key "restaurants", "users", column: "owner_id"
 end

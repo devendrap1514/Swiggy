@@ -8,7 +8,7 @@ RSpec.describe "Restaurants", type: :request do
   let(:owner_token) { user_token(owner)}
   let(:customer) { FactoryBot.create(:user, type: Customer) }
   let(:customer_token) { user_token(customer) }
-  let(:restaurant){ create(:restaurant, user_id: owner.id) }
+  let(:restaurant){ create(:restaurant, owner_id: owner.id) }
   let(:rd) { FactoryBot.create(:restaurant_dish, dish: FactoryBot.create(:dish), restaurant: restaurant) }
 
   describe "GET /index" do

@@ -1,7 +1,7 @@
 ActiveAdmin.register Restaurant do
   menu parent: "RestaurantDish"
 
-  permit_params(:restaurant_name, :user_id, :address)
+  permit_params(:restaurant_name, :owner_id, :address)
 
   filter :restaurant_name
   filter :address

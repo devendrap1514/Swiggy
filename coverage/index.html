@@ -14,7 +14,7 @@
       <img src="./assets/0.12.3/loading.gif" alt="loading"/>
     </div>
     <div id="wrapper" class="hide">
-      <div class="timestamp">Generated <abbr class="timeago" title="2023-10-17T17:07:54+05:30">2023-10-17T17:07:54+05:30</abbr></div>
+      <div class="timestamp">Generated <abbr class="timeago" title="2023-10-18T13:10:42+05:30">2023-10-18T13:10:42+05:30</abbr></div>
       <ul class="group_tabs"></ul>
 
       <div id="content">
@@ -23,14 +23,14 @@
     <span class="group_name">All Files</span>
     (<span class="covered_percent">
       <span class="green">
-  95.04%
+  95.05%
 </span>
 
      </span>
      covered at
      <span class="covered_strength">
        <span class="green">
-         4.42
+         4.51
        </span>
     </span> hits/line
     )
@@ -43,11 +43,11 @@
   </div>
 
   <div class="t-line-summary">
-    <b>1270</b> relevant lines,
-    <span class="green"><b>1207</b> lines covered</span> and
+    <b>1272</b> relevant lines,
+    <span class="green"><b>1209</b> lines covered</span> and
     <span class="red"><b>63</b> lines missed. </span>
     (<span class="green">
-  95.04%
+  95.05%
 </span>
 )
   </div>
@@ -1064,10 +1064,10 @@
             <td class="strong t-file__name"><a href="#f2d6439b5f342c932dfe7c57f60049c8a2840246" class="src_link" title="spec/support/database_cleaner.rb">spec/support/database_cleaner.rb</a></td>
             <td class="green strong cell--number t-file__coverage">100.00 %</td>
             <td class="cell--number">20</td>
-            <td class="cell--number">7</td>
-            <td class="cell--number">7</td>
+            <td class="cell--number">9</td>
+            <td class="cell--number">9</td>
             <td class="cell--number">0</td>
-            <td class="cell--number">35.00</td>
+            <td class="cell--number">40.67</td>
             
           </tr>
         
@@ -2966,7 +2966,7 @@
 
             
 
-            <code class="ruby">  permit_params(:restaurant_name, :user_id, :address)</code>
+            <code class="ruby">  permit_params(:restaurant_name, :owner_id, :address)</code>
           </li>
         </div>
       
@@ -7304,7 +7304,7 @@
 
             
 
-            <code class="ruby">    dishes = Dish.joins(:restaurants).where(&quot;restaurants.user_id = #{@current_user.id}&quot;).filter_by_dish_name(dish_name).filter_by_category_name(category_name).page(params[:page])</code>
+            <code class="ruby">    dishes = Dish.joins(:restaurants).where(&quot;restaurants.owner_id = #{@current_user.id}&quot;).filter_by_dish_name(dish_name).filter_by_category_name(category_name).page(params[:page])</code>
           </li>
         </div>
       
@@ -10364,7 +10364,7 @@
 
             
 
-            <code class="ruby">#  id                     :integer          not null, primary key</code>
+            <code class="ruby">#  id                     :bigint           not null, primary key</code>
           </li>
         </div>
       
@@ -10800,7 +10800,7 @@
 
             
 
-            <code class="ruby">#  id         :integer          not null, primary key</code>
+            <code class="ruby">#  id          :bigint           not null, primary key</code>
           </li>
         </div>
       
@@ -10811,7 +10811,7 @@
 
             
 
-            <code class="ruby">#  created_at :datetime         not null</code>
+            <code class="ruby">#  created_at  :datetime         not null</code>
           </li>
         </div>
       
@@ -10822,7 +10822,7 @@
 
             
 
-            <code class="ruby">#  updated_at :datetime         not null</code>
+            <code class="ruby">#  updated_at  :datetime         not null</code>
           </li>
         </div>
       
@@ -10833,7 +10833,7 @@
 
             
 
-            <code class="ruby">#  user_id    :integer          not null</code>
+            <code class="ruby">#  customer_id :bigint           not null</code>
           </li>
         </div>
       
@@ -10877,7 +10877,7 @@
 
             
 
-            <code class="ruby">#  index_carts_on_user_id  (user_id)</code>
+            <code class="ruby">#  index_carts_on_customer_id  (customer_id)</code>
           </li>
         </div>
       
@@ -10921,7 +10921,7 @@
 
             
 
-            <code class="ruby">#  user_id  (user_id =&gt; users.id)</code>
+            <code class="ruby">#  fk_rails_...  (customer_id =&gt; users.id)</code>
           </li>
         </div>
       
@@ -10954,7 +10954,7 @@
 
             
 
-            <code class="ruby">  belongs_to :customer, foreign_key: &#39;user_id&#39;</code>
+            <code class="ruby">  belongs_to :customer, class_name: &quot;User&quot;, foreign_key: &#39;customer_id&#39;</code>
           </li>
         </div>
       
@@ -11106,7 +11106,7 @@
 
             
 
-            <code class="ruby">#  id                 :integer          not null, primary key</code>
+            <code class="ruby">#  id                 :bigint           not null, primary key</code>
           </li>
         </div>
       
@@ -11161,7 +11161,7 @@
 
             
 
-            <code class="ruby">#  cart_id            :integer          not null</code>
+            <code class="ruby">#  cart_id            :bigint           not null</code>
           </li>
         </div>
       
@@ -11172,7 +11172,7 @@
 
             
 
-            <code class="ruby">#  restaurant_dish_id :integer          not null</code>
+            <code class="ruby">#  restaurant_dish_id :bigint           not null</code>
           </li>
         </div>
       
@@ -11271,7 +11271,7 @@
 
             
 
-            <code class="ruby">#  cart_id             (cart_id =&gt; carts.id)</code>
+            <code class="ruby">#  fk_rails_...  (cart_id =&gt; carts.id)</code>
           </li>
         </div>
       
@@ -11282,7 +11282,7 @@
 
             
 
-            <code class="ruby">#  restaurant_dish_id  (restaurant_dish_id =&gt; restaurant_dishes.id)</code>
+            <code class="ruby">#  fk_rails_...  (restaurant_dish_id =&gt; restaurant_dishes.id)</code>
           </li>
         </div>
       
@@ -11599,7 +11599,7 @@
 
             
 
-            <code class="ruby">#  id            :integer          not null, primary key</code>
+            <code class="ruby">#  id            :bigint           not null, primary key</code>
           </li>
         </div>
       
@@ -11773,7 +11773,7 @@
 
             
 
-            <code class="ruby">#  id                     :integer          not null, primary key</code>
+            <code class="ruby">#  id                     :bigint           not null, primary key</code>
           </li>
         </div>
       
@@ -11905,7 +11905,7 @@
 
             
 
-            <code class="ruby">  has_one :cart, foreign_key: &#39;user_id&#39;, dependent: :destroy</code>
+            <code class="ruby">  has_one :cart, class_name: &quot;Cart&quot;, foreign_key: &#39;customer_id&#39;, dependent: :destroy</code>
           </li>
         </div>
       
@@ -11916,7 +11916,7 @@
 
             
 
-            <code class="ruby">  has_many :orders, foreign_key: &#39;user_id&#39;, dependent: :destroy</code>
+            <code class="ruby">  has_many :orders, class_name: &quot;Order&quot;, foreign_key: &#39;customer_id&#39;, dependent: :destroy</code>
           </li>
         </div>
       
@@ -12013,7 +12013,7 @@
 
             
 
-            <code class="ruby">#  id          :integer          not null, primary key</code>
+            <code class="ruby">#  id          :bigint           not null, primary key</code>
           </li>
         </div>
       
@@ -12057,7 +12057,7 @@
 
             
 
-            <code class="ruby">#  category_id :integer          not null</code>
+            <code class="ruby">#  category_id :bigint           not null</code>
           </li>
         </div>
       
@@ -12145,7 +12145,7 @@
 
             
 
-            <code class="ruby">#  category_id  (category_id =&gt; categories.id)</code>
+            <code class="ruby">#  fk_rails_...  (category_id =&gt; categories.id)</code>
           </li>
         </div>
       
@@ -12451,7 +12451,7 @@
 
             
 
-            <code class="ruby">#  id         :integer          not null, primary key</code>
+            <code class="ruby">#  id          :bigint           not null, primary key</code>
           </li>
         </div>
       
@@ -12462,7 +12462,7 @@
 
             
 
-            <code class="ruby">#  created_at :datetime         not null</code>
+            <code class="ruby">#  created_at  :datetime         not null</code>
           </li>
         </div>
       
@@ -12473,7 +12473,7 @@
 
             
 
-            <code class="ruby">#  updated_at :datetime         not null</code>
+            <code class="ruby">#  updated_at  :datetime         not null</code>
           </li>
         </div>
       
@@ -12484,7 +12484,7 @@
 
             
 
-            <code class="ruby">#  user_id    :integer          not null</code>
+            <code class="ruby">#  customer_id :bigint           not null</code>
           </li>
         </div>
       
@@ -12528,7 +12528,7 @@
 
             
 
-            <code class="ruby">#  index_orders_on_user_id  (user_id)</code>
+            <code class="ruby">#  index_orders_on_customer_id  (customer_id)</code>
           </li>
         </div>
       
@@ -12572,7 +12572,7 @@
 
             
 
-            <code class="ruby">#  user_id  (user_id =&gt; users.id)</code>
+            <code class="ruby">#  fk_rails_...  (customer_id =&gt; users.id)</code>
           </li>
         </div>
       
@@ -12605,7 +12605,7 @@
 
             
 
-            <code class="ruby">  belongs_to :customer, foreign_key: &#39;user_id&#39;</code>
+            <code class="ruby">  belongs_to :customer, class_name: &quot;User&quot;, foreign_key: &#39;customer_id&#39;</code>
           </li>
         </div>
       
@@ -12757,7 +12757,7 @@
 
             
 
-            <code class="ruby">#  id                 :integer          not null, primary key</code>
+            <code class="ruby">#  id                 :bigint           not null, primary key</code>
           </li>
         </div>
       
@@ -12812,7 +12812,7 @@
 
             
 
-            <code class="ruby">#  order_id           :integer          not null</code>
+            <code class="ruby">#  order_id           :bigint           not null</code>
           </li>
         </div>
       
@@ -12823,7 +12823,7 @@
 
             
 
-            <code class="ruby">#  restaurant_dish_id :integer</code>
+            <code class="ruby">#  restaurant_dish_id :bigint</code>
           </li>
         </div>
       
@@ -12922,7 +12922,7 @@
 
             
 
-            <code class="ruby">#  order_id            (order_id =&gt; orders.id)</code>
+            <code class="ruby">#  fk_rails_...  (order_id =&gt; orders.id)</code>
           </li>
         </div>
       
@@ -12933,7 +12933,7 @@
 
             
 
-            <code class="ruby">#  restaurant_dish_id  (restaurant_dish_id =&gt; restaurant_dishes.id)</code>
+            <code class="ruby">#  fk_rails_...  (restaurant_dish_id =&gt; restaurant_dishes.id)</code>
           </li>
         </div>
       
@@ -13107,7 +13107,7 @@
 
             
 
-            <code class="ruby">#  id                     :integer          not null, primary key</code>
+            <code class="ruby">#  id                     :bigint           not null, primary key</code>
           </li>
         </div>
       
@@ -13239,7 +13239,7 @@
 
             
 
-            <code class="ruby">  has_many :restaurants, foreign_key: &#39;user_id&#39;, dependent: :destroy</code>
+            <code class="ruby">  has_many :restaurants, class_name: &quot;Restaurant&quot;, foreign_key: &#39;owner_id&#39;, dependent: :destroy</code>
           </li>
         </div>
       
@@ -13336,7 +13336,7 @@
 
             
 
-            <code class="ruby">#  id              :integer          not null, primary key</code>
+            <code class="ruby">#  id              :bigint           not null, primary key</code>
           </li>
         </div>
       
@@ -13402,7 +13402,7 @@
 
             
 
-            <code class="ruby">#  user_id         :integer          not null</code>
+            <code class="ruby">#  owner_id        :bigint           not null</code>
           </li>
         </div>
       
@@ -13446,7 +13446,7 @@
 
             
 
-            <code class="ruby">#  index_restaurants_on_user_id  (user_id)</code>
+            <code class="ruby">#  index_restaurants_on_owner_id  (owner_id)</code>
           </li>
         </div>
       
@@ -13490,7 +13490,7 @@
 
             
 
-            <code class="ruby">#  user_id  (user_id =&gt; users.id)</code>
+            <code class="ruby">#  fk_rails_...  (owner_id =&gt; users.id)</code>
           </li>
         </div>
       
@@ -13534,7 +13534,7 @@
 
             
 
-            <code class="ruby">  belongs_to :owner, foreign_key: &#39;user_id&#39;</code>
+            <code class="ruby">  belongs_to :owner, class_name: &quot;User&quot;, foreign_key: &#39;owner_id&#39;</code>
           </li>
         </div>
       
@@ -13862,7 +13862,7 @@
 
             
 
-            <code class="ruby">#  id            :integer          not null, primary key</code>
+            <code class="ruby">#  id            :bigint           not null, primary key</code>
           </li>
         </div>
       
@@ -13906,7 +13906,7 @@
 
             
 
-            <code class="ruby">#  dish_id       :integer          not null</code>
+            <code class="ruby">#  dish_id       :bigint           not null</code>
           </li>
         </div>
       
@@ -13917,7 +13917,7 @@
 
             
 
-            <code class="ruby">#  restaurant_id :integer          not null</code>
+            <code class="ruby">#  restaurant_id :bigint           not null</code>
           </li>
         </div>
       
@@ -14016,7 +14016,7 @@
 
             
 
-            <code class="ruby">#  dish_id        (dish_id =&gt; dishes.id)</code>
+            <code class="ruby">#  fk_rails_...  (dish_id =&gt; dishes.id)</code>
           </li>
         </div>
       
@@ -14027,7 +14027,7 @@
 
             
 
-            <code class="ruby">#  restaurant_id  (restaurant_id =&gt; restaurants.id)</code>
+            <code class="ruby">#  fk_rails_...  (restaurant_id =&gt; restaurants.id)</code>
           </li>
         </div>
       
@@ -14278,7 +14278,7 @@
 
             
 
-            <code class="ruby">#  id                     :integer          not null, primary key</code>
+            <code class="ruby">#  id                     :bigint           not null, primary key</code>
           </li>
         </div>
       
@@ -15407,7 +15407,7 @@
 
             
 
-            <code class="ruby">#  id                 :integer          not null, primary key</code>
+            <code class="ruby">#  id                 :bigint           not null, primary key</code>
           </li>
         </div>
       
@@ -15462,7 +15462,7 @@
 
             
 
-            <code class="ruby">#  cart_id            :integer          not null</code>
+            <code class="ruby">#  cart_id            :bigint           not null</code>
           </li>
         </div>
       
@@ -15473,7 +15473,7 @@
 
             
 
-            <code class="ruby">#  restaurant_dish_id :integer          not null</code>
+            <code class="ruby">#  restaurant_dish_id :bigint           not null</code>
           </li>
         </div>
       
@@ -15572,7 +15572,7 @@
 
             
 
-            <code class="ruby">#  cart_id             (cart_id =&gt; carts.id)</code>
+            <code class="ruby">#  fk_rails_...  (cart_id =&gt; carts.id)</code>
           </li>
         </div>
       
@@ -15583,7 +15583,7 @@
 
             
 
-            <code class="ruby">#  restaurant_dish_id  (restaurant_dish_id =&gt; restaurant_dishes.id)</code>
+            <code class="ruby">#  fk_rails_...  (restaurant_dish_id =&gt; restaurant_dishes.id)</code>
           </li>
         </div>
       
@@ -15790,7 +15790,7 @@
 
             
 
-            <code class="ruby">#  id         :integer          not null, primary key</code>
+            <code class="ruby">#  id          :bigint           not null, primary key</code>
           </li>
         </div>
       
@@ -15801,7 +15801,7 @@
 
             
 
-            <code class="ruby">#  created_at :datetime         not null</code>
+            <code class="ruby">#  created_at  :datetime         not null</code>
           </li>
         </div>
       
@@ -15812,7 +15812,7 @@
 
             
 
-            <code class="ruby">#  updated_at :datetime         not null</code>
+            <code class="ruby">#  updated_at  :datetime         not null</code>
           </li>
         </div>
       
@@ -15823,7 +15823,7 @@
 
             
 
-            <code class="ruby">#  user_id    :integer          not null</code>
+            <code class="ruby">#  customer_id :bigint           not null</code>
           </li>
         </div>
       
@@ -15867,7 +15867,7 @@
 
             
 
-            <code class="ruby">#  index_carts_on_user_id  (user_id)</code>
+            <code class="ruby">#  index_carts_on_customer_id  (customer_id)</code>
           </li>
         </div>
       
@@ -15911,7 +15911,7 @@
 
             
 
-            <code class="ruby">#  user_id  (user_id =&gt; users.id)</code>
+            <code class="ruby">#  fk_rails_...  (customer_id =&gt; users.id)</code>
           </li>
         </div>
       
@@ -16096,7 +16096,7 @@
 
             
 
-            <code class="ruby">#  id            :integer          not null, primary key</code>
+            <code class="ruby">#  id            :bigint           not null, primary key</code>
           </li>
         </div>
       
@@ -16259,7 +16259,7 @@
 
             
 
-            <code class="ruby">#  id          :integer          not null, primary key</code>
+            <code class="ruby">#  id          :bigint           not null, primary key</code>
           </li>
         </div>
       
@@ -16303,7 +16303,7 @@
 
             
 
-            <code class="ruby">#  category_id :integer          not null</code>
+            <code class="ruby">#  category_id :bigint           not null</code>
           </li>
         </div>
       
@@ -16391,7 +16391,7 @@
 
             
 
-            <code class="ruby">#  category_id  (category_id =&gt; categories.id)</code>
+            <code class="ruby">#  fk_rails_...  (category_id =&gt; categories.id)</code>
           </li>
         </div>
       
@@ -16587,7 +16587,7 @@
 
             
 
-            <code class="ruby">#  id                 :integer          not null, primary key</code>
+            <code class="ruby">#  id                 :bigint           not null, primary key</code>
           </li>
         </div>
       
@@ -16642,7 +16642,7 @@
 
             
 
-            <code class="ruby">#  order_id           :integer          not null</code>
+            <code class="ruby">#  order_id           :bigint           not null</code>
           </li>
         </div>
       
@@ -16653,7 +16653,7 @@
 
             
 
-            <code class="ruby">#  restaurant_dish_id :integer</code>
+            <code class="ruby">#  restaurant_dish_id :bigint</code>
           </li>
         </div>
       
@@ -16752,7 +16752,7 @@
 
             
 
-            <code class="ruby">#  order_id            (order_id =&gt; orders.id)</code>
+            <code class="ruby">#  fk_rails_...  (order_id =&gt; orders.id)</code>
           </li>
         </div>
       
@@ -16763,7 +16763,7 @@
 
             
 
-            <code class="ruby">#  restaurant_dish_id  (restaurant_dish_id =&gt; restaurant_dishes.id)</code>
+            <code class="ruby">#  fk_rails_...  (restaurant_dish_id =&gt; restaurant_dishes.id)</code>
           </li>
         </div>
       
@@ -17014,7 +17014,7 @@
 
             
 
-            <code class="ruby">#  id         :integer          not null, primary key</code>
+            <code class="ruby">#  id          :bigint           not null, primary key</code>
           </li>
         </div>
       
@@ -17025,7 +17025,7 @@
 
             
 
-            <code class="ruby">#  created_at :datetime         not null</code>
+            <code class="ruby">#  created_at  :datetime         not null</code>
           </li>
         </div>
       
@@ -17036,7 +17036,7 @@
 
             
 
-            <code class="ruby">#  updated_at :datetime         not null</code>
+            <code class="ruby">#  updated_at  :datetime         not null</code>
           </li>
         </div>
       
@@ -17047,7 +17047,7 @@
 
             
 
-            <code class="ruby">#  user_id    :integer          not null</code>
+            <code class="ruby">#  customer_id :bigint           not null</code>
           </li>
         </div>
       
@@ -17091,7 +17091,7 @@
 
             
 
-            <code class="ruby">#  index_orders_on_user_id  (user_id)</code>
+            <code class="ruby">#  index_orders_on_customer_id  (customer_id)</code>
           </li>
         </div>
       
@@ -17135,7 +17135,7 @@
 
             
 
-            <code class="ruby">#  user_id  (user_id =&gt; users.id)</code>
+            <code class="ruby">#  fk_rails_...  (customer_id =&gt; users.id)</code>
           </li>
         </div>
       
@@ -17320,7 +17320,7 @@
 
             
 
-            <code class="ruby">#  id              :integer          not null, primary key</code>
+            <code class="ruby">#  id              :bigint           not null, primary key</code>
           </li>
         </div>
       
@@ -17386,7 +17386,7 @@
 
             
 
-            <code class="ruby">#  user_id         :integer          not null</code>
+            <code class="ruby">#  owner_id        :bigint           not null</code>
           </li>
         </div>
       
@@ -17430,7 +17430,7 @@
 
             
 
-            <code class="ruby">#  index_restaurants_on_user_id  (user_id)</code>
+            <code class="ruby">#  index_restaurants_on_owner_id  (owner_id)</code>
           </li>
         </div>
       
@@ -17474,7 +17474,7 @@
 
             
 
-            <code class="ruby">#  user_id  (user_id =&gt; users.id)</code>
+            <code class="ruby">#  fk_rails_...  (owner_id =&gt; users.id)</code>
           </li>
         </div>
       
@@ -17507,7 +17507,7 @@
 
             
 
-            <code class="ruby">  attributes :id, :restaurant_name, :address, :status, :user_id</code>
+            <code class="ruby">  attributes :id, :restaurant_name, :address, :status, :owner_id</code>
           </li>
         </div>
       
@@ -17604,7 +17604,7 @@
 
             
 
-            <code class="ruby">#  id                     :integer          not null, primary key</code>
+            <code class="ruby">#  id                     :bigint           not null, primary key</code>
           </li>
         </div>
       
@@ -27722,7 +27722,7 @@
 
             
 
-            <code class="ruby">#  id                 :integer          not null, primary key</code>
+            <code class="ruby">#  id                 :bigint           not null, primary key</code>
           </li>
         </div>
       
@@ -27777,7 +27777,7 @@
 
             
 
-            <code class="ruby">#  cart_id            :integer          not null</code>
+            <code class="ruby">#  cart_id            :bigint           not null</code>
           </li>
         </div>
       
@@ -27788,7 +27788,7 @@
 
             
 
-            <code class="ruby">#  restaurant_dish_id :integer          not null</code>
+            <code class="ruby">#  restaurant_dish_id :bigint           not null</code>
           </li>
         </div>
       
@@ -27887,7 +27887,7 @@
 
             
 
-            <code class="ruby">#  cart_id             (cart_id =&gt; carts.id)</code>
+            <code class="ruby">#  fk_rails_...  (cart_id =&gt; carts.id)</code>
           </li>
         </div>
       
@@ -27898,7 +27898,7 @@
 
             
 
-            <code class="ruby">#  restaurant_dish_id  (restaurant_dish_id =&gt; restaurant_dishes.id)</code>
+            <code class="ruby">#  fk_rails_...  (restaurant_dish_id =&gt; restaurant_dishes.id)</code>
           </li>
         </div>
       
@@ -28083,7 +28083,7 @@
 
             
 
-            <code class="ruby">#  id         :integer          not null, primary key</code>
+            <code class="ruby">#  id          :bigint           not null, primary key</code>
           </li>
         </div>
       
@@ -28094,7 +28094,7 @@
 
             
 
-            <code class="ruby">#  created_at :datetime         not null</code>
+            <code class="ruby">#  created_at  :datetime         not null</code>
           </li>
         </div>
       
@@ -28105,7 +28105,7 @@
 
             
 
-            <code class="ruby">#  updated_at :datetime         not null</code>
+            <code class="ruby">#  updated_at  :datetime         not null</code>
           </li>
         </div>
       
@@ -28116,7 +28116,7 @@
 
             
 
-            <code class="ruby">#  user_id    :integer          not null</code>
+            <code class="ruby">#  customer_id :bigint           not null</code>
           </li>
         </div>
       
@@ -28160,7 +28160,7 @@
 
             
 
-            <code class="ruby">#  index_carts_on_user_id  (user_id)</code>
+            <code class="ruby">#  index_carts_on_customer_id  (customer_id)</code>
           </li>
         </div>
       
@@ -28204,7 +28204,7 @@
 
             
 
-            <code class="ruby">#  user_id  (user_id =&gt; users.id)</code>
+            <code class="ruby">#  fk_rails_...  (customer_id =&gt; users.id)</code>
           </li>
         </div>
       
@@ -28248,7 +28248,7 @@
 
             
 
-            <code class="ruby">    user_id { FactoryBot.create(:user, type: &quot;Customer&quot;).id }</code>
+            <code class="ruby">    customer_id { FactoryBot.create(:user, type: &quot;Customer&quot;).id }</code>
           </li>
         </div>
       
@@ -28356,7 +28356,7 @@
 
             
 
-            <code class="ruby">#  id            :integer          not null, primary key</code>
+            <code class="ruby">#  id            :bigint           not null, primary key</code>
           </li>
         </div>
       
@@ -28541,7 +28541,7 @@
 
             
 
-            <code class="ruby">#  id          :integer          not null, primary key</code>
+            <code class="ruby">#  id          :bigint           not null, primary key</code>
           </li>
         </div>
       
@@ -28585,7 +28585,7 @@
 
             
 
-            <code class="ruby">#  category_id :integer          not null</code>
+            <code class="ruby">#  category_id :bigint           not null</code>
           </li>
         </div>
       
@@ -28673,7 +28673,7 @@
 
             
 
-            <code class="ruby">#  category_id  (category_id =&gt; categories.id)</code>
+            <code class="ruby">#  fk_rails_...  (category_id =&gt; categories.id)</code>
           </li>
         </div>
       
@@ -28836,7 +28836,7 @@
 
             
 
-            <code class="ruby">#  id                 :integer          not null, primary key</code>
+            <code class="ruby">#  id                 :bigint           not null, primary key</code>
           </li>
         </div>
       
@@ -28891,7 +28891,7 @@
 
             
 
-            <code class="ruby">#  order_id           :integer          not null</code>
+            <code class="ruby">#  order_id           :bigint           not null</code>
           </li>
         </div>
       
@@ -28902,7 +28902,7 @@
 
             
 
-            <code class="ruby">#  restaurant_dish_id :integer</code>
+            <code class="ruby">#  restaurant_dish_id :bigint</code>
           </li>
         </div>
       
@@ -29001,7 +29001,7 @@
 
             
 
-            <code class="ruby">#  order_id            (order_id =&gt; orders.id)</code>
+            <code class="ruby">#  fk_rails_...  (order_id =&gt; orders.id)</code>
           </li>
         </div>
       
@@ -29012,7 +29012,7 @@
 
             
 
-            <code class="ruby">#  restaurant_dish_id  (restaurant_dish_id =&gt; restaurant_dishes.id)</code>
+            <code class="ruby">#  fk_rails_...  (restaurant_dish_id =&gt; restaurant_dishes.id)</code>
           </li>
         </div>
       
@@ -29197,7 +29197,7 @@
 
             
 
-            <code class="ruby">#  id         :integer          not null, primary key</code>
+            <code class="ruby">#  id          :bigint           not null, primary key</code>
           </li>
         </div>
       
@@ -29208,7 +29208,7 @@
 
             
 
-            <code class="ruby">#  created_at :datetime         not null</code>
+            <code class="ruby">#  created_at  :datetime         not null</code>
           </li>
         </div>
       
@@ -29219,7 +29219,7 @@
 
             
 
-            <code class="ruby">#  updated_at :datetime         not null</code>
+            <code class="ruby">#  updated_at  :datetime         not null</code>
           </li>
         </div>
       
@@ -29230,7 +29230,7 @@
 
             
 
-            <code class="ruby">#  user_id    :integer          not null</code>
+            <code class="ruby">#  customer_id :bigint           not null</code>
           </li>
         </div>
       
@@ -29274,7 +29274,7 @@
 
             
 
-            <code class="ruby">#  index_orders_on_user_id  (user_id)</code>
+            <code class="ruby">#  index_orders_on_customer_id  (customer_id)</code>
           </li>
         </div>
       
@@ -29318,7 +29318,7 @@
 
             
 
-            <code class="ruby">#  user_id  (user_id =&gt; users.id)</code>
+            <code class="ruby">#  fk_rails_...  (customer_id =&gt; users.id)</code>
           </li>
         </div>
       
@@ -29362,7 +29362,7 @@
 
             
 
-            <code class="ruby">    user_id { FactoryBot.create(:user, type: &quot;Customer&quot;).id }</code>
+            <code class="ruby">    customer_id { FactoryBot.create(:user, type: &quot;Customer&quot;).id }</code>
           </li>
         </div>
       
@@ -29470,7 +29470,7 @@
 
             
 
-            <code class="ruby">#  id            :integer          not null, primary key</code>
+            <code class="ruby">#  id            :bigint           not null, primary key</code>
           </li>
         </div>
       
@@ -29514,7 +29514,7 @@
 
             
 
-            <code class="ruby">#  dish_id       :integer          not null</code>
+            <code class="ruby">#  dish_id       :bigint           not null</code>
           </li>
         </div>
       
@@ -29525,7 +29525,7 @@
 
             
 
-            <code class="ruby">#  restaurant_id :integer          not null</code>
+            <code class="ruby">#  restaurant_id :bigint           not null</code>
           </li>
         </div>
       
@@ -29624,7 +29624,7 @@
 
             
 
-            <code class="ruby">#  dish_id        (dish_id =&gt; dishes.id)</code>
+            <code class="ruby">#  fk_rails_...  (dish_id =&gt; dishes.id)</code>
           </li>
         </div>
       
@@ -29635,7 +29635,7 @@
 
             
 
-            <code class="ruby">#  restaurant_id  (restaurant_id =&gt; restaurants.id)</code>
+            <code class="ruby">#  fk_rails_...  (restaurant_id =&gt; restaurants.id)</code>
           </li>
         </div>
       
@@ -29809,7 +29809,7 @@
 
             
 
-            <code class="ruby">#  id              :integer          not null, primary key</code>
+            <code class="ruby">#  id              :bigint           not null, primary key</code>
           </li>
         </div>
       
@@ -29875,7 +29875,7 @@
 
             
 
-            <code class="ruby">#  user_id         :integer          not null</code>
+            <code class="ruby">#  owner_id        :bigint           not null</code>
           </li>
         </div>
       
@@ -29919,7 +29919,7 @@
 
             
 
-            <code class="ruby">#  index_restaurants_on_user_id  (user_id)</code>
+            <code class="ruby">#  index_restaurants_on_owner_id  (owner_id)</code>
           </li>
         </div>
       
@@ -29963,7 +29963,7 @@
 
             
 
-            <code class="ruby">#  user_id  (user_id =&gt; users.id)</code>
+            <code class="ruby">#  fk_rails_...  (owner_id =&gt; users.id)</code>
           </li>
         </div>
       
@@ -30040,7 +30040,7 @@
 
             
 
-            <code class="ruby">    user_id { FactoryBot.create(:user, type: &quot;Owner&quot;).id }</code>
+            <code class="ruby">    owner_id { FactoryBot.create(:user, type: &quot;Owner&quot;).id }</code>
           </li>
         </div>
       
@@ -30148,7 +30148,7 @@
 
             
 
-            <code class="ruby">#  id                     :integer          not null, primary key</code>
+            <code class="ruby">#  id                     :bigint           not null, primary key</code>
           </li>
         </div>
       
@@ -30476,7 +30476,7 @@
 
             
 
-            <code class="ruby">#  id                 :integer          not null, primary key</code>
+            <code class="ruby">#  id                 :bigint           not null, primary key</code>
           </li>
         </div>
       
@@ -30531,7 +30531,7 @@
 
             
 
-            <code class="ruby">#  cart_id            :integer          not null</code>
+            <code class="ruby">#  cart_id            :bigint           not null</code>
           </li>
         </div>
       
@@ -30542,7 +30542,7 @@
 
             
 
-            <code class="ruby">#  restaurant_dish_id :integer          not null</code>
+            <code class="ruby">#  restaurant_dish_id :bigint           not null</code>
           </li>
         </div>
       
@@ -30641,7 +30641,7 @@
 
             
 
-            <code class="ruby">#  cart_id             (cart_id =&gt; carts.id)</code>
+            <code class="ruby">#  fk_rails_...  (cart_id =&gt; carts.id)</code>
           </li>
         </div>
       
@@ -30652,7 +30652,7 @@
 
             
 
-            <code class="ruby">#  restaurant_dish_id  (restaurant_dish_id =&gt; restaurant_dishes.id)</code>
+            <code class="ruby">#  fk_rails_...  (restaurant_dish_id =&gt; restaurant_dishes.id)</code>
           </li>
         </div>
       
@@ -31156,7 +31156,7 @@
 
             
 
-            <code class="ruby">#  id         :integer          not null, primary key</code>
+            <code class="ruby">#  id          :bigint           not null, primary key</code>
           </li>
         </div>
       
@@ -31167,7 +31167,7 @@
 
             
 
-            <code class="ruby">#  created_at :datetime         not null</code>
+            <code class="ruby">#  created_at  :datetime         not null</code>
           </li>
         </div>
       
@@ -31178,7 +31178,7 @@
 
             
 
-            <code class="ruby">#  updated_at :datetime         not null</code>
+            <code class="ruby">#  updated_at  :datetime         not null</code>
           </li>
         </div>
       
@@ -31189,7 +31189,7 @@
 
             
 
-            <code class="ruby">#  user_id    :integer          not null</code>
+            <code class="ruby">#  customer_id :bigint           not null</code>
           </li>
         </div>
       
@@ -31233,7 +31233,7 @@
 
             
 
-            <code class="ruby">#  index_carts_on_user_id  (user_id)</code>
+            <code class="ruby">#  index_carts_on_customer_id  (customer_id)</code>
           </li>
         </div>
       
@@ -31277,7 +31277,7 @@
 
             
 
-            <code class="ruby">#  user_id  (user_id =&gt; users.id)</code>
+            <code class="ruby">#  fk_rails_...  (customer_id =&gt; users.id)</code>
           </li>
         </div>
       
@@ -31605,7 +31605,7 @@
 
             
 
-            <code class="ruby">#  id            :integer          not null, primary key</code>
+            <code class="ruby">#  id            :bigint           not null, primary key</code>
           </li>
         </div>
       
@@ -31922,7 +31922,7 @@
 
             
 
-            <code class="ruby">#  id                     :integer          not null, primary key</code>
+            <code class="ruby">#  id                     :bigint           not null, primary key</code>
           </li>
         </div>
       
@@ -32272,7 +32272,7 @@
 
             
 
-            <code class="ruby">#  id          :integer          not null, primary key</code>
+            <code class="ruby">#  id          :bigint           not null, primary key</code>
           </li>
         </div>
       
@@ -32316,7 +32316,7 @@
 
             
 
-            <code class="ruby">#  category_id :integer          not null</code>
+            <code class="ruby">#  category_id :bigint           not null</code>
           </li>
         </div>
       
@@ -32404,7 +32404,7 @@
 
             
 
-            <code class="ruby">#  category_id  (category_id =&gt; categories.id)</code>
+            <code class="ruby">#  fk_rails_...  (category_id =&gt; categories.id)</code>
           </li>
         </div>
       
@@ -32754,7 +32754,7 @@
 
             
 
-            <code class="ruby">#  id                 :integer          not null, primary key</code>
+            <code class="ruby">#  id                 :bigint           not null, primary key</code>
           </li>
         </div>
       
@@ -32809,7 +32809,7 @@
 
             
 
-            <code class="ruby">#  order_id           :integer          not null</code>
+            <code class="ruby">#  order_id           :bigint           not null</code>
           </li>
         </div>
       
@@ -32820,7 +32820,7 @@
 
             
 
-            <code class="ruby">#  restaurant_dish_id :integer</code>
+            <code class="ruby">#  restaurant_dish_id :bigint</code>
           </li>
         </div>
       
@@ -32919,7 +32919,7 @@
 
             
 
-            <code class="ruby">#  order_id            (order_id =&gt; orders.id)</code>
+            <code class="ruby">#  fk_rails_...  (order_id =&gt; orders.id)</code>
           </li>
         </div>
       
@@ -32930,7 +32930,7 @@
 
             
 
-            <code class="ruby">#  restaurant_dish_id  (restaurant_dish_id =&gt; restaurant_dishes.id)</code>
+            <code class="ruby">#  fk_rails_...  (restaurant_dish_id =&gt; restaurant_dishes.id)</code>
           </li>
         </div>
       
@@ -33423,7 +33423,7 @@
 
             
 
-            <code class="ruby">#  id         :integer          not null, primary key</code>
+            <code class="ruby">#  id          :bigint           not null, primary key</code>
           </li>
         </div>
       
@@ -33434,7 +33434,7 @@
 
             
 
-            <code class="ruby">#  created_at :datetime         not null</code>
+            <code class="ruby">#  created_at  :datetime         not null</code>
           </li>
         </div>
       
@@ -33445,7 +33445,7 @@
 
             
 
-            <code class="ruby">#  updated_at :datetime         not null</code>
+            <code class="ruby">#  updated_at  :datetime         not null</code>
           </li>
         </div>
       
@@ -33456,7 +33456,7 @@
 
             
 
-            <code class="ruby">#  user_id    :integer          not null</code>
+            <code class="ruby">#  customer_id :bigint           not null</code>
           </li>
         </div>
       
@@ -33500,7 +33500,7 @@
 
             
 
-            <code class="ruby">#  index_orders_on_user_id  (user_id)</code>
+            <code class="ruby">#  index_orders_on_customer_id  (customer_id)</code>
           </li>
         </div>
       
@@ -33544,7 +33544,7 @@
 
             
 
-            <code class="ruby">#  user_id  (user_id =&gt; users.id)</code>
+            <code class="ruby">#  fk_rails_...  (customer_id =&gt; users.id)</code>
           </li>
         </div>
       
@@ -33872,7 +33872,7 @@
 
             
 
-            <code class="ruby">#  id                     :integer          not null, primary key</code>
+            <code class="ruby">#  id                     :bigint           not null, primary key</code>
           </li>
         </div>
       
@@ -34222,7 +34222,7 @@
 
             
 
-            <code class="ruby">#  id            :integer          not null, primary key</code>
+            <code class="ruby">#  id            :bigint           not null, primary key</code>
           </li>
         </div>
       
@@ -34266,7 +34266,7 @@
 
             
 
-            <code class="ruby">#  dish_id       :integer          not null</code>
+            <code class="ruby">#  dish_id       :bigint           not null</code>
           </li>
         </div>
       
@@ -34277,7 +34277,7 @@
 
             
 
-            <code class="ruby">#  restaurant_id :integer          not null</code>
+            <code class="ruby">#  restaurant_id :bigint           not null</code>
           </li>
         </div>
       
@@ -34376,7 +34376,7 @@
 
             
 
-            <code class="ruby">#  dish_id        (dish_id =&gt; dishes.id)</code>
+            <code class="ruby">#  fk_rails_...  (dish_id =&gt; dishes.id)</code>
           </li>
         </div>
       
@@ -34387,7 +34387,7 @@
 
             
 
-            <code class="ruby">#  restaurant_id  (restaurant_id =&gt; restaurants.id)</code>
+            <code class="ruby">#  fk_rails_...  (restaurant_id =&gt; restaurants.id)</code>
           </li>
         </div>
       
@@ -34803,7 +34803,7 @@
 
             
 
-            <code class="ruby">#  id              :integer          not null, primary key</code>
+            <code class="ruby">#  id              :bigint           not null, primary key</code>
           </li>
         </div>
       
@@ -34869,7 +34869,7 @@
 
             
 
-            <code class="ruby">#  user_id         :integer          not null</code>
+            <code class="ruby">#  owner_id        :bigint           not null</code>
           </li>
         </div>
       
@@ -34913,7 +34913,7 @@
 
             
 
-            <code class="ruby">#  index_restaurants_on_user_id  (user_id)</code>
+            <code class="ruby">#  index_restaurants_on_owner_id  (owner_id)</code>
           </li>
         </div>
       
@@ -34957,7 +34957,7 @@
 
             
 
-            <code class="ruby">#  user_id  (user_id =&gt; users.id)</code>
+            <code class="ruby">#  fk_rails_...  (owner_id =&gt; users.id)</code>
           </li>
         </div>
       
@@ -36579,7 +36579,7 @@
 
             
 
-            <code class="ruby">  let(:cart) { create(:cart, user_id: customer.id) }</code>
+            <code class="ruby">  let(:cart) { create(:cart, customer_id: customer.id) }</code>
           </li>
         </div>
       
@@ -37534,7 +37534,7 @@
 
             
 
-            <code class="ruby">  let(:cart) { create(:cart, user_id: customer.id) }</code>
+            <code class="ruby">  let(:cart) { create(:cart, customer_id: customer.id) }</code>
           </li>
         </div>
       
@@ -38837,7 +38837,7 @@
 
             
 
-            <code class="ruby">  let(:order) { FactoryBot.create(:order, user_id: customer.id) }</code>
+            <code class="ruby">  let(:order) { FactoryBot.create(:order, customer_id: customer.id) }</code>
           </li>
         </div>
       
@@ -39231,7 +39231,7 @@
 
             
 
-            <code class="ruby">  let(:cart) { create(:cart, user_id: customer.id) }</code>
+            <code class="ruby">  let(:cart) { create(:cart, customer_id: customer.id) }</code>
           </li>
         </div>
       
@@ -39264,7 +39264,7 @@
 
             
 
-            <code class="ruby">  let(:order) { FactoryBot.create(:order, user_id: customer.id)}</code>
+            <code class="ruby">  let(:order) { FactoryBot.create(:order, customer_id: customer.id)}</code>
           </li>
         </div>
       
@@ -40195,7 +40195,7 @@
 
             
 
-            <code class="ruby">  let(:restaurant){ create(:restaurant, user_id: owner.id) }</code>
+            <code class="ruby">  let(:restaurant){ create(:restaurant, owner_id: owner.id) }</code>
           </li>
         </div>
       
@@ -42656,8 +42656,8 @@
     
 
     <div class="t-line-summary">
-      <b>7</b> relevant lines.
-      <span class="green"><b>7</b> lines covered</span> and
+      <b>9</b> relevant lines.
+      <span class="green"><b>9</b> lines covered</span> and
       <span class="red"><b>0</b> lines missed.</span>
     </div>
 
@@ -42746,24 +42746,24 @@
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="8">
-            
-            
-
+          <li class="covered" data-hits="1" data-linenumber="8">
+            <span class="hits">1</span>
             
 
-            <code class="ruby">  # config.before(:each) do</code>
+            
+
+            <code class="ruby">  config.before(:each) do</code>
           </li>
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="9">
-            
-            
-
+          <li class="covered" data-hits="120" data-linenumber="9">
+            <span class="hits">120</span>
             
 
-            <code class="ruby">  #   DatabaseCleaner.strategy = :transaction</code>
+            
+
+            <code class="ruby">    DatabaseCleaner.strategy = :transaction</code>
           </li>
         </div>
       
@@ -42774,7 +42774,7 @@
 
             
 
-            <code class="ruby">  # end</code>
+            <code class="ruby">  end</code>
           </li>
         </div>
       

@@ -8,19 +8,19 @@
 #  status          :string           default("open"), not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
-#  user_id         :bigint           not null
+#  owner_id        :bigint           not null
 #
 # Indexes
 #
-#  index_restaurants_on_user_id  (user_id)
+#  index_restaurants_on_owner_id  (owner_id)
 #
 # Foreign Keys
 #
-#  fk_rails_...  (user_id => users.id)
+#  fk_rails_...  (owner_id => users.id)
 #
 class Restaurant < ApplicationRecord
   paginates_per 2
-  belongs_to :owner, foreign_key: 'user_id'
+  belongs_to :owner, class_name: "User", foreign_key: 'owner_id'
   has_many :restaurant_dishes, dependent: :destroy
   has_many :dishes, through: :restaurant_dishes
 

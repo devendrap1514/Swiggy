@@ -14,5 +14,5 @@
 #  updated_at             :datetime         not null
 #
 class Owner < User
-  has_many :restaurants, foreign_key: 'user_id', dependent: :destroy
+  has_many :restaurants, class_name: "Restaurant", foreign_key: 'owner_id', dependent: :destroy
 end

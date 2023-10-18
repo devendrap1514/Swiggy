@@ -5,7 +5,7 @@ include TokenHelper
 RSpec.describe "OrderItems", type: :request do
   let(:customer) { FactoryBot.create(:user, type: Customer) }
   let(:customer_token) { user_token(customer) }
-  let(:order) { FactoryBot.create(:order, user_id: customer.id) }
+  let(:order) { FactoryBot.create(:order, customer_id: customer.id) }
   let(:restaurant_dish) { FactoryBot.create(:restaurant_dish) }
   let(:order_item) { create(:order_item, order: order, restaurant_dish: restaurant_dish) }
   let(:header) { { Authorization: "bearer #{customer_token}" } }

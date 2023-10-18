@@ -14,6 +14,6 @@
 #  updated_at             :datetime         not null
 #
 class Customer < User
-  has_one :cart, foreign_key: 'user_id', dependent: :destroy
-  has_many :orders, foreign_key: 'user_id', dependent: :destroy
+  has_one :cart, class_name: "Cart", foreign_key: 'customer_id', dependent: :destroy
+  has_many :orders, class_name: "Order", foreign_key: 'customer_id', dependent: :destroy
 end

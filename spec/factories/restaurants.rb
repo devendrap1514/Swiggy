@@ -8,21 +8,21 @@
 #  status          :string           default("open"), not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
-#  user_id         :bigint           not null
+#  owner_id        :bigint           not null
 #
 # Indexes
 #
-#  index_restaurants_on_user_id  (user_id)
+#  index_restaurants_on_owner_id  (owner_id)
 #
 # Foreign Keys
 #
-#  fk_rails_...  (user_id => users.id)
+#  fk_rails_...  (owner_id => users.id)
 #
 FactoryBot.define do
   factory :restaurant, class: Restaurant do
     address { Faker::Address.street_name }
     restaurant_name { Faker::Restaurant.name }
     status { 'open' }
-    user_id { FactoryBot.create(:user, type: "Owner").id }
+    owner_id { FactoryBot.create(:user, type: "Owner").id }
   end
 end

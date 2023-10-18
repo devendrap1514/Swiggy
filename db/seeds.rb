@@ -37,14 +37,14 @@ p_e(customer1, customer2)
 
 # Create Restaurant
 Restaurant.destroy_all
-restaurant1 = Restaurant.create(restaurant_name: 'Apna Sweet', address: 'Vijay Nager', user_id: owner1.id,
+restaurant1 = Restaurant.create(restaurant_name: 'Apna Sweet', address: 'Vijay Nager', owner_id: owner1.id,
                                 status: 'open')
-restaurant2 = Restaurant.create(restaurant_name: 'Guru Kripa', address: 'Sarvate', user_id: owner1.id, status: 'close')
-restaurant3 = Restaurant.create(restaurant_name: 'Sayaji', address: 'Meghdoot', user_id: owner2.id, status: 'open')
-restaurant4 = Restaurant.create(restaurant_name: 'Maa ki Rasoi', address: 'Palasia', user_id: owner2.id, status: 'open')
-restaurant5 = Restaurant.create(restaurant_name: 'Apna Sweet', address: 'Sapna Sangeeta', user_id: owner1.id,
+restaurant2 = Restaurant.create(restaurant_name: 'Guru Kripa', address: 'Sarvate', owner_id: owner1.id, status: 'close')
+restaurant3 = Restaurant.create(restaurant_name: 'Sayaji', address: 'Meghdoot', owner_id: owner2.id, status: 'open')
+restaurant4 = Restaurant.create(restaurant_name: 'Maa ki Rasoi', address: 'Palasia', owner_id: owner2.id, status: 'open')
+restaurant5 = Restaurant.create(restaurant_name: 'Apna Sweet', address: 'Sapna Sangeeta', owner_id: owner1.id,
                                 status: 'open')
-restaurant6 = Restaurant.create(restaurant_name: 'Guru Kripa', address: 'Palasia', user_id: owner1.id, status: 'close')
+restaurant6 = Restaurant.create(restaurant_name: 'Guru Kripa', address: 'Palasia', owner_id: owner1.id, status: 'close')
 p_e restaurant1, restaurant2, restaurant3, restaurant4, restaurant5, restaurant6
 
 # Create Restaurant Dishes

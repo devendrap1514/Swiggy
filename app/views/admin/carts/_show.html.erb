@@ -2,7 +2,7 @@
   attributes_table do
     row :id
     row :user do |cart|
-      "#{cart.user_id}, #{cart.customer.name}"
+      "#{cart.customer_id}, #{cart.customer.name}"
     end
     row :created_at
     row :updated_at
