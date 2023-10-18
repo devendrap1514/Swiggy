@@ -1,0 +1,15 @@
+<% if @user_authentication.errors.any? %>
+  <% @user_authentication.errors.full_messages.each do |message|%>
+     <h3><%= message %> </h3>
+  <%end%>
+<%end%>
+</br>
+
+<%= form_for ([:api, :v1, @user_authentication]), url: api_v1_user_authentication_path do |form| %>
+  <%= form.label :username %>
+  <%= form.text_field :username %><br>
+  <%= form.label :password %>
+  <%= form.text_field :password %><br>
+  <%= form.submit :login%>
+<% end %>
+

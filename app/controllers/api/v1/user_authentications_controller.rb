@@ -1,6 +1,13 @@
 class Api::V1::UserAuthenticationsController < Api::V1::ApiController
   #---------don't use before_action bcz it will not execute authorize_request before authorise_resource
-  skip_before_action :authorize_request, only: %i[create destroy send_mail set_password]
+  skip_before_action :authorize_request, only: %i[new create destroy send_mail set_password]
+
+  def new
+    if is_login?
+      redirect_to api_v1_restaurant_dishes_path
+    end
+    @user_authentication = UserAuthentication.new
+  end
 
   def create
     @user_authentication = UserAuthentication.new(user_authentication_params)
@@ -11,11 +18,17 @@ class Api::V1::UserAuthenticationsController < Api::V1::ApiController
       output = {}
       output[:message] = "Successfully Login"
       response.headers['Token'] = token
-      render status: :ok, json: output
+      respond_to do |format|
+        format.json { render status: :ok, json: output }
+        format.html { redirect_to api_v1_restaurant_dishes_path }
+      end
     else
       output = {}
       output[:message] = "username & possword doesn't match"
-      render status: :unauthorized, json: output
+      respond_to do |format|
+        format.json { render status: :unauthorized, json: output }
+        format.html { render :new }
+      end
     end
   end
 
@@ -24,20 +37,39 @@ class Api::V1::UserAuthenticationsController < Api::V1::ApiController
 
     output = {}
     output[:message] = "Successfully Logout"
-    render status: :ok, json: output
+    respond_to do |format|
+      format.json { render status: :ok, json: output }
+      format.html { redirect_to new_api_v1_user_authentication_path }
+    end
+  end
+
+  def forgot_password
+    @user_authentication = UserAuthentication.new
   end
 
   def send_mail
-    return render status: :not_found, json: 'Username must be pass' unless params[:username]
+    if !params[:username] || params[:username].empty?
+      respond_to do |format|
+        format.json { render status: :not_found, json: 'Username must be pass' }
+        format.html { flash.now[:notice] = 'Username must be pass' }
+      end and return
+    end
 
     user = User.find_by_username(params[:username])
     if user.present?
       user.generate_password_token! # generate pass token
       UserMailer.with(user:user).forgot_password_token.deliver_now
-      render json: 'Email Send Successfully'
+      respond_to do |format|
+        format.json { render json: 'Email Send Successfully' }
+        format.html { redirect_to reset_password_api_v1_user_authentication_path }
+      end
     else
       render json: { message: ['Username not found. Please check and try again.'] }, status: :not_found
     end
+  end
+
+  def reset_password
+
   end
 
   def set_password
@@ -59,6 +91,6 @@ class Api::V1::UserAuthenticationsController < Api::V1::ApiController
 
   private
   def user_authentication_params
-    params.permit(:username, :password)
+    params.require(:user_authentication).permit(:username, :password)
   end
 end

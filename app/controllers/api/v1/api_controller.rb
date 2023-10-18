@@ -1,4 +1,5 @@
-class Api::V1::ApiController < ActionController::API
+class Api::V1::ApiController < ApplicationController
+  protect_from_forgery with: :null_session
   rescue_from CanCan::AccessDenied do |exception|
     render status: :forbidden, json: exception.message
   end
@@ -6,23 +7,28 @@ class Api::V1::ApiController < ActionController::API
   before_action :authorize_request
   authorize_resource
 
-  def authorize_request
-    header = request.headers["Authorization"]
-    token = header.split(' ')[1] if header
+  # def authorize_request
+  #   header = request.headers["Authorization"]
+  #   token = header.split(' ')[1] if header
 
-    unless session[:token]
-      return render status: :unauthorized, json: {message: "First Login"}
-    end unless token
+  #   unless session[:token]
+  #     respond_to do |format|
+  #       format.json { render status: :unauthorized, json: {message: "First Login"} }
+  #       format.html { redirect_to new_api_v1_user_authentication_path }
+  #     end
+  #     return
+  #   end unless token
 
-    begin
-      decoded = JsonWebToken.decode(token || session[:token])
-      @current_user = User.find(decoded[:user_id])
-    rescue ActiveRecord::RecordNotFound => e
-      render status: :not_found, json: { message: e.message }
-    rescue JWT::DecodeError => e
-      render status: :unauthorized, json: { message: e.message }
-    end
-  end
+  #   begin
+  #     decoded = JsonWebToken.decode(token || session[:token])
+  #     @current_user = User.find(decoded[:user_id])
+  #   rescue ActiveRecord::RecordNotFound => e
+  #     session.delete(:token)
+  #     render status: :not_found, json: { message: e.message }
+  #   rescue JWT::DecodeError => e
+  #     render status: :unauthorized, json: { message: e.message }
+  #   end
+  # end
 
   def is_login?
     return true if session[:token]

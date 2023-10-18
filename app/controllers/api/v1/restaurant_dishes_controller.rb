@@ -11,7 +11,11 @@ class Api::V1::RestaurantDishesController < Api::V1::ApiController
              else
                RestaurantDish.all
              end
-    render json: output.page(params[:page])
+
+    respond_to do |format|
+      format.json { render json: output.page(params[:page]) }
+      format.html
+    end
   end
 
   def create

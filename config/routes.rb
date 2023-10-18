@@ -4,11 +4,11 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resource :user_authentication, path: "auth", only: [:create, :destroy] do
+      resource :user_authentication, path: "auth", only: [:new, :create, :destroy] do
         collection do
-          # get '/forgot_password', action: "forgot_password"
+          get '/forgot_password', action: :forgot_password
           post '/send_mail', action: :send_mail
-          # get '/reset_password', action: :reset_password
+          get '/reset_password', action: :reset_password
           post '/set_password', action: :set_password
         end
       end

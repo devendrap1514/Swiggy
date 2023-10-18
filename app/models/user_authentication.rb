@@ -17,6 +17,7 @@ class UserAuthentication
   end
 
   def is_match?
+    byebug
     @user = User.find_by_username(username)
     if @user
       if @user&.authenticate(password)
@@ -26,7 +27,7 @@ class UserAuthentication
         false
       end
     else
-      errors.add(:username, "username doesn't exist")
+      errors.add(:username, "doesn't exist")
       false
     end
   end
