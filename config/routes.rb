@@ -2,6 +2,8 @@ Rails.application.routes.draw do
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
 
+  root "restaurant_dishes#index"
+
   namespace :api do
     namespace :v1 do
       resource :user_authentication, path: "auth", only: [:new, :create, :destroy] do

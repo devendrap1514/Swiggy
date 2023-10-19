@@ -17,7 +17,6 @@ class UserAuthentication
   end
 
   def is_match?
-    byebug
     @user = User.find_by_username(username)
     if @user
       if @user&.authenticate(password)

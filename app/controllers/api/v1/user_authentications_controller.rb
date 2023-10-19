@@ -44,14 +44,14 @@ class Api::V1::UserAuthenticationsController < Api::V1::ApiController
   end
 
   def forgot_password
-    @user_authentication = UserAuthentication.new
   end
 
   def send_mail
     if !params[:username] || params[:username].empty?
+      flash.now[:notice] = "Username must be pass"
       respond_to do |format|
         format.json { render status: :not_found, json: 'Username must be pass' }
-        format.html { flash.now[:notice] = 'Username must be pass' }
+        format.html { render :forgot_password }
       end and return
     end
 
@@ -64,28 +64,48 @@ class Api::V1::UserAuthenticationsController < Api::V1::ApiController
         format.html { redirect_to reset_password_api_v1_user_authentication_path }
       end
     else
-      render json: { message: ['Username not found. Please check and try again.'] }, status: :not_found
+      flash.now[:notice] = "username not found"
+      respond_to do |format|
+        format.json { render json: { message: ['Username not found. Please check and try again.'] }, status: :not_found }
+        format.html { render :forgot_password }
+      end
     end
   end
 
   def reset_password
-
+    @user = User.new
   end
 
   def set_password
     token = params[:token]
 
-    return render status: :not_found, json: { error: 'Token not present' } unless token
+    if !token || token.empty?
+      flash.now[:notice] = "Token not present"
+      respond_to do |format|
+        format.json { render status: :not_found, json: { error: 'Token not present' } }
+        format.html { render :reset_password }
+      end and return
+    end
 
-    user = User.find_by(reset_password_token: token)
-    if user.present? && user.password_token_valid?
-      if user.reset_password!(params[:password])
-        render json: 'Password Update Successfully'
+    @user = User.find_by(reset_password_token: token)
+    if @user.present? && @user.password_token_valid?
+      if @user.reset_password!(params[:password])
+        respond_to do |format|
+          format.json { render json: 'Password Update Successfully' }
+          format.html { redirect_to new_api_v1_user_authentication_path }
+        end
       else
-        render status: :unprocessable_entity, json: { errors: user.errors.full_messages }
+        respond_to do |format|
+          format.json { render status: :unprocessable_entity, json: { errors: @user.errors.full_messages } }
+          format.html { render :reset_password }
+        end
       end
     else
-      render status: :gone, json: { message: ['Link not valid or expired. Try generating a new link.'] }
+      flash.now[:notice] = 'Link not valid or expired. Try generating a new link.'
+      respond_to do |format|
+        format.json { render status: :gone, json: { message: ['Link not valid or expired. Try generating a new link.'] } }
+        format.html { render :reset_password }
+      end
     end
   end
 

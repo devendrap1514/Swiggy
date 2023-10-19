@@ -46,6 +46,7 @@ class User < ApplicationRecord
 
   def reset_password!(_password)
     return update(reset_password_token: nil) if update(password: _password)
+    false
   end
 
   private
