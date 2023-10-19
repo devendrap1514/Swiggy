@@ -4,8 +4,9 @@
 #
 #  id                     :bigint           not null, primary key
 #  email                  :string
+#  encrypted_password     :string           default(""), not null
 #  name                   :string           not null
-#  password_digest        :string           not null
+#  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
 #  type                   :string           not null
@@ -13,16 +14,24 @@
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #
+# Indexes
+#
+#  index_users_on_email                 (email) UNIQUE
+#  index_users_on_reset_password_token  (reset_password_token) UNIQUE
+#
 class User < ApplicationRecord
-  has_secure_password
+  # Include default devise modules. Others available are:
+  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :validatable
 
   has_one_attached :profile_picture
 
   validates :name, presence: true
   validates :username, presence: true, uniqueness: { case_sensitive: false },
                        format: { with: /\A[0-9A-Za-z_]+\z/ } # allow only alphanumeric and underscore
-  validates :password, format: { with: /\A(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{6,}\z/ }, if: -> { new_record? || password_digest_changed? } # contain atleast one small and capital letter, a number
-  validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }
+  validates :password, format: { with: /\A(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{6,}\z/ } # contain atleast one small and capital letter, a number
+  validates :email, presence: true, uniqueness: { case_sensitive: false }, format: { with: URI::MailTo::EMAIL_REGEXP }
 
   validates :type, presence: true
 

@@ -1,19 +1,12 @@
 Rails.application.routes.draw do
+  devise_for :users
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
 
-  root "restaurant_dishes#index"
+  root "api/v1/restaurant_dishes#index"
 
   namespace :api do
     namespace :v1 do
-      resource :user_authentication, path: "auth", only: [:new, :create, :destroy] do
-        collection do
-          get '/forgot_password', action: :forgot_password
-          post '/send_mail', action: :send_mail
-          get '/reset_password', action: :reset_password
-          post '/set_password', action: :set_password
-        end
-      end
       resource :owner, only: %i[create show update destroy] do
         get '/my_restaurant', action: :my_restaurant, on: :member
         get '/my_dishes', action: :my_dishes, on: :member
@@ -33,7 +26,7 @@ Rails.application.routes.draw do
         get '/dishes', action: :restaurant_dishes, on: :member
       end
 
-      resources :dishes, only: %i[index show create update]
+      resources :dishes, only: %i[index new create show edit update]
       resources :categories, only: %i[index show] do
         get '/dishes', action: :category_dishes, on: :member
       end

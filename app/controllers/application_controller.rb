@@ -1,24 +1,15 @@
 class ApplicationController < ActionController::Base
-  def authorize_request
-    header = request.headers["Authorization"]
-    token = header.split(' ')[1] if header
+  before_action :configure_permitted_parameters, if: :devise_controller?
+  before_action :update_allowed_parameters, if: :devise_controller?
 
-    unless session[:token]
-      respond_to do |format|
-        format.json { render status: :unauthorized, json: {message: "First Login"} }
-        format.html { redirect_to new_api_v1_user_authentication_path }
-      end
-      return
-    end unless token
+  protected
 
-    begin
-      decoded = JsonWebToken.decode(token || session[:token])
-      @current_user = User.find(decoded[:user_id])
-    rescue ActiveRecord::RecordNotFound => e
-      session.delete(:token)
-      render status: :not_found, json: { message: e.message }
-    rescue JWT::DecodeError => e
-      render status: :unauthorized, json: { message: e.message }
-    end
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:username])
+  end
+
+  def update_allowed_parameters
+    devise_parameter_sanitizer.permit(:sign_up) { |u| u.permit(:name, :username, :type, :email, :password, :password_confirmation, :profile_picture)}
+    devise_parameter_sanitizer.permit(:account_update) { |u| u.permit(:name, :username, :email, :password, :password_confirmation, :profile_picture)}
   end
 end

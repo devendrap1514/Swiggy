@@ -1,0 +1,24 @@
+<%= form_for [:api, :v1, @dish] do |f| %>
+  <%= f.label :dish_name %>
+  <%= f.text_field :dish_name %>
+  <% @dish.errors.full_messages_for(:dish_name).each do |message| %>
+    <h6><%= message %></h6>
+  <% end %>
+
+  <br>
+
+  <%= f.label :category_id, "category_id" %>
+  <%= f.text_field :category_id %>
+  <% @dish.errors.full_messages_for(:category).each do |message| %>
+    <h6><%= message %></h6>
+  <% end %>
+
+  <br>
+
+  <%= f.label :dish_images, "dish_images" %>
+  <%= f.file_field :dish_images, multiple: true %>
+
+  <br>
+
+  <%= f.submit %>
+<% end %>

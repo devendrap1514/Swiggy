@@ -1,22 +1,43 @@
 class Api::V1::DishesController < Api::V1::ApiController
-  before_action :find_dish, only: [:show, :update]
+  before_action :find_dish, only: [:show, :edit, :update]
 
   def index
     dish_name = StripAndSqueeze.apply(params[:dish_name])
     category_name = StripAndSqueeze.apply(params[:category_name])
-    render json: Dish.filter_by_dish_name(dish_name).filter_by_category_name(category_name).page(params[:page])
+    @dishes = Dish.filter_by_dish_name(dish_name).filter_by_category_name(category_name).page(params[:page])
+    output = {}
+    output[:message] = "successfull"
+    output[:data] = DishSerializer.new @dishes
+    respond_to do |format|
+      format.json { render status: :ok, json: output }
+      format.html {  }
+    end
+  end
+
+  def new
+    @dish = Dish.new
   end
 
   def create
-    dish = Dish.new(dish_params)
-    if dish.save
+    @dish = Dish.new(dish_params)
+    if @dish.save
       output = {}
       output[:message] = "success"
-      output[:data] = DishSerializer.new dish
-      render status: :created, json: output
+      output[:data] = DishSerializer.new @dish
+      respond_to do |format|
+        format.json { render status: :created, json: output }
+        format.html {render :new}
+      end
     else
-      render json: { message: dish.errors.full_messages }, status: :unprocessable_entity
+      respond_to do |format|
+        format.json { render json: { message: @dish.errors.full_messages }, status: :unprocessable_entity }
+        format.html { render :new }
+      end
     end
+  end
+
+  def edit
+
   end
 
   def update
@@ -41,6 +62,6 @@ class Api::V1::DishesController < Api::V1::ApiController
   private
 
   def dish_params
-    params.permit(:dish_name, :category_id, dish_images: [])
+    params.require(:dish).permit(:dish_name, :category_id, dish_images: [])
   end
 end

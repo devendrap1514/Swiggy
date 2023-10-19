@@ -4,16 +4,17 @@ class Api::V1::RestaurantDishesController < Api::V1::ApiController
   def index
     restaurant_name = StripAndSqueeze.apply(params[:restaurant_name])
     dish_name = StripAndSqueeze.apply(params[:dish_name])
-    output = if params[:restaurant_name]
-               Restaurant.filter_by_restaurant_name(restaurant_name)
+    @restaurant_dishes = if params[:restaurant_name]
+               RestaurantDish.filter_by_restaurant_name(restaurant_name)
              elsif params[:dish_name]
                RestaurantDish.filter_by_dish_name(dish_name)
              else
                RestaurantDish.all
              end
 
+    @restaurant_dishes = @restaurant_dishes.page(params[:page])
     respond_to do |format|
-      format.json { render json: output.page(params[:page]) }
+      format.json { render json: @restaurant_dishes.page(params[:page]) }
       format.html
     end
   end

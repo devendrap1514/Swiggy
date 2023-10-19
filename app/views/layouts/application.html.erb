@@ -8,14 +8,26 @@
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+    <style>
+      #header {
+        border:1px solid #000000;
+        display: flex;
+        justify-content: flex-end;
+        background: aqua;
+        padding: 10px;
+      }
+    </style>
   </head>
 
   <body>
-    <% if @current_user %>
-      <%= button_to "signout", {controller: :user_authentications,
-        action: 'destroy'}, method: :delete %>
+    <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
+    <% if current_user %>
+      <div id="header">
+        <%= button_to "signout", destroy_user_session_path, method: :delete %>
+        <%= button_to "edit", edit_user_registration_path, method: :get %>
+      </div>
     <% end %>
-
     <%= yield %>
   </body>
 </html>

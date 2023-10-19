@@ -22,17 +22,17 @@ p_e dish1, dish2, dish3, dish4
 # Create Owner
 Owner.destroy_all
 owner1 = Owner.create(name: 'Vinay Sharma', username: 'vs_123', password: 'Vinay123',
-                      password_confirmation: 'Vinay123', email: 'unknownwalahai@gmail.com')
+                      password_confirmation: 'Vinay123', email: 'owner1@gmail.com')
 owner2 = Owner.create(name: 'Akash Chadda', username: 'ac_123', password: 'Akash123',
-                      password_confirmation: 'Akash123', email: 'unknownwalahai@gmail.com')
+                      password_confirmation: 'Akash123', email: 'onwer2@gmail.com')
 p_e(owner1, owner2)
 
 # Create Customer
 Customer.destroy_all
 customer1 = Customer.create(name: 'Devendra Patidar', username: 'dp_123', password: 'Devendra123',
-                            password_confirmation: 'Devendra123', email: 'unknownwalahai@gmail.com')
+                            password_confirmation: 'Devendra123', email: 'customer1@gmail.com')
 customer2 = Customer.create(name: 'Pradeep Patidar', username: 'pp_123', password: 'Devendra123',
-                            password_confirmation: 'Devendra123', email: 'unknownwalahai@gmail.com')
+                            password_confirmation: 'Devendra123', email: 'customer2@gmail.com')
 p_e(customer1, customer2)
 
 # Create Restaurant

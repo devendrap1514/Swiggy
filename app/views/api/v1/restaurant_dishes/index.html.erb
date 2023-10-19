@@ -1,0 +1,19 @@
+<table>
+  <thead style="color:red">
+    <tr>
+      <th>Restaurant Name</th>
+      <th>Dish Name</th>
+      <th>Address</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @restaurant_dishes.each do |rd| %>
+      <tr>
+        <td><%= rd.restaurant.restaurant_name %></td>
+        <td><%= rd.dish.dish_name %></td>
+        <td><%= rd.restaurant.address %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
