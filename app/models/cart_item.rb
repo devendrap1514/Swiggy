@@ -31,7 +31,6 @@ class CartItem < ApplicationRecord
   def update_quantity(quantity)
     quantity = self.quantity + quantity
     self.update(quantity: quantity)
-    self
   end
 
   def initialize_price

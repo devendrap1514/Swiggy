@@ -1,4 +1,4 @@
-<table>
+<table align="center", style="max-width: 25rem;">
   <thead style="color:red">
     <tr>
       <th>Restaurant Name</th>
@@ -13,6 +13,7 @@
         <td><%= rd.restaurant.restaurant_name %></td>
         <td><%= rd.dish.dish_name %></td>
         <td><%= rd.restaurant.address %></td>
+        <td><%= button_to "add to cart", { controller: :cart_items, action: :create, params: { restaurant_dish_id:rd.id, quantity: 1 } }, data: { turbo_method: "post" } %></td>
       </tr>
     <% end %>
   </tbody>

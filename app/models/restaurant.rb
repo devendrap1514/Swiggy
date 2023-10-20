@@ -26,12 +26,12 @@ class Restaurant < ApplicationRecord
 
   validates :restaurant_name, :address, presence: true
   validates :restaurant_name, uniqueness: { scope: :address }
-  validates :status, presence: true #, inclusion: { in: ['open', 'close']}
-
   enum :status, {
     open: 'open',
     close: 'close'
   }
+
+  validates :status, presence: true, inclusion: { in: ['open', 'close']}
 
   before_validation :remove_whitespace
 

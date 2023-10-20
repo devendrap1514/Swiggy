@@ -1,0 +1,10 @@
+<%=@restaurant.restaurant_name %>
+<%=@restaurant.address %>
+<%=@restaurant.status %>
+<%= link_to "view", api_v1_restaurant_path(@restaurant), method: :get %>
+<% if @restaurant.owner_id == current_user.id %>
+  <%= link_to "edit", edit_api_v1_restaurant_path(@restaurant)%>
+<% end %>
+<% if @restaurant.owner_id == current_user.id %>
+  <%= link_to "delete", { controller: "api/v1/restaurants", action: :destroy, id: @restaurant.id }, method: :delete%>
+<% end %>

@@ -1,0 +1,12 @@
+
+<%= button_to "signout", destroy_user_session_path, method: :delete %>
+<%= button_to "edit", edit_user_registration_path, method: :get %>
+
+<div align="center", style="display=table-cell;">
+  <label>Name</label>
+  <h1><%= current_user.name %></h1>
+  <label>Email</label>
+  <h3><%= current_user.email %></h3>
+  <label>Username</label>
+  <h3><%= current_user.username %></h3>
+</div>

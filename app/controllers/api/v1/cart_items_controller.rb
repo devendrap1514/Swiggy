@@ -23,11 +23,32 @@ class Api::V1::CartItemsController < Api::V1::ApiController
 
   def create
     cart_item = @cart.cart_items.find_by(restaurant_dish_id: params[:restaurant_dish_id])
-    return render json: cart_item.update_quantity(params[:quantity].to_i) if cart_item
+    # return render json: cart_item.update_quantity(params[:quantity].to_i) if cart_item
+
+    if cart_item
+      output = {}
+      output[:message]
+      output[:data] = cart_item if cart_item.update_quantity(params[:quantity].to_i)
+      respond_to do |format|
+        format.json {
+          if output
+            render json: output
+          else
+            render json: ""
+          end
+        }
+        format.html {  }
+      end
+      return
+    end
 
     cart_item = @cart.cart_items.new(items_params)
+    byebug
     if cart_item.save
-      render json: cart_item
+      respond_to do |format|
+        format.json  { render json: cart_item }
+        format.html
+      end
     else
       @cart.cart_items.delete(cart_item)
       destroy_cart_if_empty

@@ -1,6 +1,4 @@
 class Api::V1::UsersController < Api::V1::ApiController
-  #---------don't use before_action bcz it will not execute authorize_request before authorise_resource
-  skip_before_action :authorize_request, only: %i[create]
 
   def create(user)
     UserMailer.with(user: user).welcome_email.deliver_now
@@ -10,7 +8,11 @@ class Api::V1::UsersController < Api::V1::ApiController
     output = {}
     output[:message] = "success"
     output[:data] = UserSerializer.new @current_user
-    render json: output
+
+    respond_to do |format|
+      format.json { render json: output }
+      format.html { }
+    end
   end
 
   def update

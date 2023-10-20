@@ -14,7 +14,8 @@
         display: flex;
         justify-content: flex-end;
         background: aqua;
-        padding: 10px;
+        padding: 6px;
+        margin: 0px;
       }
     </style>
   </head>
@@ -24,8 +25,9 @@
     <p class="alert"><%= alert %></p>
     <% if current_user %>
       <div id="header">
-        <%= button_to "signout", destroy_user_session_path, method: :delete %>
-        <%= button_to "edit", edit_user_registration_path, method: :get %>
+        <%= link_to api_v1_user_path(current_user) do %>
+          <%= image_tag("profile_pic.png", size: "30x30") %>
+        <% end %>
       </div>
     <% end %>
     <%= yield %>

@@ -10,7 +10,7 @@ class Api::V1::DishesController < Api::V1::ApiController
     output[:data] = DishSerializer.new @dishes
     respond_to do |format|
       format.json { render status: :ok, json: output }
-      format.html {  }
+      format.html
     end
   end
 
@@ -26,7 +26,7 @@ class Api::V1::DishesController < Api::V1::ApiController
       output[:data] = DishSerializer.new @dish
       respond_to do |format|
         format.json { render status: :created, json: output }
-        format.html {render :new}
+        format.html { render :new }
       end
     else
       respond_to do |format|
@@ -42,17 +42,28 @@ class Api::V1::DishesController < Api::V1::ApiController
 
   def update
     if @dish.update(dish_params)
-      render json: { message: "success", data: @dish }
+      respond_to do |format|
+        format.json { render json: { message: "success", data: @dish } }
+        format.html { redirect_to root_path }
+      end
     else
-      render json: { message: @dish.errors.full_messages }, status: :unprocessable_entity
+      respond_to do |format|
+        format.json { render json: { message: @dish.errors.full_messages }, status: :unprocessable_entity }
+        format.html { render :edit }
+      end
+
     end
   end
 
   def show
-    render status: :ok, json: {message: "success", data: @dish}
+    respond_to do |format|
+      format.json { render status: :ok, json: {message: "success", data: @dish} }
+      format.html
+    end
   end
 
   def find_dish
+    byebug
     @dish = Dish.find_by_id(params[:id])
     return if @dish
 

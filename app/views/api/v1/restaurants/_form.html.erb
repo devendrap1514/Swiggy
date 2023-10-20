@@ -1,0 +1,21 @@
+<%= form_for [:api, :v1, @restaurant] do |f| %>
+  <%= f.label :restaurant_name %>
+  <%= f.text_field :restaurant_name %>
+  <% @restaurant.errors.full_messages_for(:restaurant_name).each do |message| %>
+    <h6><%= message %></h6>
+  <% end %>
+
+  <br>
+
+  <%= f.label :address %>
+  <%= f.text_field :address %>
+  <% @restaurant.errors.full_messages_for(:address).each do |message| %>
+    <h6><%= message %></h6>
+  <% end %>
+
+  <%= select_tag "status", options_for_select(["open", "close"], @restaurant.status) %>
+
+  <br>
+
+  <%= f.submit %>
+<% end %>
