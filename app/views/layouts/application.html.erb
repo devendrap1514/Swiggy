@@ -23,13 +23,30 @@
   <body>
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
-    <% if current_user %>
-      <div id="header">
-        <%= link_to api_v1_user_path(current_user) do %>
-          <%= image_tag("profile_pic.png", size: "30x30") %>
+
+    <header style="display: flex; border: 0.5px solid;">
+      <div style="margin: auto;">
+        <%= link_to "HOME", api_v1_restaurant_dishes_path %>
+        <%= link_to "DISHES", api_v1_dishes_path %>
+        <%= link_to "RESTAURANT", api_v1_restaurants_path %>
+      </div>
+
+      <div>
+        <% if current_user %>
+          <%= link_to api_v1_user_path(current_user) do %>
+            <% if current_user.profile_picture.attached? %>
+              <%= image_tag(current_user.profile_picture, size: "30x30") %>
+            <% else %>
+              <%= image_tag("profile_pic.png", size: "30x30") %>
+            <% end %>
+          <% end %>
         <% end %>
       </div>
-    <% end %>
+
+    </header>
+
+    <br>
+
     <%= yield %>
   </body>
 </html>

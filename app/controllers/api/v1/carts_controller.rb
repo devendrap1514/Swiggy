@@ -5,7 +5,10 @@ class Api::V1::CartsController < Api::V1::ApiController
     output = {}
     output[:message] = "success"
     output[:data] = CartSerializer.new @cart
-    render json: output
+    respond_to do |format|
+      format.json { render json: output }
+      format.html
+    end
   end
 
   def destroy
@@ -18,7 +21,11 @@ class Api::V1::CartsController < Api::V1::ApiController
   def find_cart
     @cart = @current_user.cart
     output = {}
-    output[:message] = "cart is empty"
-      render status: :not_found, json: output unless @cart.present?
+    output[:message] = "Cart is empty"
+    flash.now[:notice] = "Cart is empty"
+    respond_to do |format|
+      format.json { render status: :not_found, json: output unless @cart.present? }
+      format.html
+    end
   end
 end

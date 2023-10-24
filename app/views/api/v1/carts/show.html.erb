@@ -1,0 +1,29 @@
+<% if flash[:notice] %>
+  <div class="notice"><%= flash[:notice] %></div>
+<% end %>
+<% if @cart.present? %>
+  <h1 align="center">Cart</h1>
+  <h1 align="center"><%= @cart.cart_price %></h1>
+
+  <table align="center", style="max-width: 25rem;">
+    <thead style="color:red">
+      <tr>
+        <th>Restaurant</th>
+        <th>Dish</th>
+        <th>Quantity</th>
+        <th>Price</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @cart.cart_items.each do |item| %>
+        <tr>
+          <td><%= item.restaurant_dish.restaurant.restaurant_name %></td>
+          <td><%= item.restaurant_dish.dish.dish_name %></td>
+          <td><%= item.quantity %></td>
+          <td><%= item.price %></td>
+          <td><%= button_to "Destroy", api_v1_cart_cart_item_path(item), method: :delete %> </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

@@ -34,20 +34,19 @@ class Api::V1::CartItemsController < Api::V1::ApiController
           if output
             render json: output
           else
-            render json: ""
+            render json: nil
           end
         }
-        format.html {  }
+        format.html { redirect_to api_v1_cart_path }
       end
       return
     end
 
     cart_item = @cart.cart_items.new(items_params)
-    byebug
     if cart_item.save
       respond_to do |format|
         format.json  { render json: cart_item }
-        format.html
+        format.html { redirect_to api_v1_cart_path }
       end
     else
       @cart.cart_items.delete(cart_item)

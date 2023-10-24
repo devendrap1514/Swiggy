@@ -1,6 +1,9 @@
 
-<%= button_to "signout", destroy_user_session_path, method: :delete %>
-<%= button_to "edit", edit_user_registration_path, method: :get %>
+<div align="right">
+  <%= button_to "signout", destroy_user_session_path, method: :delete %>
+  <%= button_to "edit profile", edit_user_registration_path, method: :get %>
+  <%= button_to "go to cart", api_v1_cart_path, method: :get %>
+</div>
 
 <div align="center", style="display=table-cell;">
   <label>Name</label>
