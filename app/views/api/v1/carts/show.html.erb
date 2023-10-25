@@ -1,6 +1,3 @@
-<% if flash[:notice] %>
-  <div class="notice"><%= flash[:notice] %></div>
-<% end %>
 <% if @cart.present? %>
   <h1 align="center">Cart</h1>
   <h1 align="center"><%= @cart.cart_price %></h1>
@@ -21,9 +18,19 @@
           <td><%= item.restaurant_dish.dish.dish_name %></td>
           <td><%= item.quantity %></td>
           <td><%= item.price %></td>
-          <td><%= button_to "Destroy", api_v1_cart_cart_item_path(item), method: :delete %> </td>
+          <td><%= button_to "Remove", api_v1_cart_cart_item_path(item), method: :delete %> </td>
+
+          <td style="display: inline;">
+            <%= form_for [:api, :v1, :cart, item], method: :patch do |f| %>
+              <%= f.text_field :quantity %>
+              <%= f.submit "Update" %>
+            <% end %>
+          </td>
         </tr>
       <% end %>
     </tbody>
   </table>
+  <div align="center">
+    <%= button_to "Checkout", api_v1_orders_path, method: :post, style:"background: green;"%>
+  </div>
 <% end %>

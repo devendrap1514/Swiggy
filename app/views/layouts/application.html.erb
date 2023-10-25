@@ -13,9 +13,12 @@
         border:1px solid #000000;
         display: flex;
         justify-content: flex-end;
-        background: aqua;
+        background: #48C9B0;
         padding: 6px;
         margin: 0px;
+      }
+      button {
+        margin: 2px 2px 2px 2px;
       }
     </style>
   </head>
@@ -24,7 +27,7 @@
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
 
-    <header style="display: flex; border: 0.5px solid;">
+    <header id="header">
       <div style="margin: auto;">
         <%= link_to "HOME", api_v1_restaurant_dishes_path %>
         <%= link_to "DISHES", api_v1_dishes_path %>

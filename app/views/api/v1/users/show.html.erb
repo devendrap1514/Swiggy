@@ -1,15 +1,23 @@
 
+<% if @current_user.type == "Customer" %>
+  <div align="right">
+    <%= button_to "Carts", api_v1_cart_path, method: :get %>
+    <%= button_to "Orders", api_v1_orders_path, method: :get %>
+  </div>
+<% end %>
+
 <div align="right">
-  <%= button_to "signout", destroy_user_session_path, method: :delete %>
   <%= button_to "edit profile", edit_user_registration_path, method: :get %>
-  <%= button_to "go to cart", api_v1_cart_path, method: :get %>
+  <%= button_to "signout", destroy_user_session_path, method: :delete, style:"background: red;" %>
 </div>
 
 <div align="center", style="display=table-cell;">
   <label>Name</label>
-  <h1><%= current_user.name %></h1>
+  <h2><%= current_user.name %></h2>
   <label>Email</label>
-  <h3><%= current_user.email %></h3>
+  <h2><%= current_user.email %></h2>
   <label>Username</label>
-  <h3><%= current_user.username %></h3>
+  <h2><%= current_user.username %></h2>
+  <label>Type</label>
+  <h2><%= current_user.type %></h2>
 </div>

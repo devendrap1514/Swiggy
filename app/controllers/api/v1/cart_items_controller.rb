@@ -13,9 +13,14 @@ class Api::V1::CartItemsController < Api::V1::ApiController
       cart_item = @cart.cart_items.first
       cart_restaurant_dish = RestaurantDish.find_by_id(cart_item.restaurant_dish_id)
 
-      unless new_restaurant_dish.restaurant_id == cart_restaurant_dish.restaurant_id
-        render json: { message: 'You order only one restaurant at a time' }
-      end
+      render json: { message: 'You order only one restaurant at a time' }
+
+      # unless new_restaurant_dish.restaurant_id == cart_restaurant_dish.restaurant_id
+      #   respond_to do |format|
+      #     format.json { render json: { message: 'You order only one restaurant at a time' } }
+      #     format.html { flash.now[:notice] = "You order only one restaurant at a time" }
+      #   end
+      # end and return
     else
       render json: { message: 'No Restaurant Dish Available' }
     end
@@ -60,7 +65,7 @@ class Api::V1::CartItemsController < Api::V1::ApiController
   end
 
   def update
-    if @cart_item.update(items_params)
+    if @cart_item.update(quantity: params[:cart_item][:quantity])
       render json: @cart_item
     else
       render status: :unprocessable_entity, json: { errors: @cart_item.errors.full_messages }

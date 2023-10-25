@@ -4,9 +4,9 @@ class Api::V1::RestaurantDishesController < Api::V1::ApiController
   def index
     restaurant_name = StripAndSqueeze.apply(params[:restaurant_name])
     dish_name = StripAndSqueeze.apply(params[:dish_name])
-    @restaurant_dishes = if params[:restaurant_name]
+    @restaurant_dishes = if !restaurant_name.empty?
                RestaurantDish.filter_by_restaurant_name(restaurant_name)
-             elsif params[:dish_name]
+             elsif !dish_name.empty?
                RestaurantDish.filter_by_dish_name(dish_name)
              else
                RestaurantDish.all

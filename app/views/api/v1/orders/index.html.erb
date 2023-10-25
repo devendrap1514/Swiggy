@@ -1,0 +1,17 @@
+<table align="center", style="max-width: 25rem;">
+    <thead style="color:red">
+      <tr>
+        <th>Id</th>
+        <th>Price</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @orders.each do |item| %>
+        <tr>
+          <td><%= item.id %></td>
+          <td><%= item.order_price %></td>
+          <td><%= button_to "View", api_v1_order_order_items_path(item), method: :get %> </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>

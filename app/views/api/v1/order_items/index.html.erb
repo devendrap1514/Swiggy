@@ -1,0 +1,20 @@
+<table align="center", style="max-width: 25rem;">
+    <thead style="color:red">
+      <tr>
+        <th>Restaurant</th>
+        <th>Dish</th>
+        <th>Quantity</th>
+        <th>Price</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @order_items.each do |item| %>
+        <tr>
+          <td><%= item.restaurant_dish.restaurant.restaurant_name %></td>
+          <td><%= item.restaurant_dish.dish.dish_name %></td>
+          <td><%= item.quantity %></td>
+          <td><%= item.price %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>

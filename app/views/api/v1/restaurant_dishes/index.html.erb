@@ -1,9 +1,22 @@
+<div style="border: 2px solid;">
+  <%= form_with url: api_v1_restaurant_dishes_path, method: :get do |f| %>
+    <%= f.label :restaurant_name %>
+    <%= f.text_field :restaurant_name %>
+    <%= f.label :dish_name %>
+    <%= f.text_field :dish_name %>
+    <%= f.submit "Search" %>
+  <% end %>
+</div>
+
+<br>
+
 <table align="center", style="max-width: 25rem;">
   <thead style="color:red">
     <tr>
       <th>Restaurant Name</th>
       <th>Dish Name</th>
       <th>Address</th>
+      <th>Price</th>
     </tr>
   </thead>
 
@@ -13,8 +26,12 @@
         <td><%= rd.restaurant.restaurant_name %></td>
         <td><%= rd.dish.dish_name %></td>
         <td><%= rd.restaurant.address %></td>
-        <td><%= button_to "add to cart", { controller: :cart_items, action: :create, params: { restaurant_dish_id:rd.id, quantity: 1 } }, data: { turbo_method: "post" } %></td>
+        <td><%= rd.price %></td>
+        <% if @current_user.type == "Customer" %>
+          <td><%= button_to "add to cart", { controller: :cart_items, action: :create, params: { restaurant_dish_id:rd.id, quantity: 1 } }, data: { turbo_method: "post" } %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>
 </table>
+<%= paginate @restaurant_dishes %>

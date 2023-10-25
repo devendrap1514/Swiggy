@@ -2,10 +2,14 @@ class Api::V1::OrdersController < Api::V1::ApiController
   before_action :find_order, only: %i[show destroy]
 
   def index
+    @orders = @current_user.orders
     output = {}
     output[:message] = "success"
-    output[:data] = ActiveModelSerializers::SerializableResource.new(@current_user.orders, each_serializer: OrderSerializer)
-    render json: output
+    output[:data] = ActiveModelSerializers::SerializableResource.new(@orders, each_serializer: OrderSerializer)
+    respond_to do |format|
+      format.json { render status: :ok, json: output }
+      format.html {  }
+    end
   end
 
   def create
