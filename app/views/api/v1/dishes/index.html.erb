@@ -19,9 +19,10 @@
             <%= image_tag(dish.dish_images[0], size: "50x40") %>
           <% end %>
         </td>
-        <td><%= link_to "view", api_v1_dish_path(dish)%></td>
-        <td><%= link_to "edit", edit_api_v1_dish_path(dish)%></td>
+        <td><%= button_to "view", api_v1_dish_path(dish), method: :get %></td>
+        <td><%= button_to "edit", edit_api_v1_dish_path(dish), method: :get %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
+<%= paginate @dishes %>

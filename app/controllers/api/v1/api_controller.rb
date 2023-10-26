@@ -8,10 +8,4 @@ class Api::V1::ApiController < ApplicationController
 
   before_action :authenticate_user!  # setup with devise
   authorize_resource  # setup with cancan
-
-  # def not_found
-  # end
-
-  # def not_authorize
-  # end
 end

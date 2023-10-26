@@ -32,4 +32,6 @@ class RestaurantDish < ApplicationRecord
   scope :filter_by_restaurant_name, lambda { |restaurant_name| joins(:restaurant).where('restaurants.restaurant_name ILIKE ?', "%#{restaurant_name}%") }
   scope :filter_by_dish_name, ->(dish_name) { joins(:dish).where('dishes.dish_name ILIKE ?', "%#{dish_name}%") }
 
+  scope :filter_by_search, -> (q) { joins(:restaurant, :dish).where("restaurants.restaurant_name ILIKE ? or restaurants.address ILIKE ? or dishes.dish_name ILIKE ?", "%#{q}%", "%#{q}%",  "%#{q}%") }
+
 end

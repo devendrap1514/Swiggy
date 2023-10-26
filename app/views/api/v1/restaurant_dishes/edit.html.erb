@@ -1,0 +1,10 @@
+
+<%= form_with model: [:api, :v1, @restaurant_dish] do |f| %>
+  <div>
+    <%= label :price, "Price" %>
+    <%= f.text_field :price %>
+    <% @restaurant_dish.errors.full_messages_for(:price).each do |message| %>
+      <h6><%= message %></h6>
+    <% end %>
+  <%= f.submit %>
+<% end %>

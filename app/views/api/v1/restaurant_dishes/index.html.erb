@@ -1,11 +1,25 @@
-<div style="border: 2px solid;">
-  <%= form_with url: api_v1_restaurant_dishes_path, method: :get do |f| %>
-    <%= f.label :restaurant_name %>
-    <%= f.text_field :restaurant_name %>
-    <%= f.label :dish_name %>
-    <%= f.text_field :dish_name %>
-    <%= f.submit "Search" %>
-  <% end %>
+<style>
+  #search_box{
+    border: 2px solid;
+    width: 40rem;
+  }
+  #search_button{
+    margin: 0px 0px 0px 5px;
+  }
+  #form{
+    display: flex;
+  }
+</style>
+
+<div align="center">
+  <div style="display: inline-block">
+    <%= form_with url: api_v1_restaurant_dishes_path, method: :get, id: 'form' do |f| %>
+      <div>
+        <%= f.text_field :q, placeholder: "Search here...", id: 'search_box' %>
+      </div>
+      <%= f.submit "Search", id: 'search_button' %>
+    <% end %>
+  </div>
 </div>
 
 <br>
@@ -27,6 +41,14 @@
         <td><%= rd.dish.dish_name %></td>
         <td><%= rd.restaurant.address %></td>
         <td><%= rd.price %></td>
+
+        <td><%= button_to "view", api_v1_restaurant_dish_path(rd), method: :get %></td>
+
+        <% if rd.restaurant.owner_id == current_user.id %>
+          <td><%= button_to "edit", edit_api_v1_restaurant_dish_path(rd), method: :get %></td>
+        <% end %>
+
+
         <% if @current_user.type == "Customer" %>
           <td><%= button_to "add to cart", { controller: :cart_items, action: :create, params: { restaurant_dish_id:rd.id, quantity: 1 } }, data: { turbo_method: "post" } %></td>
         <% end %>

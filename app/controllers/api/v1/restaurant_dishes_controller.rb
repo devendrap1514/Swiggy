@@ -1,13 +1,10 @@
 class Api::V1::RestaurantDishesController < Api::V1::ApiController
-  before_action :find_restaurant_dish, only: %i[show update destroy]
+  before_action :find_restaurant_dish, only: %i[show edit update destroy]
 
   def index
-    restaurant_name = StripAndSqueeze.apply(params[:restaurant_name])
-    dish_name = StripAndSqueeze.apply(params[:dish_name])
-    @restaurant_dishes = if !restaurant_name.empty?
-               RestaurantDish.filter_by_restaurant_name(restaurant_name)
-             elsif !dish_name.empty?
-               RestaurantDish.filter_by_dish_name(dish_name)
+    q = StripAndSqueeze.apply(params[:q])
+    @restaurant_dishes = unless q.empty?
+               RestaurantDish.filter_by_search(q)
              else
                RestaurantDish.all
              end
@@ -30,15 +27,26 @@ class Api::V1::RestaurantDishesController < Api::V1::ApiController
   end
 
   def show
-    render json: @restaurant_dish
+    respond_to do |format|
+      format.json { render json: @restaurant_dish }
+      format.html {  }
+    end
+  end
+
+  def edit
   end
 
   def update
-    if @restaurant_dish.update(price: params[:price])
-      render json: @restaurant_dish
+    if @restaurant_dish.update(restaurant_dish_params)
+      respond_to do |format|
+        format.json { render json: @restaurant_dish }
+        format.html { redirect_to [:api, :v1, @restaurant_dish]  }
+      end
     else
-      render status: :unprocessable_entity,
-             json: { message: @restaurant_dish.errors.full_messages }
+      respond_to do |format|
+        format.json { render status: :unprocessable_entity, json: { message: @restaurant_dish.errors.full_messages } }
+        format.html { render :edit }
+      end
     end
   end
 
@@ -60,6 +68,6 @@ class Api::V1::RestaurantDishesController < Api::V1::ApiController
   private
 
   def restaurant_dish_params
-    params.permit(:restaurant_id, :dish_id, :price)
+    params.require(:restaurant_dish).permit(:restaurant_id, :dish_id, :price)
   end
 end

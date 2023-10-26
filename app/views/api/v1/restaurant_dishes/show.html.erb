@@ -1,0 +1,8 @@
+<%=@restaurant_dish.restaurant.restaurant_name %>
+<%=@restaurant_dish.dish.dish_name %>
+<%=@restaurant_dish.price %>
+
+<% if @restaurant_dish.restaurant.owner_id == current_user.id %>
+  <%= button_to "edit", edit_api_v1_restaurant_dish_path(@restaurant_dish), method: :get %>
+  <%= button_to "delete", { controller: "api/v1/restaurant_dishes", action: :destroy, id: @restaurant_dish.id }, method: :delete%>
+<% end %>

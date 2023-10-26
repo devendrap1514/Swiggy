@@ -13,14 +13,14 @@ class Api::V1::CartItemsController < Api::V1::ApiController
       cart_item = @cart.cart_items.first
       cart_restaurant_dish = RestaurantDish.find_by_id(cart_item.restaurant_dish_id)
 
-      render json: { message: 'You order only one restaurant at a time' }
+      # render json: { message: 'You order only one restaurant at a time' }
 
-      # unless new_restaurant_dish.restaurant_id == cart_restaurant_dish.restaurant_id
-      #   respond_to do |format|
-      #     format.json { render json: { message: 'You order only one restaurant at a time' } }
-      #     format.html { flash.now[:notice] = "You order only one restaurant at a time" }
-      #   end
-      # end and return
+      unless new_restaurant_dish.restaurant_id == cart_restaurant_dish.restaurant_id
+        respond_to do |format|
+          format.json { render json: { message: 'You order only one restaurant at a time' } }
+          format.html { redirect_to request.referrer notice: "You order only one restaurant at a time" }
+        end
+      end and return
     else
       render json: { message: 'No Restaurant Dish Available' }
     end
@@ -42,7 +42,7 @@ class Api::V1::CartItemsController < Api::V1::ApiController
             render json: nil
           end
         }
-        format.html { redirect_to api_v1_cart_path }
+        format.html { redirect_to request.referrer, notice: "Update Successfully" }
       end
       return
     end
@@ -51,7 +51,7 @@ class Api::V1::CartItemsController < Api::V1::ApiController
     if cart_item.save
       respond_to do |format|
         format.json  { render json: cart_item }
-        format.html { redirect_to api_v1_cart_path }
+        format.html { redirect_to request.referrer, notice: "Added Successfully" }
       end
     else
       @cart.cart_items.delete(cart_item)
@@ -66,7 +66,10 @@ class Api::V1::CartItemsController < Api::V1::ApiController
 
   def update
     if @cart_item.update(quantity: params[:cart_item][:quantity])
-      render json: @cart_item
+      respond_to do |format|
+        format.json { render json: @cart_item }
+        format.html { redirect_to request.referrer, notice: "Update Successfully" }
+      end
     else
       render status: :unprocessable_entity, json: { errors: @cart_item.errors.full_messages }
     end
@@ -75,8 +78,11 @@ class Api::V1::CartItemsController < Api::V1::ApiController
   def destroy
     @cart_item.destroy
     destroy_cart_if_empty
-    render status: :ok,
-           json: 'Item removed from cart'
+    respond_to do |format|
+      format.json { render status: :ok, json: 'Item removed from cart' }
+      byebug
+      format.html { redirect_to request.referrer, notice: "Update Successfully" }
+    end
   rescue Exception => e
     render status: :internal_server_error, json: e.message
   end

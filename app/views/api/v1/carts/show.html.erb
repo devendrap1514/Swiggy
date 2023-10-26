@@ -1,8 +1,23 @@
+<style>
+  #edit_text_field{
+    padding: 2px;
+    width: 2rem;
+    border: 2px solid;
+    margin: auto;
+  }
+  #update_button{
+    margin: 3px 0px 0px 0px;
+    padding: 0px;
+  }
+  #form{
+    border: 2px solid red;
+  }
+</style>
+
 <% if @cart.present? %>
   <h1 align="center">Cart</h1>
-  <h1 align="center"><%= @cart.cart_price %></h1>
 
-  <table align="center", style="max-width: 25rem;">
+  <table align="center" border=1 frame=hsides rules=rows style="max-width: 45rem;">
     <thead style="color:red">
       <tr>
         <th>Restaurant</th>
@@ -20,15 +35,23 @@
           <td><%= item.price %></td>
           <td><%= button_to "Remove", api_v1_cart_cart_item_path(item), method: :delete %> </td>
 
-          <td style="display: inline;">
-            <%= form_for [:api, :v1, :cart, item], method: :patch do |f| %>
-              <%= f.text_field :quantity %>
-              <%= f.submit "Update" %>
-            <% end %>
+          <td>
+            <div>
+              <%= form_for [:api, :v1, :cart, item], method: :patch, id: "form" do |f| %>
+                <%= f.text_field :quantity, id: "edit_text_field" %>
+                <%= f.submit "Update", id: "update_button" %>
+              <% end %>
+            </div>
           </td>
         </tr>
       <% end %>
     </tbody>
+    <tfoot>
+      <tr>
+        <th id="Total" colspan="3">Total:  </th>
+        <td><%= @cart.cart_price %></td>
+      </tr>
+    </tfoot>
   </table>
   <div align="center">
     <%= button_to "Checkout", api_v1_orders_path, method: :post, style:"background: green;"%>

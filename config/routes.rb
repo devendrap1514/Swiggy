@@ -33,7 +33,9 @@ Rails.application.routes.draw do
         get '/dishes', action: :category_dishes, on: :member
       end
 
-      resources :restaurant_dishes, only: %i[index create show update destroy]
+      resources :restaurant_dishes, only: %i[index create show edit update destroy]
     end
   end
+
+  get "*a", to: "application#not_found"
 end
