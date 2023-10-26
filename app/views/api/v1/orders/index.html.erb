@@ -1,4 +1,5 @@
-<table align="center", style="max-width: 25rem;">
+<% unless @orders.empty? %>
+  <table align="center", style="max-width: 25rem;">
     <thead style="color:red">
       <tr>
         <th>Id</th>
@@ -15,3 +16,6 @@
       <% end %>
     </tbody>
   </table>
+<% else %>
+  <h1 align="center">no order history</h1>
+<% end %>
