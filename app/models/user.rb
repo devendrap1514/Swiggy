@@ -43,24 +43,4 @@ class User < ApplicationRecord
     self.username = username.gsub(/\s+/, '').downcase unless username.nil?
     self.password = password.gsub(/\s+/, '') unless password.nil? # replace all whitespace with nothing
   end
-
-  # forgot and reset password method
-  def generate_password_token!
-    update(reset_password_token: generate_token, reset_password_sent_at: Time.now.utc)
-  end
-
-  def password_token_valid?
-    (reset_password_sent_at + 4.hours) > Time.now.utc
-  end
-
-  def reset_password!(_password)
-    return update(reset_password_token: nil) if update(password: _password)
-    false
-  end
-
-  private
-
-  def generate_token
-    SecureRandom.hex(10)
-  end
 end
