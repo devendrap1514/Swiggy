@@ -16,8 +16,8 @@
 #
 # Indexes
 #
-#  index_users_on_email                 (email) UNIQUE
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
+#  index_users_on_username              (username)
 #
 class Owner < User
   has_many :restaurants, class_name: "Restaurant", foreign_key: 'owner_id', dependent: :destroy

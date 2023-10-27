@@ -20,7 +20,7 @@
 
   <div class="field">
     <%= f.label :type %><br />
-    <%= f.text_field :type, autofocus: true, autocomplete: "type" %>
+    <%= f.select :type, options_for_select(["Customer", "Owner"]) %>
   </div>
 
   <div class="field">

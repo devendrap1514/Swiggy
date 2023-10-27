@@ -16,22 +16,26 @@
 #
 # Indexes
 #
-#  index_users_on_email                 (email) UNIQUE
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
+#  index_users_on_username              (username)
 #
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+  devise :database_authenticatable, :registerable, :recoverable, :rememberable, authentication_keys: [:username]
 
   has_one_attached :profile_picture
 
   validates :name, presence: true
-  validates :username, presence: true, uniqueness: { case_sensitive: false },
-                       format: { with: /\A[0-9A-Za-z_]+\z/ } # allow only alphanumeric and underscore
-  validates :password, format: { with: /\A(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{6,}\z/ } # contain atleast one small and capital letter, a number
-  validates :email, presence: true, uniqueness: { case_sensitive: false }, format: { with: URI::MailTo::EMAIL_REGEXP }
+
+  # allow only alphanumeric and underscore
+  validates :username, presence: true, uniqueness: { case_sensitive: false }, format: { with: /\A[0-9A-Za-z_]+\z/ }
+
+  # contain atleast one small and capital letter, a number
+  validates :password, format: { with: /\A(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{6,}\z/ }
+  validates_confirmation_of :password
+
+  validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }
 
   validates :type, presence: true
 
