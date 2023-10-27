@@ -41,10 +41,17 @@ class User < ApplicationRecord
 
   before_validation :remove_whitespace
 
+  after_create :send_welcome_mail
+
   def remove_whitespace
     self.name = StripAndSqueeze.apply(name)
     # replace all whitespace with nothing and small case
     self.username = username.gsub(/\s+/, '').downcase unless username.nil?
     self.password = password.gsub(/\s+/, '') unless password.nil? # replace all whitespace with nothing
+  end
+
+  def send_welcome_mail
+    # this work when redis-server running and execute after sidekiq
+    UserMailer.with(user: self).welcome_email.deliver_later
   end
 end

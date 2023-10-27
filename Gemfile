@@ -28,7 +28,8 @@ gem "stimulus-rails"
 gem "jbuilder"
 
 # Use Redis adapter to run Action Cable in production
-# gem "redis", "~> 4.0"
+gem "redis"
+gem 'redis-client'
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
@@ -97,3 +98,4 @@ gem "devise"
 gem "sass-rails"
 gem 'simplecov', require: false, group: :test
 gem 'arctic_admin'
+gem 'sidekiq'

@@ -1,3 +1,5 @@
+require "sidekiq/web"
+
 Rails.application.routes.draw do
   devise_for :users
   devise_for :admin_users, ActiveAdmin::Devise.config
@@ -37,5 +39,8 @@ Rails.application.routes.draw do
     end
   end
 
+  mount Sidekiq::Web => "/sidekiq"
+
   get "*a", to: "application#not_found"
+
 end
