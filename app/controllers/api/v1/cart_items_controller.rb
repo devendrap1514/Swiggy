@@ -13,30 +13,31 @@ class Api::V1::CartItemsController < Api::V1::ApiController
       cart_item = @cart.cart_items.first
       cart_restaurant_dish = RestaurantDish.find_by_id(cart_item.restaurant_dish_id)
 
-      # render json: { message: 'You order only one restaurant at a time' }
-
       unless new_restaurant_dish.restaurant_id == cart_restaurant_dish.restaurant_id
         respond_to do |format|
           format.json { render json: { message: 'You order only one restaurant at a time' } }
-          format.html { redirect_to request.referrer notice: "You order only one restaurant at a time" }
+          format.html { redirect_to request.referrer, notice: "You order only one restaurant at a time" }
         end
       end and return
     else
-      render json: { message: 'No Restaurant Dish Available' }
+      respond_to do |format|
+        format.json { render json: { message: 'No Restaurant Dish Available' } }
+        format.html { redirect_to request.referrer, notice: "No Restaurant Dish Available" }
+      end
     end
   end
 
   def create
     cart_item = @cart.cart_items.find_by(restaurant_dish_id: params[:restaurant_dish_id])
-    # return render json: cart_item.update_quantity(params[:quantity].to_i) if cart_item
 
+    # if cart_item exist then update its quantity
     if cart_item
       output = {}
       output[:message]
       output[:data] = cart_item if cart_item.update_quantity(params[:quantity].to_i)
       respond_to do |format|
         format.json {
-          if output
+          if output[:data]
             render json: output
           else
             render json: nil
@@ -56,12 +57,18 @@ class Api::V1::CartItemsController < Api::V1::ApiController
     else
       @cart.cart_items.delete(cart_item)
       destroy_cart_if_empty
-      render status: :unprocessable_entity, json: { message: cart_item.errors.full_messages }
+      respond_to do |format|
+        format.json { render status: :unprocessable_entity, json: { message: cart_item.errors.full_messages } }
+        format.html { redirect_to request.referrer, notice: cart_item.errors.full_messages }
+      end
     end
   end
 
   def show
-    render json: @cart_item
+    respond_to do |format|
+      format.json { render json: @cart_item }
+      format.html
+    end
   end
 
   def update
@@ -71,7 +78,10 @@ class Api::V1::CartItemsController < Api::V1::ApiController
         format.html { redirect_to request.referrer, notice: "Update Successfully" }
       end
     else
-      render status: :unprocessable_entity, json: { errors: @cart_item.errors.full_messages }
+      respond_to do |format|
+        format.json { render status: :unprocessable_entity, json: { errors: @cart_item.errors.full_messages } }
+        format.html { redirect_to request.referrer, notice: cart_item.errors.full_messages }
+      end
     end
   end
 
@@ -80,8 +90,7 @@ class Api::V1::CartItemsController < Api::V1::ApiController
     destroy_cart_if_empty
     respond_to do |format|
       format.json { render status: :ok, json: 'Item removed from cart' }
-      byebug
-      format.html { redirect_to request.referrer, notice: "Update Successfully" }
+      format.html { redirect_to request.referrer, notice: "Remove Successfully" }
     end
   rescue Exception => e
     render status: :internal_server_error, json: e.message
@@ -91,13 +100,18 @@ class Api::V1::CartItemsController < Api::V1::ApiController
     @cart_item = @cart.cart_items.find_by_id(params[:id])
     return if @cart_item
 
-    render status: :not_found,
-           json: 'No such cart item is present in cart'
+    respond_to do |format|
+      format.json { render status: :not_found, json: 'No such cart item is present in cart' }
+      format.html { redirect_to "/a" }
+    end
   end
 
   def find_cart
     @cart = @current_user.cart
-    return render status: :not_found, json: 'Cart is empty' unless @cart
+    respond_to do |format|
+      format.json { return render status: :not_found, json: 'Cart is empty' unless @cart }
+      format.html { redirect_to api_v1_cart_path }
+    end
   end
 
   def find_cart_or_create

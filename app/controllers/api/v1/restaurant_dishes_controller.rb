@@ -2,11 +2,29 @@ class Api::V1::RestaurantDishesController < Api::V1::ApiController
   before_action :find_restaurant_dish, only: %i[show edit update destroy]
 
   def index
+    @restaurant_dishes =
+      if params[:status].present?
+        if params[:status] == "all"
+          RestaurantDish.joins(:restaurant)
+        else
+          begin
+            # occur error if wrong status get
+            Restaurant.send(params[:status].to_s.downcase)
+            # otherwise
+            RestaurantDish.joins(:restaurant).where(restaurants: {status: "#{params[:status]}"})
+          rescue
+            RestaurantDish.all
+          end
+        end
+      else
+        RestaurantDish.all
+      end
+
     q = StripAndSqueeze.apply(params[:q])
     @restaurant_dishes = unless q.empty?
-               RestaurantDish.filter_by_search(q)
+               @restaurant_dishes.filter_by_search(q)
              else
-               RestaurantDish.all
+               @restaurant_dishes.all
              end
 
     @restaurant_dishes = @restaurant_dishes.page(params[:page])

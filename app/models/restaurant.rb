@@ -35,8 +35,8 @@ class Restaurant < ApplicationRecord
 
   before_validation :remove_whitespace
 
-  scope :filter_by_restaurant_name, ->(restaurant_name) { where('restaurant_name LIKE ?', "%#{restaurant_name}%") }
-  scope :filter_by_dish_name, ->(dish_name) { joins(:dishes).where('dish_name LIKE ?', "%#{dish_name}%") }
+  scope :filter_by_restaurant_name, ->(restaurant_name) { where('restaurant_name ILIKE ?', "%#{restaurant_name}%") }
+  scope :filter_by_dish_name, ->(dish_name) { joins(:dishes).where('dish_name ILIKE ?', "%#{dish_name}%") }
 
   def remove_whitespace
     self.restaurant_name = restaurant_name.strip.squeeze(' ') unless restaurant_name.nil?

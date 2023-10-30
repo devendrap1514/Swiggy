@@ -3,21 +3,29 @@ class Api::V1::RestaurantsController < Api::V1::ApiController
   before_action :find_restaurant, only: %i[show restaurant_dishes]
 
   def index
+    @restaurants = Restaurant.all
     @restaurants = if params[:status].present?
-                    Restaurant.send(params[:status].to_s.downcase)
+                    if params[:status] == "all"
+                      Restaurant.all
+                    else
+                      begin
+                        # occur error if wrong status get
+                        Restaurant.send(params[:status].to_s.downcase)
+                        # otherwise
+                        Restaurant.where(restaurants: {status: "#{params[:status]}"})
+                      rescue
+                        Restaurant.all
+                      end
+                    end
                   else
                     Restaurant.all
                   end
 
-    restaurant_name = StripAndSqueeze.apply(params[:restaurant_name])
+    restaurant_name = StripAndSqueeze.apply(params[:q])
     @restaurants = @restaurants.filter_by_restaurant_name(restaurant_name).page(params[:page])
     respond_to do |format|
       format.json { render json: @restaurants }
       format.html
-    end
-  rescue Exception => e
-    respond_to do |format|
-      format.json { render status: :internal_server_error, json: { message: [ e.message, 'Status value in (open, close)'] } }
     end
   end
 
@@ -89,13 +97,22 @@ class Api::V1::RestaurantsController < Api::V1::ApiController
     @restaurant = Restaurant.find_by_id(params[:id])
     return if @restaurant
 
-    render status: :not_found,
-           json: 'no such restaurant'
+    respond_to do |format|
+      format.json { render status: :not_found, json: 'no such restaurant' }
+      format.html { redirect_to "/not_found" }
+    end
   end
 
   def restaurant_dishes
     dish_name = StripAndSqueeze.apply params[:dish_name]
-    render json: @restaurant.dishes.filter_by_dish_name(dish_name).page(params[:page])
+    @dishes = @restaurant.dishes.filter_by_dish_name(dish_name).page(params[:page])
+    output = {}
+    output[:message] = "Successfully"
+    output[:data] = ActiveModelSerializers::SerializableResource.new(@dishes, each_serializer: DishSerializer)
+    respond_to do |format|
+      format.json { render json:  }
+      format.html
+    end
   end
 
   private

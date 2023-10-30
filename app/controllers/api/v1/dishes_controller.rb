@@ -2,7 +2,7 @@ class Api::V1::DishesController < Api::V1::ApiController
   before_action :find_dish, only: [:show, :edit, :update]
 
   def index
-    dish_name = StripAndSqueeze.apply(params[:dish_name])
+    dish_name = StripAndSqueeze.apply(params[:q])
     category_name = StripAndSqueeze.apply(params[:category_name])
     @dishes = Dish.filter_by_dish_name(dish_name).filter_by_category_name(category_name).page(params[:page])
     output = {}
@@ -66,7 +66,11 @@ class Api::V1::DishesController < Api::V1::ApiController
     @dish = Dish.find_by_id(params[:id])
     return if @dish
 
-    render status: :not_found, json: {message: 'no such dish'}
+
+    respond_to do |format|
+      format.json { render status: :not_found, json: {message: 'no such dish'} }
+      format.html { redirect_to "/not_found" }
+    end
   end
 
   private

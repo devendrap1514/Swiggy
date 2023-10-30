@@ -1,28 +1,5 @@
+<%= render "api/v1/shared/search", locals: { path: api_v1_dishes_path, is_show_status: false } %>
+
 <%= button_to "New Dish", new_api_v1_dish_path, method: :get %>
 <br>
-<table align="center" style="max-width: 15rem;">
-  <thead style="color:red">
-    <tr>
-      <th>Dish Name</th>
-      <th>Category</th>
-      <th>Image</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @dishes.each do |dish| %>
-      <tr>
-        <td><%=dish.dish_name %></td>
-        <td><%=dish.category.category_name %></td>
-        <td>
-          <% unless dish.dish_images.empty? %>
-            <%= image_tag(dish.dish_images[0], size: "50x40") %>
-          <% end %>
-        </td>
-        <td><%= button_to "view", api_v1_dish_path(dish), method: :get %></td>
-        <td><%= button_to "edit", edit_api_v1_dish_path(dish), method: :get %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-<%= paginate @dishes %>
+<%= render "api/v1/shared/dishes_list", dishes: @dishes %>

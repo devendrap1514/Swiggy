@@ -22,7 +22,10 @@ class Api::V1::OrdersController < Api::V1::ApiController
         output = {}
         output[:message] = "success"
         output[:message] = OrderSerializer.new order
-        render json: output
+        respond_to do |format|
+          format.json { render json: output }
+          format.html { redirect_to api_v1_order_order_items_path(order) }
+        end
       rescue Exception => e
         render status: :internal_server_error, json: { message: e.message }
       end if order
@@ -35,7 +38,10 @@ class Api::V1::OrdersController < Api::V1::ApiController
     output = {}
     output[:message] = "success"
     output[:data] = @order
-    render json: output
+    respond_to do |format|
+      format.json { render json: output }
+      format.html { redirect_to api_v1_order_order_items_path(@order) }
+    end
   end
 
   def destroy
@@ -65,6 +71,10 @@ class Api::V1::OrdersController < Api::V1::ApiController
     @order = @current_user.orders.find_by_id(params[:id])
     return if @order
 
-    render status: :not_found, json: {message: 'Order not found'}
+    respond_to do |format|
+      format.json { render status: :not_found, json: {message: 'Order not found'} }
+      format.html { redirect_to "/not_found" }
+    end
+
   end
 end

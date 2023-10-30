@@ -31,8 +31,8 @@ p_e(owner1, owner2)
 Customer.destroy_all
 customer1 = Customer.create(name: 'Devendra Patidar', username: 'dp_123', password: 'Devendra123',
                             password_confirmation: 'Devendra123', email: 'unknownwalahai@gmail.com')
-customer2 = Customer.create(name: 'Pradeep Patidar', username: 'pp_123', password: 'Devendra123',
-                            password_confirmation: 'Devendra123', email: 'unknownwalahai@gmail.com')
+customer2 = Customer.create(name: 'Pradeep Patidar', username: 'pp_123', password: 'Pradeep23',
+                            password_confirmation: 'Pradeep23', email: 'unknownwalahai@gmail.com')
 p_e(customer1, customer2)
 
 # Create Restaurant
@@ -53,6 +53,7 @@ rd1 = RestaurantDish.create(restaurant_id: restaurant1.id, dish_id: dish1.id, pr
 rd2 = RestaurantDish.create(restaurant_id: restaurant1.id, dish_id: dish2.id, price: 20)
 rd3 = RestaurantDish.create(restaurant_id: restaurant3.id, dish_id: dish3.id, price: 120)
 rd4 = RestaurantDish.create(restaurant_id: restaurant3.id, dish_id: dish4.id, price: 70)
+rd4 = RestaurantDish.create(restaurant_id: restaurant6.id, dish_id: dish4.id, price: 70)
 p_e rd1, rd2, rd3, rd4
 
 AdminUser.destroy_all

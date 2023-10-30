@@ -1,26 +1,4 @@
-<style>
-  #search_box{
-    border: 2px solid;
-    width: 40rem;
-  }
-  #search_button{
-    margin: 0px 0px 0px 5px;
-  }
-  #form{
-    display: flex;
-  }
-</style>
-
-<div align="center">
-  <div style="display: inline-block">
-    <%= form_with url: api_v1_restaurant_dishes_path, method: :get, id: 'form' do |f| %>
-      <div>
-        <%= f.text_field :q, placeholder: "Search here...", id: 'search_box' %>
-      </div>
-      <%= f.submit "Search", id: 'search_button' %>
-    <% end %>
-  </div>
-</div>
+<%= render "api/v1/shared/search", locals: { path: api_v1_restaurant_dishes_path, is_show_status: true } %>
 
 <br>
 
@@ -29,6 +7,7 @@
     <tr>
       <th>Restaurant Name</th>
       <th>Dish Name</th>
+      <th>Status</th>
       <th>Address</th>
       <th>Price</th>
     </tr>
@@ -39,6 +18,7 @@
       <tr>
         <td><%= rd.restaurant.restaurant_name %></td>
         <td><%= rd.dish.dish_name %></td>
+        <td><%= rd.restaurant.status %></td>
         <td><%= rd.restaurant.address %></td>
         <td><%= rd.price %></td>
 

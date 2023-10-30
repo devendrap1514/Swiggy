@@ -1,7 +1,10 @@
-<%=@restaurant.restaurant_name %>
-<%=@restaurant.address %>
-<%=@restaurant.status %>
-<% if @restaurant.owner_id == current_user.id %>
-  <%= button_to "edit", edit_api_v1_restaurant_path(@restaurant), method: :get %>
-  <%= button_to "delete", { controller: "api/v1/restaurants", action: :destroy, id: @restaurant.id }, method: :delete%>
-<% end %>
+<div>
+  Restaurant Name: <%=@restaurant.restaurant_name %><br>
+  Address: <%=@restaurant.address %><br>
+  Status: <%=@restaurant.status %><br>
+  <%= button_to "Dishes", dishes_api_v1_restaurant_path(@restaurant), method: :get %>
+  <% if @restaurant.owner_id == current_user.id %>
+    <%= button_to "edit", edit_api_v1_restaurant_path(@restaurant), method: :get %>
+    <%= button_to "delete", { controller: "api/v1/restaurants", action: :destroy, id: @restaurant.id }, method: :delete%>
+  <% end %>
+</div>

@@ -11,7 +11,7 @@ class Api::V1::UsersController < Api::V1::ApiController
 
     respond_to do |format|
       format.json { render json: output }
-      format.html { }
+      format.html {  }
     end
   end
 
