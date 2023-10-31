@@ -18,7 +18,7 @@ class Api::V1::CartItemsController < Api::V1::ApiController
           format.json { render json: { message: 'You order only one restaurant at a time' } }
           format.html { redirect_to request.referrer, notice: "You order only one restaurant at a time" }
         end
-      end and return
+      end
     else
       respond_to do |format|
         format.json { render json: { message: 'No Restaurant Dish Available' } }
@@ -29,7 +29,6 @@ class Api::V1::CartItemsController < Api::V1::ApiController
 
   def create
     cart_item = @cart.cart_items.find_by(restaurant_dish_id: params[:restaurant_dish_id])
-
     # if cart_item exist then update its quantity
     if cart_item
       output = {}
@@ -99,19 +98,13 @@ class Api::V1::CartItemsController < Api::V1::ApiController
   def find_cart_item
     @cart_item = @cart.cart_items.find_by_id(params[:id])
     return if @cart_item
-
-    respond_to do |format|
-      format.json { render status: :not_found, json: 'No such cart item is present in cart' }
-      format.html { redirect_to "/a" }
-    end
+    render status: :not_found,
+           json: 'No such cart item is present in cart'
   end
 
   def find_cart
     @cart = @current_user.cart
-    respond_to do |format|
-      format.json { return render status: :not_found, json: 'Cart is empty' unless @cart }
-      format.html { redirect_to api_v1_cart_path }
-    end
+    return render status: :not_found, json: 'Cart is empty' unless @cart
   end
 
   def find_cart_or_create

@@ -19,7 +19,7 @@
       </div>
       <% if locals[:is_show_status] %>
         <div>
-          <%= f.select :status, options_for_select(["all", "open", "close"]) %>
+          <%= f.select :status, options_for_select(["all", "open", "close"], params[:status]) %>
         </div>
       <% end %>
       <%= f.submit "Search", id: 'search_button' %>

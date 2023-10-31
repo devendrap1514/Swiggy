@@ -16,8 +16,8 @@
   <tbody>
     <% @restaurant_dishes.each do |rd| %>
       <tr>
-        <td><%= rd.restaurant.restaurant_name %></td>
-        <td><%= rd.dish.dish_name %></td>
+        <td><%= link_to rd.restaurant.restaurant_name, api_v1_restaurant_path(rd.restaurant) %></td>
+        <td><%= link_to rd.dish.dish_name, api_v1_dish_path(rd.dish) %></td>
         <td><%= rd.restaurant.status %></td>
         <td><%= rd.restaurant.address %></td>
         <td><%= rd.price %></td>
