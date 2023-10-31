@@ -1,23 +1,52 @@
+<style>
+  .profile-card{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+  .profile_pic{
+  }
+  .card{
+    text-align: center;
+    display: inline-block;
+    padding: 10px;
+    background-color: skyblue;
+    border-radius: 10px;
+  }
+  .round-circle{
+    padding: 10px;
+    border-radius: 100px;
+    border: 1px solid;
+  }
+</style>
 
-<% if @current_user.type == "Customer" %>
-  <div align="right">
-    <%= button_to "Carts", api_v1_cart_path, method: :get %>
-    <%= button_to "Orders", api_v1_orders_path, method: :get %>
+<div class="profile-card">
+  <div class="round-circle">
+    <% if @current_user.type == "Customer" %>
+      <%= link_to image_tag("shopping-cart.png", size: "50x50"), api_v1_cart_path, method: :get %>
+    <% end %>
   </div>
-<% end %>
-
-<div align="right">
-  <%= button_to "edit profile", edit_user_registration_path, method: :get %>
-  <%= button_to "signout", destroy_user_session_path, method: :delete, style:"background: red;" %>
+  <div class="card">
+    <div>
+      <% if current_user.profile_picture.attached? %>
+        <%= image_tag(current_user.profile_picture, size: "100x100") %>
+      <% else %>
+        <%= image_tag("profile_pic.png", size: "100x100") %>
+      <% end %>
+    </div>
+    <h2><%= current_user.name %></h2>
+    <h2><%= current_user.email %></h2>
+    <h2><%= current_user.username %></h2>
+    <h2><%= current_user.type %></h2>
+  </div>
+  <div  class="round-circle">
+    <% if @current_user.type == "Customer" %>
+      <%= link_to image_tag("purchase-order.png", size: "50x50"), api_v1_orders_path, method: :get %>
+    <% end %>
+  </div>
 </div>
-
-<div align="center", style="display=table-cell;">
-  <label>Name</label>
-  <h2><%= current_user.name %></h2>
-  <label>Email</label>
-  <h2><%= current_user.email %></h2>
-  <label>Username</label>
-  <h2><%= current_user.username %></h2>
-  <label>Type</label>
-  <h2><%= current_user.type %></h2>
+<br>
+<div style="display: flex; justify-content: center;">
+  <%= button_to "EDIT PROFILE", edit_user_registration_path, method: :get %>
+  <%= button_to "SIGNOUT", destroy_user_session_path, method: :delete %>
 </div>

@@ -20,7 +20,7 @@
 #  fk_rails_...  (restaurant_id => restaurants.id)
 #
 class RestaurantDish < ApplicationRecord
-  paginates_per 2
+  paginates_per 20
   belongs_to :restaurant
   belongs_to :dish
   has_many :cart_items, dependent: :destroy

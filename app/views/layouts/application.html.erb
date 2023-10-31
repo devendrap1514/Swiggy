@@ -12,7 +12,8 @@
       #header {
         border:1px solid #000000;
         display: flex;
-        background: #48C9B0;
+        justify-content: space-between;
+        background: #36ff43;
         padding: 6px;
         margin: 0px;
       }
@@ -21,7 +22,6 @@
       }
       .topnav {
         overflow: hidden;
-        margin: auto;
       }
 
       .topnav a {
@@ -37,8 +37,11 @@
         color: black;
       }
 
-      #profile_pic{
+      .profile_pic{
         text-align: center;
+        display: flex;
+        align-items: center;
+        float: left;
       }
     </style>
   </head>
@@ -55,7 +58,7 @@
           <%= link_to "RESTAURANT", api_v1_restaurants_path %>
         </div>
 
-        <div style="display: flex;align-items: center;">
+        <div class="profile_pic">
           <%= link_to api_v1_user_path(current_user) do %>
             <% if current_user.profile_picture.attached? %>
               <%= image_tag(current_user.profile_picture, size: "30x30") %>

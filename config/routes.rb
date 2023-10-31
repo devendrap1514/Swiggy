@@ -41,6 +41,6 @@ Rails.application.routes.draw do
 
   mount Sidekiq::Web => "/sidekiq"
 
-  get "*a", to: "application#not_found"
+  # get "*a", to: "application#not_found"
 
 end

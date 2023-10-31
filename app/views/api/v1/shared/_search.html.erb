@@ -1,13 +1,17 @@
 <style>
   #search_box{
-    border: 2px solid;
-    width: 40rem;
+    border: 1px solid;
+    width: 10rem;
   }
   #search_button{
     margin: 0px 0px 0px 5px;
   }
   #form{
     display: flex;
+    align-content: center;
+  }
+  #status_select{
+    margin: 0px 0px 0px 5px;
   }
 </style>
 
@@ -18,7 +22,7 @@
         <%= f.text_field :q, value: params[:q], placeholder: "search here...", id: 'search_box' %>
       </div>
       <% if locals[:is_show_status] %>
-        <div>
+        <div id="status_select">
           <%= f.select :status, options_for_select(["all", "open", "close"], params[:status]) %>
         </div>
       <% end %>

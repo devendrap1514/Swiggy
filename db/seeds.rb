@@ -37,7 +37,7 @@ p_e(customer1, customer2)
 
 # Create Restaurant
 Restaurant.destroy_all
-restaurant1 = Restaurant.create(restaurant_name: 'Apna Sweet', address: 'Vijay Nager', owner_id: owner1.id,
+restaurant1 = Restaurant.create(restaurant_name: 'Apna Sweet', address: 'Vijay Nagar', owner_id: owner1.id,
                                 status: 'open')
 restaurant2 = Restaurant.create(restaurant_name: 'Guru Kripa', address: 'Sarvate', owner_id: owner1.id, status: 'close')
 restaurant3 = Restaurant.create(restaurant_name: 'Sayaji', address: 'Meghdoot', owner_id: owner2.id, status: 'open')
