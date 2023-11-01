@@ -1,8 +1,74 @@
-<%=@restaurant_dish.restaurant.restaurant_name %>
-<%=@restaurant_dish.dish.dish_name %>
-<%=@restaurant_dish.price %>
+<style>
+  .box{
+    display: flex;
+    justify-content: center;
+  }
+  .nested-box{
+    overflow: hidden;
+    background-color: var(--main-color);
+    display: flex;
+    align-items: center;
+    border: 1px solid;
+    padding: 20px;
+    border-radius: 25px 5px 25px 5px;
+    box-shadow: 0 0 0 1px #888888;
+    transition: 0.4s;
+  }
+  .image{
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+  .detail{
+    margin: 0px 0px 0px 10px;
+    align-content: center;
+  }
+  .dish{
+    font-size: 18px;
+    font-style: bold;
+  }
+  .restaurant{
+    font-size: 12px;
+  }
+  .price{
+    font-size: 18px;
+  }
+  .add-to-cart{
+    position:relative;
+    right: -13px;
+    top: -60px;
+    cursor:pointer;
+    background: none;
+  }
+</style>
+
+<div class="box">
+  <div class="nested-box">
+    <div>
+      <% if @restaurant_dish.dish.dish_images.attached? %>
+        <%= image_tag @restaurant_dish.dish.dish_images[0], size: "120x120", class: "image" %>
+      <% else %>
+        <%= image_tag "no_image.png", size: "120x120", class: "image" %>
+      <% end %>
+    </div>
+    <div class="detail">
+      <div class="dish"><%= @restaurant_dish.dish.dish_name %></div>
+      <div class="restaurant"><%= @restaurant_dish.restaurant.restaurant_name %>, <%= @restaurant_dish.restaurant.address %></div>
+      <div class="price">&#8377 <%= @restaurant_dish.price %></div>
+    </div>
+    <% if @current_user.type == "Customer" %>
+      <div class="add-to-cart">
+        <%= button_to image_tag("shopping-cart.png", size: "20x20"), api_v1_cart_cart_items_path(restaurant_dish_id: @restaurant_dish.id, quantity: 1), method: :post, style:"all:unset" %>
+      </div>
+    <% end %>
+  </div>
+</div>
 
 <% if @restaurant_dish.restaurant.owner_id == current_user.id %>
   <%= button_to "edit", edit_api_v1_restaurant_dish_path(@restaurant_dish), method: :get %>
   <%= button_to "delete", { controller: "api/v1/restaurant_dishes", action: :destroy, id: @restaurant_dish.id }, method: :delete%>
 <% end %>
+
+<br>
+
+<%= render "api/v1/shared/restaurant_dishes", restaurant_dishes: @restaurant_dishes %>

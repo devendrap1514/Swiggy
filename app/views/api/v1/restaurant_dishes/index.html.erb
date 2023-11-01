@@ -1,52 +1,5 @@
 <%= render "api/v1/shared/search", locals: { path: api_v1_restaurant_dishes_path, is_show_status: true } %>
-<br>
-
-<style>
-  .grid-container{
-    display: grid;
-    margin-left: 5px;
-    margin-right: 5px;
-    grid-template-columns: repeat(5, 1fr);
-    column-gap: 10px;
-    row-gap: 1em;
-  }
-  .grid-item{
-    border: 1px solid;
-    padding: 20px;
-    border-radius: 25px 5px 25px 5px;
-    box-shadow: 0 0 0 2px #888888;
-    transition: 0.4s;
-  }
-  .grid-item:hover {
-    box-shadow: 0 8px 16px 0 #888888;
-  }
-  .image{
-    text-align: center;
-  }
-  .dish{
-    font-size: 18px;
-    font-style: bold;
-  }
-  .restaurant{
-    font-size: 12px;
-  }
-</style>
-<div class="grid-container">
-  <% @restaurant_dishes.each do |rd| %>
-    <%= link_to api_v1_restaurant_dish_path(rd), class: "grid-item" do %>
-      <div class="image">
-        <% if rd.dish.dish_images.attached? %>
-          <%= image_tag rd.dish.dish_images[0], size: "120x120" %>
-        <% else %>
-          <%= image_tag("no_image.png", size: "120x120") %>
-        <% end %>
-      </div>
-      <div class="dish"><%= rd.dish.dish_name %></div>
-      <div class="restaurant"><%= rd.restaurant.restaurant_name %>, <%= rd.restaurant.address %></div>
-    <% end %>
-  <% end %>
-</div>
 
 <br>
 
-<%= paginate @restaurant_dishes %>
+<%= render "api/v1/shared/restaurant_dishes", restaurant_dishes: @restaurant_dishes %>

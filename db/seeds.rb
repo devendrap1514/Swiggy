@@ -16,7 +16,19 @@ p_e category_chinese, category_indian, category_mexican
 dish1 = Dish.create(dish_name: 'Manchurian', category_id: category_chinese.id)
 dish2 = Dish.create(dish_name: 'Noodles', category_id: category_chinese.id)
 dish3 = Dish.create(dish_name: 'Paneer', category_id: category_indian.id)
-dish4 = Dish.create(dish_name: 'Dal', category_id: category_indian.id)
+dish3.dish_images.attach(
+  io:  File.open(File.join(Rails.root,'app/assets/images/paneer1.jpeg')),
+  filename: 'photo.jpeg'
+)
+dish3.dish_images.attach(
+  io:  File.open(File.join(Rails.root,'app/assets/images/paneer2.jpeg')),
+  filename: 'photo.jpeg'
+)
+dish4 = Dish.create(dish_name: 'Kaju', category_id: category_indian.id)
+dish4.dish_images.attach(
+  io:  File.open(File.join(Rails.root,'app/assets/images/kaju1.jpeg')),
+  filename: 'photo.jpeg'
+)
 p_e dish1, dish2, dish3, dish4
 
 # Create Owner

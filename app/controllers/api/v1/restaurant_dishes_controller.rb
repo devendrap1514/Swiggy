@@ -49,6 +49,7 @@ class Api::V1::RestaurantDishesController < Api::V1::ApiController
   end
 
   def show
+    @restaurant_dishes = RestaurantDish.where.not(id: @restaurant_dish.id).filter_by_search(@restaurant_dish.dish.dish_name).page(params[:page])
     respond_to do |format|
       format.json { render json: @restaurant_dish }
       format.html {  }
@@ -90,6 +91,6 @@ class Api::V1::RestaurantDishesController < Api::V1::ApiController
   private
 
   def restaurant_dish_params
-    params.require(:restaurant_dish).permit(:restaurant_id, :dish_id, :price)
+    params.permit(:restaurant_id, :dish_id, :price)
   end
 end

@@ -1,1 +1,11 @@
 <%= render "api/v1/shared/dishes_list", dishes: @dishes %>
+<br>
+<% if @restaurant.owner == current_user %>
+  <h3 align="center">Add Dish to Restaurant</h3>
+  <%= form_with url: api_v1_restaurant_dishes_path do |f|%>
+    <%= f.hidden_field :restaurant_id, value: params[:id] %>
+    <%= f.text_field :dish_id, placeholder: "Dish Id" %>
+    <%= f.text_field :price, placeholder: "Price" %>
+    <%= f.submit %>
+  <% end %>
+<% end %>
