@@ -1,28 +1,53 @@
-<table align="center" style="max-width: 15rem;">
-  <thead style="color:red">
-    <tr>
-      <th>Dish Name</th>
-      <th>Category</th>
-      <th>Image</th>
-    </tr>
-  </thead>
+<style>
+  .grid-container{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 40px 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  .grid-item{
+    border: 0.5px solid;
+    border-radius: 10px;
+    padding: 8px;
+  }
+  .grid-footer{
+    margin-top: 20px;
+    grid-area: f;
+    text-align: center;
+  }
+  .image{
+    width: 100%;
+    height: fit-content;
+  }
+  .dish{
+    size: 16px;
+    font-weight: bold;
+  }
+  .category{
+    size: 12px;
+  }
+</style>
 
-  <tbody>
-    <% dishes.each do |dish| %>
-      <tr>
-        <td><%=dish.dish_name %></td>
-        <td><%=dish.category.category_name %></td>
-        <td>
-          <% unless dish.dish_images.empty? %>
-            <%= image_tag(dish.dish_images[0], size: "50x40") %>
+<div class="grid-container">
+  <% dishes.each do |dish| %>
+    <a href="<%= api_v1_dish_path(dish) %>" class="grid-item">
+      <div>
+        <div align="center">
+          <% if dish.dish_images.attached? %>
+            <%= image_tag dish.dish_images[0], class:"image" %>
+          <% else %>
+            <%= image_tag "no_image.png", class:"image" %>
           <% end %>
-        </td>
-        <td><%= button_to "view", api_v1_dish_path(dish), method: :get %></td>
-        <td><%= button_to "edit", edit_api_v1_dish_path(dish), method: :get %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-<div align="center", style="margin: 20px 0px 0px 0px">
+        </div>
+
+        <div class="dish"><%= dish.dish_name %></div>
+        <div class="category"><%= dish.category.category_name %></div>
+      </div>
+    </a>
+  <% end %>
+</div>
+
+<div class="grid-footer">
   <%= paginate dishes %>
 </div>

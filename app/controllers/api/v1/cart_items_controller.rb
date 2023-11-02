@@ -79,7 +79,7 @@ class Api::V1::CartItemsController < Api::V1::ApiController
     else
       respond_to do |format|
         format.json { render status: :unprocessable_entity, json: { errors: @cart_item.errors.full_messages } }
-        format.html { redirect_to request.referrer, notice: cart_item.errors.full_messages }
+        format.html { redirect_to request.referrer, notice: @cart_item.errors.full_messages }
       end
     end
   end

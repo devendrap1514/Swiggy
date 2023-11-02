@@ -44,7 +44,7 @@
 
 <div class="box">
   <div class="nested-box">
-    <div>
+    <div style="width: 120px; height: 120px;">
       <% if @restaurant_dish.dish.dish_images.attached? %>
         <%= image_tag @restaurant_dish.dish.dish_images[0], size: "120x120", class: "image" %>
       <% else %>
@@ -54,6 +54,7 @@
     <div class="detail">
       <div class="dish"><%= @restaurant_dish.dish.dish_name %></div>
       <div class="restaurant"><%= @restaurant_dish.restaurant.restaurant_name %>, <%= @restaurant_dish.restaurant.address %></div>
+      <div class="restaurant"><%= @restaurant_dish.restaurant.status %></div>
       <div class="price">&#8377 <%= @restaurant_dish.price %></div>
     </div>
     <% if @current_user.type == "Customer" %>
@@ -70,5 +71,9 @@
 <% end %>
 
 <br>
+<br>
+<% unless @restaurant_dishes.empty? %>
+  <h3 align="center">Similar Dishes</h3>
+<% end %>
 
 <%= render "api/v1/shared/restaurant_dishes", restaurant_dishes: @restaurant_dishes %>

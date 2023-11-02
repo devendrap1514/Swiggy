@@ -66,6 +66,7 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { :host => 'localhost:3000', protocol: 'http' }
   config.action_mailer.delivery_method = :smtp
 
+  # Redis and Sidekiq # this is do all work with redis and sidekiq
   config.active_job.queue_adapter = :sidekiq
 
   config.action_mailer.perform_deliveries = true

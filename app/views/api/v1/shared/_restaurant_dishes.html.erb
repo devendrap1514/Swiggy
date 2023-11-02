@@ -4,15 +4,15 @@
   }
   .grid-container{
     display: grid;
-    margin-left: 5px;
-    margin-right: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
     grid-template-columns: repeat(5, 1fr);
-    column-gap: 10px;
-    row-gap: 1em;
+    column-gap: 20px;
+    row-gap: 40px;
   }
   .grid-item{
     border: 1px solid;
-    padding: 20px;
+    padding: 10px;
     border-radius: 25px 5px 25px 5px;
     box-shadow: 0 0 0 1px #888888;
     transition: 0.4s;
@@ -24,16 +24,33 @@
   }
   .image{
     text-align: center;
+    width: 100%;
+    height: fit-content;
+    position: relative;
   }
   .dish{
-    font-size: 18px;
+    font-size: 16px;
     font-style: bold;
+    margin-top: 5px;
+    margin-bottom: 5px;
   }
   .restaurant{
     font-size: 12px;
   }
   .price{
-    font-size: 18px;
+    border-radius: 4px;
+    font-size: 14px;
+    position: absolute;
+    float: right;
+    right: 5px;
+    top: 5px;
+    background: #000000;
+    padding: 4px;
+    color: yellow;
+  }
+  .status{
+    font-size: 14px;
+    color: #006aff;
   }
 </style>
 <div class="grid-container">
@@ -41,14 +58,15 @@
     <%= link_to api_v1_restaurant_dish_path(rd), class: "grid-item" do %>
       <div class="image">
         <% if rd.dish.dish_images.attached? %>
-          <%= image_tag rd.dish.dish_images[0], size: "120x120" %>
+          <%= image_tag rd.dish.dish_images[0], class: "image" %>
         <% else %>
-          <%= image_tag("no_image.png", size: "120x120") %>
+          <%= image_tag "no_image.png", class: "image", style:"border: 0.01px solid #b9b9b9" %>
         <% end %>
+        <div class="price">&#8377 <%= rd.price %></div>
       </div>
-      <div class="dish"><%= rd.dish.dish_name %></div>
+      <h5 class="dish"><%= rd.dish.dish_name %></h5>
       <div class="restaurant"><%= rd.restaurant.restaurant_name %>, <%= rd.restaurant.address %></div>
-      <div class="price">&#8377 <%= rd.price %></div>
+      <div class="status"><%= rd.restaurant.status %></div>
     <% end %>
   <% end %>
 </div>

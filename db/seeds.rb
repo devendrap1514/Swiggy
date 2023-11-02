@@ -1,72 +1,132 @@
-def p_e(*obj)
+def print_message(obj)
   obj.each do |o|
-    p o.errors.full_messages
+    print o.errors.full_messages
   end
+  puts
 end
 
-# Create Category
+
+
 Dish.destroy_all
 Category.destroy_all
-category_chinese = Category.create(category_name: 'Chinese')
-category_indian = Category.create(category_name: 'Indian')
-category_mexican = Category.create(category_name: 'Mexican')
-p_e category_chinese, category_indian, category_mexican
+Owner.destroy_all
+Customer.destroy_all
+Restaurant.destroy_all
+RestaurantDish.destroy_all
+
+# Create Category
+categories = []
+(1..20).each do |i|
+  category = Category.create(category_name: Faker::Food.ethnic_category)
+  unless category.errors.any?
+    categories << category
+  end
+end
+puts("Total category: #{categories.size}")
+
+
+
+# require 'open-uri'
 
 # Create Dishes
-dish1 = Dish.create(dish_name: 'Manchurian', category_id: category_chinese.id)
-dish2 = Dish.create(dish_name: 'Noodles', category_id: category_chinese.id)
-dish3 = Dish.create(dish_name: 'Paneer', category_id: category_indian.id)
-dish3.dish_images.attach(
-  io:  File.open(File.join(Rails.root,'app/assets/images/paneer1.jpeg')),
-  filename: 'photo.jpeg'
-)
-dish3.dish_images.attach(
-  io:  File.open(File.join(Rails.root,'app/assets/images/paneer2.jpeg')),
-  filename: 'photo.jpeg'
-)
-dish4 = Dish.create(dish_name: 'Kaju', category_id: category_indian.id)
-dish4.dish_images.attach(
-  io:  File.open(File.join(Rails.root,'app/assets/images/kaju1.jpeg')),
-  filename: 'photo.jpeg'
-)
-p_e dish1, dish2, dish3, dish4
+dishes = []
+(1..50).each do |i|
+  dish = Dish.create(category: categories.sample, dish_name: Faker::Food.dish)
+  unless dish.errors.any?
+    byebug if i == 0
+    if i%3 == 0
+      url = Faker::LoremFlickr.image(size: "200x200", search_terms: ['food', "#{dish.dish_name}"])
+      trim_url = ""
+      url.each_char do |ch|
+        break if ch == " "
+        trim_url << ch
+      end
+      begin
+        file = URI.parse(trim_url)
+        image = file.open
+        puts(image)
+        dish.dish_images.attach(io:  image, filename: 'photo.jpg' )
+      rescue StandardError => e
+
+      end
+    end
+
+    dishes << dish
+  end
+end
+puts("Total dishes: #{dishes.size}")
+
+
+# dish = Dish.create(dish_name: 'Kaju', category_id: category_indian.id)
+# dish.dish_images.attach(
+#   io:  File.open(File.join(Rails.root,'app/assets/images/kaju1.jpeg')),
+#   filename: 'photo.jpeg'
+# )
+
+
+
+
 
 # Create Owner
-Owner.destroy_all
-owner1 = Owner.create(name: 'Vinay Sharma', username: 'vs_123', password: 'Vinay123',
-                      password_confirmation: 'Vinay123', email: 'unknownwalahai@gmail.com')
-owner2 = Owner.create(name: 'Akash Chadda', username: 'ac_123', password: 'Akash123',
-                      password_confirmation: 'Akash123', email: 'unknownwalahai@gmail.com')
-p_e(owner1, owner2)
+owners = []
+owners << Owner.create(name: 'Vinay Sharma', username: 'vs_123', password: 'Dev123', password_confirmation: 'Dev123', email: 'unknownwalahai@gmail.com')
+(1..2).each do |i|
+  username = Faker::Internet.username(separators: ['_'])
+  password = "Dev123"
+
+  owner = Owner.create(name: Faker.name, username: username, email: "unknownwalahai@gmail.com", password: password, password_confirmation: password)
+  unless owner.errors.any?
+    owners << owner
+  end
+end
+puts("Total owner: #{owners.size}")
+
+
+
 
 # Create Customer
-Customer.destroy_all
-customer1 = Customer.create(name: 'Devendra Patidar', username: 'dp_123', password: 'Devendra123',
-                            password_confirmation: 'Devendra123', email: 'unknownwalahai@gmail.com')
-customer2 = Customer.create(name: 'Pradeep Patidar', username: 'pp_123', password: 'Pradeep23',
-                            password_confirmation: 'Pradeep23', email: 'unknownwalahai@gmail.com')
-p_e(customer1, customer2)
+customers = []
+customers << Customer.create(name: 'Devendra Patidar', username: 'dp_123', password: 'Dev123', password_confirmation: 'Dev123', email: 'unknownwalahai@gmail.com')
+(1..2).each do |i|
+  username = Faker::Internet.username(separators: ['_'])
+  password = "Dev123"
 
-# Create Restaurant
-Restaurant.destroy_all
-restaurant1 = Restaurant.create(restaurant_name: 'Apna Sweet', address: 'Vijay Nagar', owner_id: owner1.id,
-                                status: 'open')
-restaurant2 = Restaurant.create(restaurant_name: 'Guru Kripa', address: 'Sarvate', owner_id: owner1.id, status: 'close')
-restaurant3 = Restaurant.create(restaurant_name: 'Sayaji', address: 'Meghdoot', owner_id: owner2.id, status: 'open')
-restaurant4 = Restaurant.create(restaurant_name: 'Maa ki Rasoi', address: 'Palasia', owner_id: owner2.id, status: 'open')
-restaurant5 = Restaurant.create(restaurant_name: 'Apna Sweet', address: 'Sapna Sangeeta', owner_id: owner1.id,
-                                status: 'open')
-restaurant6 = Restaurant.create(restaurant_name: 'Guru Kripa', address: 'Palasia', owner_id: owner1.id, status: 'close')
-p_e restaurant1, restaurant2, restaurant3, restaurant4, restaurant5, restaurant6
+  customer = Customer.create(name: Faker.name, username: username, email: "unknownwalahai@gmail.com", password: password, password_confirmation: password)
+  unless customer.errors.any?
+    customers << customer
+  end
+end
+puts("Total customers: #{customers.size}")
+
+
+
+
+restaurants = []
+(1..50).each do |i|
+  restaurant = Restaurant.create(restaurant_name: Faker::Restaurant.name, address: Faker::Address.street_name, owner: owners.sample, status: ['open', 'close'].sample)
+  unless restaurant.errors.any?
+    restaurants << restaurant
+  end
+end
+puts("Total restaurants: #{restaurants.size}")
+
+
+
 
 # Create Restaurant Dishes
-RestaurantDish.destroy_all
-rd1 = RestaurantDish.create(restaurant_id: restaurant1.id, dish_id: dish1.id, price: 40)
-rd2 = RestaurantDish.create(restaurant_id: restaurant1.id, dish_id: dish2.id, price: 20)
-rd3 = RestaurantDish.create(restaurant_id: restaurant3.id, dish_id: dish3.id, price: 120)
-rd4 = RestaurantDish.create(restaurant_id: restaurant3.id, dish_id: dish4.id, price: 70)
-rd4 = RestaurantDish.create(restaurant_id: restaurant6.id, dish_id: dish4.id, price: 70)
-p_e rd1, rd2, rd3, rd4
+restaurant_dishes = []
+(1..50).each do |i|
+  restaurant_dish = RestaurantDish.create(restaurant: restaurants.sample, dish: dishes.sample, price: Faker::Commerce.price(range: 20..200))
+  unless restaurant_dish.errors.any?
+    restaurant_dishes << restaurant_dish
+  end
+end
+puts("Total restaurant dishes: #{restaurant_dishes.size}")
+
+
+
 
 AdminUser.destroy_all
 AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
+
+puts

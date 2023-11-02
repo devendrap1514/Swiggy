@@ -9,8 +9,8 @@
     float: none;
     text-align: center;
   }
-  .card{
-    padding: 10px;
+  .profile-card{
+    padding: 20px;
     background-color: #cbe0b4;
     border-radius: 10px;
   }
@@ -22,39 +22,52 @@
   .button-shape{
     border-radius: 50px;
     padding: 5px 10px;
-    background-color: #cbe0b4;
+    background-color: var(--main-color);
+  }
+  .icon-style{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .profile-button{
+    display: flex;
+    justify-content: center;
+    margin: 10px 0px 0px 0px;
+    gap: 20px;
   }
 </style>
 
 <div class="page">
-  <% if @current_user.type == "Customer" %>
-    <div class="shape">
-      <%= link_to image_tag("shopping-cart.png", size: "50x50"), api_v1_cart_path, method: :get %>
+  <div>
+    <div class="profile-card">
+      <div class="profile_pic">
+        <% if current_user.profile_picture.attached? %>
+          <%= image_tag(current_user.profile_picture, size: "100x100") %>
+        <% else %>
+          <%= image_tag("profile_pic.png", size: "100x100") %>
+        <% end %>
+      </div>
+      <div>
+        <h2><%= current_user.name %></h2>
+        <h2><%= current_user.email %></h2>
+        <h2><%= current_user.username %></h2>
+        <h2><%= current_user.type %></h2>
+      </div>
     </div>
-  <% end %>
-  <div class="card">
-    <div class="profile_pic">
-      <% if current_user.profile_picture.attached? %>
-        <%= image_tag(current_user.profile_picture, size: "100x100") %>
-      <% else %>
-        <%= image_tag("profile_pic.png", size: "100x100") %>
-      <% end %>
-    </div>
-    <div>
-      <h2><%= current_user.name %></h2>
-      <h2><%= current_user.email %></h2>
-      <h2><%= current_user.username %></h2>
-      <h2><%= current_user.type %></h2>
+    <div class="profile-button">
+      <%= button_to "EDIT PROFILE", edit_user_registration_path, method: :get, class: "button-shape" %>
+      <%= button_to "SIGNOUT", destroy_user_session_path, method: :delete, class: "button-shape" %>
     </div>
   </div>
-  <% if @current_user.type == "Customer" %>
-    <div  class="shape">
-      <%= link_to image_tag("purchase-order.png", size: "50x50"), api_v1_orders_path, method: :get %>
-    </div>
-  <% end %>
+  <div class="icon-style">
+    <% if @current_user.type == "Customer" %>
+      <div class="shape">
+        <%= link_to image_tag("shopping-cart.png", size: "50x50"), api_v1_cart_path, method: :get %>
+      </div>
+      <div  class="shape">
+        <%= link_to image_tag("purchase-order.png", size: "50x50"), api_v1_orders_path, method: :get %>
+      </div>
+    <% end %>
+  </div>
 </div>
 <br>
-<div style="display: flex; justify-content: center;">
-  <%= button_to "EDIT PROFILE", edit_user_registration_path, method: :get, class: "button-shape" %>
-  <%= button_to "SIGNOUT", destroy_user_session_path, method: :delete, class: "button-shape" %>
-</div>

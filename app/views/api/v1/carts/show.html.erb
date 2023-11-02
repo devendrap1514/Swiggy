@@ -24,6 +24,7 @@
         <th>Dish</th>
         <th>Quantity</th>
         <th>Price</th>
+        <th>Status</th>
       </tr>
     </thead>
     <tbody>
@@ -33,6 +34,7 @@
           <td><%= item.restaurant_dish.dish.dish_name %></td>
           <td><%= item.quantity %></td>
           <td><%= item.price %></td>
+          <td><%= item.restaurant_dish.restaurant.status %></td>
           <td><%= button_to "Remove", api_v1_cart_cart_item_path(item), method: :delete %> </td>
 
           <td>

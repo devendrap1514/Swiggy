@@ -19,7 +19,7 @@
 #  fk_rails_...  (owner_id => users.id)
 #
 class Restaurant < ApplicationRecord
-  paginates_per 2
+  paginates_per 20
   belongs_to :owner, class_name: "User", foreign_key: 'owner_id'
   has_many :restaurant_dishes, dependent: :destroy
   has_many :dishes, through: :restaurant_dishes

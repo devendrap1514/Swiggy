@@ -41,7 +41,7 @@ class User < ApplicationRecord
 
   before_validation :remove_whitespace
 
-  after_create :send_welcome_mail
+  # after_create :send_welcome_mail
 
   def remove_whitespace
     self.name = StripAndSqueeze.apply(name)
@@ -52,6 +52,6 @@ class User < ApplicationRecord
 
   def send_welcome_mail
     # this work when redis-server running and execute after sidekiq
-    UserMailer.with(user: self).welcome_email.deliver_later
+    UserMailer.with(user: self).welcome_email.deliver_later if self.email
   end
 end

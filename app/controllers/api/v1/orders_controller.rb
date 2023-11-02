@@ -15,20 +15,30 @@ class Api::V1::OrdersController < Api::V1::ApiController
   def create
     if @current_user.cart.present?
       cart_items = @current_user.cart.cart_items
-      order = order_now(cart_items)
+      order = order_now(cart_items) if restaurant_open(cart_items)
 
       begin
         @current_user.cart.destroy
-        output = {}
-        output[:message] = "success"
-        output[:message] = OrderSerializer.new order
         respond_to do |format|
-          format.json { render json: output }
+          format.json {
+            output = {}
+            output[:message] = "success"
+            output[:message] = OrderSerializer.new order
+            render json: output
+          }
           format.html { redirect_to api_v1_order_order_items_path(order) }
-        end
+        end and return
       rescue Exception => e
         render status: :internal_server_error, json: { message: e.message }
       end if order
+      respond_to do |format|
+        format.json {
+          output = {}
+          output[:message] = "failed, restaurant_must_open"
+          render json: output
+        }
+        format.html { redirect_to request.referrer, notice: "failed, restaurant_must_open" }
+      end and return
     else
       render status: :not_found, json: { message: "Cart is empty" }
     end
@@ -49,6 +59,11 @@ class Api::V1::OrdersController < Api::V1::ApiController
     render json: {message: 'Order deleted successfully'}
   rescue Exception => e
     render status: :internal_server_error, json: {message: e.message}
+  end
+
+  def restaurant_open(cart_items)
+    return false unless cart_items[0].restaurant_dish.restaurant.status == "open"
+    true
   end
 
   def order_now(cart_items)

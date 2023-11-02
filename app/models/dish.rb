@@ -17,7 +17,7 @@
 #  fk_rails_...  (category_id => categories.id)
 #
 class Dish < ApplicationRecord
-  paginates_per 2
+  paginates_per 20
   belongs_to :category
   has_many :restaurant_dishes, dependent: :destroy
   has_many :restaurants, through: :restaurant_dishes
