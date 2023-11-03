@@ -99,3 +99,7 @@ gem "sass-rails"
 gem 'simplecov', require: false, group: :test
 gem 'arctic_admin'
 gem 'sidekiq'
+
+
+gem 'elasticsearch-model'
+gem 'elasticsearch-rails'

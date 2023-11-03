@@ -17,6 +17,8 @@
 #  fk_rails_...  (category_id => categories.id)
 #
 class Dish < ApplicationRecord
+  include Elasticsearch::Model
+  include Elasticsearch::Model::Callbacks
   paginates_per 20
   belongs_to :category
   has_many :restaurant_dishes, dependent: :destroy
@@ -30,6 +32,12 @@ class Dish < ApplicationRecord
   scope :filter_by_dish_name, ->(dish_name) { where('dish_name ILIKE ?', "%#{dish_name}%") }
   scope :filter_by_category_name, lambda { |category_name| joins(:category).where('category_name ILIKE ?', "%#{category_name}%") }
   scope :filter_by_restaurant_name, lambda { |restaurant_name| joins(:restaurants).where('restaurant_name ILIKE ?', "%#{restaurant_name}%") }
+
+  settings do
+    mappings dynamic: false do
+     indexes :dish_name, type: :text, analyzer: :english
+    end
+  end
 
   def remove_whitespace
     self.dish_name = StripAndSqueeze.apply(dish_name)
