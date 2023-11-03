@@ -13,6 +13,7 @@
     border-radius: 25px 5px 25px 5px;
     box-shadow: 0 0 0 1px #888888;
     transition: 0.4s;
+    position: relative;
   }
   .image{
     display: flex;
@@ -30,13 +31,10 @@
   .restaurant{
     font-size: 12px;
   }
-  .price{
-    font-size: 18px;
-  }
   .add-to-cart{
     position:relative;
-    right: -13px;
-    top: -60px;
+    bottom: -60px;
+    right: -7px;
     cursor:pointer;
     background: none;
   }
@@ -54,9 +52,9 @@
     <div class="detail">
       <div class="dish"><%= @restaurant_dish.dish.dish_name %></div>
       <div class="restaurant"><%= @restaurant_dish.restaurant.restaurant_name %>, <%= @restaurant_dish.restaurant.address %></div>
-      <div class="restaurant"><%= @restaurant_dish.restaurant.status %></div>
-      <div class="price">&#8377 <%= @restaurant_dish.price %></div>
+      <div class="status"><%= @restaurant_dish.restaurant.status %></div>
     </div>
+      <div class="price">&#8377 <%= @restaurant_dish.price %></div>
     <% if @current_user.type == "Customer" %>
       <div class="add-to-cart">
         <%= button_to image_tag("shopping-cart.png", size: "20x20"), api_v1_cart_cart_items_path(restaurant_dish_id: @restaurant_dish.id, quantity: 1), method: :post, style:"all:unset" %>

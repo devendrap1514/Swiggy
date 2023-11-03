@@ -8,10 +8,8 @@
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+    <link rel="stylesheet" href="style.css">
     <style>
-      :root {
-        --main-color: #cbe0b4;
-      }
       #header {
         border:1px solid #000000;
         display: flex;
@@ -73,5 +71,6 @@
     <br>
 
     <%= yield %>
+    <br>
   </body>
 </html>

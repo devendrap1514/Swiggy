@@ -56,6 +56,7 @@ class Api::V1::DishesController < Api::V1::ApiController
   end
 
   def show
+    @restaurant_dishes = RestaurantDish.filter_by_search(@dish.dish_name).page(params[:page])
     respond_to do |format|
       format.json { render status: :ok, json: {message: "success", data: @dish} }
       format.html

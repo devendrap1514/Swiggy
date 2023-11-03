@@ -34,7 +34,7 @@ dishes = []
   dish = Dish.create(category: categories.sample, dish_name: Faker::Food.dish)
   unless dish.errors.any?
     byebug if i == 0
-    if i%3 == 0
+    if i%4 == 0
       url = Faker::LoremFlickr.image(size: "200x200", search_terms: ['food', "#{dish.dish_name}"])
       trim_url = ""
       url.each_char do |ch|

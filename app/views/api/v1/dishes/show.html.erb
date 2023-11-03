@@ -1,4 +1,58 @@
-<div>
-  Dish Name: <%= @dish.dish_name %> <br>
-  Category: <%= @dish.category.category_name %>
+<style>
+  .box{
+    display: flex;
+    justify-content: center;
+  }
+  .nested-box{
+    overflow: hidden;
+    background-color: var(--main-color);
+    display: flex;
+    align-items: center;
+    border: 1px solid;
+    padding: 20px;
+    border-radius: 25px 5px 25px 5px;
+    box-shadow: 0 0 0 1px #888888;
+    transition: 0.4s;
+    position: relative;
+  }
+  .image{
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+  .detail{
+    margin: 0px 0px 0px 10px;
+    align-content: center;
+  }
+  .dish{
+    font-size: 18px;
+    font-style: bold;
+  }
+  .category{
+    font-size: 12px;
+  }
+</style>
+
+<div class="box">
+  <div class="nested-box">
+    <div style="width: 120px; height: 120px;">
+      <% if @dish.dish_images.attached? %>
+        <%= image_tag @dish.dish_images[0], size: "120x120", class: "image" %>
+      <% else %>
+        <%= image_tag "no_image.png", size: "120x120", class: "image" %>
+      <% end %>
+    </div>
+    <div class="detail">
+      <div class="dish"><%= @dish.dish_name %></div>
+      <div class="category"><%= @dish.category.category_name %></div>
+    </div>
+  </div>
 </div>
+
+<br>
+<br>
+<% unless @restaurant_dishes.empty? %>
+  <h3 align="center">Similar Dishes</h3>
+<% end %>
+
+<%= render "api/v1/shared/restaurant_dishes", restaurant_dishes: @restaurant_dishes %>
