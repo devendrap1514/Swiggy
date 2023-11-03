@@ -1,61 +1,84 @@
 <style>
-  #edit_text_field{
-    padding: 2px;
-    width: 2rem;
-    border: 2px solid;
-    margin: auto;
+  .container{
+    display: flex;
+    flex-direction: column;
   }
-  #update_button{
-    margin: 3px 0px 0px 0px;
-    padding: 0px;
+  .item{
+    padding: 10px;
+    margin: 6px 100px;
+    display: flex;
+    background-color: var(--main-color);
+    justify-content: space-evenly;
+    border: 0.5px solid;
+    border-radius: 10px;
   }
-  #form{
-    border: 2px solid red;
+  .image-detail{
+    display: flex;
+  }
+  .image{
+    height: 100px;
+    width: 100px;
+  }
+  .detail{
+    display: flex;
+    flex-direction: column;
+  }
+  .price-quantity{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+  .dish{
+    font-size: 16px;
+    font-style: bold;
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+  .restaurant{
+    font-size: 12px;
+  }
+  .quantity{
+    text-align: right;
+  }
+  .remove{
+    position: absolute;
+    right: 108px;
+    font-size: 24px;
+    top: 106px;
+    color: red;
   }
 </style>
 
-<% if @cart.present? %>
-  <h1 align="center">Cart</h1>
+<div class="container">
+  <% if @cart.present? %>
+    <% @cart.cart_items.each do |item| %>
+      <div class="item">
+        <div class="image">
+          <% if item.restaurant_dish.dish.dish_images.attached? %>
+            <%= image_tag item.restaurant_dish.dish.dish_images[0], class: "image" %>
+          <% else %>
+            <%= image_tag "no_image.png", class: "image", style:"border: 0.01px solid #b9b9b9" %>
+          <% end %>
+        </div>
+        <div class="detail">
+          <div class="dish"><%= item.restaurant_dish.dish.dish_name %></div>
+          <div class="restaurant"><%= item.restaurant_dish.restaurant.restaurant_name %></div>
+          <div class="status"><%= item.restaurant_dish.restaurant.status %></div>
+        </div>
+        <div class="price-quantity">
+          <div class="quantity">x
+            <%= item.quantity %>
+          </div>
+          <div class="price">&#8377
+            <%= item.price %>
+          </div>
+        </div>
+        <a href="" class="remove">x</a>
+      </div>
+    <% end %>
+  <% end %>
+</div>
 
-  <table align="center" border=1 frame=hsides rules=rows style="max-width: 45rem;">
-    <thead style="color:red">
-      <tr>
-        <th>Restaurant</th>
-        <th>Dish</th>
-        <th>Quantity</th>
-        <th>Price</th>
-        <th>Status</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @cart.cart_items.each do |item| %>
-        <tr>
-          <td><%= item.restaurant_dish.restaurant.restaurant_name %></td>
-          <td><%= item.restaurant_dish.dish.dish_name %></td>
-          <td><%= item.quantity %></td>
-          <td><%= item.price %></td>
-          <td><%= item.restaurant_dish.restaurant.status %></td>
-          <td><%= button_to "Remove", api_v1_cart_cart_item_path(item), method: :delete %> </td>
-
-          <td>
-            <div>
-              <%= form_for [:api, :v1, :cart, item], method: :patch, id: "form" do |f| %>
-                <%= f.text_field :quantity, id: "edit_text_field" %>
-                <%= f.submit "Update", id: "update_button" %>
-              <% end %>
-            </div>
-          </td>
-        </tr>
-      <% end %>
-    </tbody>
-    <tfoot>
-      <tr>
-        <th id="Total" colspan="3">Total:  </th>
-        <td><%= @cart.cart_price %></td>
-      </tr>
-    </tfoot>
-  </table>
-  <div align="center">
-    <%= button_to "Checkout", api_v1_orders_path, method: :post, style:"background: green;"%>
-  </div>
-<% end %>
+<div align="center">
+  <%= button_to "Checkout", api_v1_orders_path, method: :post, style:"background: green;"%>
+</div>
