@@ -33,4 +33,4 @@
 /config/master.key
 
 # Ignore Secret KEY/PASSWORD
-/config/app_environment_variables.rb
+.env
