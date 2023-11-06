@@ -9,14 +9,11 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resource :owner, only: %i[create show update destroy] do
+
+      resources :users, only: %i[show] do
         get '/my_restaurant', action: :my_restaurant, on: :member
         get '/my_dishes', action: :my_dishes, on: :member
       end
-
-      resources :users, only: %i[show]
-
-      resource :customer, only: %i[create show update destroy]
 
       resource :cart, only: %i[show destroy] do
         resources :cart_items, only: %i[create show update destroy]

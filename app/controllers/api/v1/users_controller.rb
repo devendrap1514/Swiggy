@@ -1,9 +1,5 @@
 class Api::V1::UsersController < Api::V1::ApiController
 
-  def create(user)
-    UserMailer.with(user: user).welcome_email.deliver_now
-  end
-
   def show
     output = {}
     output[:message] = "success"
@@ -15,20 +11,15 @@ class Api::V1::UsersController < Api::V1::ApiController
     end
   end
 
-  def update
-    if @current_user.update(user_params)
-      render json: { message: "Update Successfully", data: UserSerializer.new(@current_user) }
-    else
-      render status: :unprocessable_entity,
-             json: { message: @current_user.errors.full_messages }
-    end
+  def my_restaurant
+    render json: { message: "success", data: @current_user.restaurants.page(params[:page]) }
   end
 
-  def destroy
-    @current_user.destroy
-    render status: :ok, json: { message:'Deleted Successfully' }
-  rescue Exception => e
-    render status: :internal_server_error, json: { messages: e.message }
+  def my_dishes
+    dish_name = StripAndSqueeze.apply(params[:dish_name])
+    category_name = StripAndSqueeze.apply(params[:category_name])
+    dishes = Dish.joins(:restaurants).where("restaurants.owner_id = #{@current_user.id}").filter_by_dish_name(dish_name).filter_by_category_name(category_name).page(params[:page])
+    render json: { message: "success", data: dishes }
   end
 
   private
