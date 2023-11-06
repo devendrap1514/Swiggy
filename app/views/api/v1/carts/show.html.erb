@@ -11,6 +11,7 @@
     justify-content: space-evenly;
     border: 0.5px solid;
     border-radius: 10px;
+    position: relative;
   }
   .image-detail{
     display: flex;
@@ -22,6 +23,7 @@
   .detail{
     display: flex;
     flex-direction: column;
+    width: 200px;
   }
   .price-quantity{
     display: flex;
@@ -41,11 +43,13 @@
     text-align: right;
   }
   .remove{
+    all:unset;
     position: absolute;
-    right: 108px;
-    font-size: 24px;
-    top: 106px;
+    right: 7px;
+    top: 1px;
     color: red;
+    font-size: 24px;
+    cursor: pointer;
   }
 </style>
 
@@ -55,9 +59,9 @@
       <div class="item">
         <div class="image">
           <% if item.restaurant_dish.dish.dish_images.attached? %>
-            <%= image_tag item.restaurant_dish.dish.dish_images[0], class: "image" %>
+            <%= image_tag item.restaurant_dish.dish.dish_images[0], style: "max-height:100%; max-width:100%;" %>
           <% else %>
-            <%= image_tag "no_image.png", class: "image", style:"border: 0.01px solid #b9b9b9" %>
+            <%= image_tag "no_image.png", style: "max-height:100%; max-width:100%;" %>
           <% end %>
         </div>
         <div class="detail">
@@ -72,8 +76,9 @@
           <div class="price">&#8377
             <%= item.price %>
           </div>
+        <a href="api_v1_cart_items_path(#{item})" class="remove" method="delete">x</a>
+        <%= button_to "x", api_v1_cart_cart_item_path(item), class:"remove", method: :delete %>
         </div>
-        <a href="" class="remove">x</a>
       </div>
     <% end %>
   <% end %>
