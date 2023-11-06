@@ -69,7 +69,12 @@ puts("Total dishes: #{dishes.size}")
 
 # Create Owner
 owners = []
-owners << Owner.create(name: 'Vinay Sharma', username: 'vs_123', password: 'Dev123', password_confirmation: 'Dev123', email: 'unknownwalahai@gmail.com')
+owner = Owner.create(name: 'Vinay Sharma', username: 'vs_123', password: 'Dev123', password_confirmation: 'Dev123', email: 'unknownwalahai@gmail.com')
+owner.profile_picture.attach(
+  io:  File.open(File.join(Rails.root,'app/assets/images/owner1.jpeg')),
+  filename: "#{owner.name}.jpeg"
+)
+owners << owner
 (1..2).each do |i|
   username = Faker::Internet.username(separators: ['_'])
   password = "Dev123"
@@ -86,7 +91,12 @@ puts("Total owner: #{owners.size}")
 
 # Create Customer
 customers = []
-customers << Customer.create(name: 'Devendra Patidar', username: 'dp_123', password: 'Dev123', password_confirmation: 'Dev123', email: 'unknownwalahai@gmail.com')
+customer = Customer.create(name: 'Devendra Patidar', username: 'dp_123', password: 'Dev123', password_confirmation: 'Dev123', email: 'unknownwalahai@gmail.com')
+customer.profile_picture.attach(
+  io:  File.open(File.join(Rails.root,'app/assets/images/owner1.jpeg')),
+  filename: "#{customer.name}.jpeg"
+)
+customers << customer
 (1..2).each do |i|
   username = Faker::Internet.username(separators: ['_'])
   password = "Dev123"
