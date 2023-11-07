@@ -56,7 +56,7 @@
         <% if rd.dish.dish_images.attached? %>
           <%= image_tag rd.dish.dish_images[0], class: "image" %>
         <% else %>
-          <%= image_tag "no_image.png", class: "image", style:"border: 0.01px solid #b9b9b9" %>
+          <%= image_tag "no_image.png", class: "image" %>
         <% end %>
         <div class="price">&#8377 <%= rd.price %></div>
       </div>

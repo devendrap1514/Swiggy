@@ -38,7 +38,7 @@
 </style>
 
 <div class="page">
-  <div>
+  <div align="center">
     <div class="profile-card">
       <div class="profile_pic">
         <% if current_user.profile_picture.attached? %>
@@ -59,15 +59,15 @@
       <%= button_to "SIGNOUT", destroy_user_session_path, method: :delete, class: "button-shape" %>
     </div>
   </div>
-  <div class="icon-style">
-    <% if @current_user.type == "Customer" %>
+  <% if @current_user.type == "Customer" %>
+    <div class="icon-style">
       <div class="shape">
         <%= link_to image_tag("shopping-cart.png", size: "50x50"), api_v1_cart_path, method: :get %>
       </div>
       <div  class="shape">
         <%= link_to image_tag("purchase-order.png", size: "50x50"), api_v1_orders_path, method: :get %>
       </div>
-    <% end %>
-  </div>
+    </div>
+  <% end %>
 </div>
 <br>
