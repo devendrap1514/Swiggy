@@ -3,13 +3,16 @@
 # Table name: users
 #
 #  id                     :bigint           not null, primary key
+#  avatar_url             :string
 #  email                  :string
 #  encrypted_password     :string           default(""), not null
 #  name                   :string           not null
+#  provider               :string
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
 #  type                   :string           not null
+#  uid                    :string
 #  username               :string           not null
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
@@ -22,7 +25,7 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, :registerable, :recoverable, :rememberable, authentication_keys: [:username]
+  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :omniauthable, omniauth_providers: [:google_oauth2], authentication_keys: [:username]
 
   has_one_attached :profile_picture
 
@@ -42,6 +45,16 @@ class User < ApplicationRecord
   before_validation :remove_whitespace
 
   # after_create :send_welcome_mail
+
+  def self.from_omniauth(auth)
+    where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
+      user.email = auth.info.email
+      user.username = Faker::Internet.username(separators: ['_'])
+      user.password = Devise.friendly_token[0, 20]
+      user.name = auth.info.name # assuming the user model has a name
+      user.avatar_url = auth.info.image # assuming the user model has an image
+    end
+  end
 
   def remove_whitespace
     self.name = StripAndSqueeze.apply(name)

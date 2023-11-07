@@ -103,3 +103,9 @@ gem 'sidekiq'
 
 gem 'elasticsearch-model'
 gem 'elasticsearch-rails'
+
+
+gem "dotenv-rails"
+gem "omniauth"
+gem "omniauth-google-oauth2"
+gem "omniauth-rails_csrf_protection"

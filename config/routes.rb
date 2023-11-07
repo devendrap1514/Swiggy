@@ -1,11 +1,18 @@
 require "sidekiq/web"
 
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: {
+    omniauth_callbacks: 'users/omniauth_callbacks',
+    sessions: 'users/sessions',
+    registrations: 'users/registrations'
+  }
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
 
   root "api/v1/restaurant_dishes#index"
+
+  resources :auth_registrations, only: [:new, :create]
+  get "/auth_registrations/new"
 
   namespace :api do
     namespace :v1 do

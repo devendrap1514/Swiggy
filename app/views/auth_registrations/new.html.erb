@@ -1,0 +1,52 @@
+<%= form_with url: auth_registrations_path, scope: :user, method: "post" do |f| %>
+
+  <% if @user.errors.any? %>
+    <% @user.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :uid %><br />
+    <%= f.text_field :uid, autofocus: true, autocomplete: "uid", value: params["uid"] || params["user"]["uid"] %>
+  </div>
+
+  <div class="field">
+    <%= f.label :provider %><br />
+    <%= f.text_field :provider, autofocus: true, autocomplete: "provider", value: params["provider"] || params["user"]["provider"] %>
+  </div>
+
+  <div class="field">
+    <%= f.label :avatar_url %><br />
+    <%= f.text_field :avatar_url, autofocus: true, autocomplete: "avatar_url", value: params["avatar_url"] || params["user"]["avatar_url"] %>
+  </div>
+
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name, autofocus: true, autocomplete: "name", value: params["name"] || params["user"]["name"] %>
+  </div>
+
+  <div class="field">
+    <%= f.label :email %><br />
+    <%= f.email_field :email, autofocus: true, autocomplete: "email", value: params["email"] || params["user"]["email"] %>
+  </div>
+
+  <div class="field">
+    <%= f.label :username %><br />
+    <%= f.text_field :username, autofocus: true, value: params["username"] || params["user"]["username"] || "" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :type %><br />
+    <%= f.select :type, options_for_select(["Customer", "Owner"]) %>
+  </div>
+
+  <div class="field">
+    <%= f.label :profile_picture %><br />
+    <%= f.file_field :profile_picture %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "continue" %>
+  </div>
+<% end %>

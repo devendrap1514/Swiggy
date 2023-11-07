@@ -21,10 +21,4 @@ class Api::V1::UsersController < Api::V1::ApiController
     dishes = Dish.joins(:restaurants).where("restaurants.owner_id = #{@current_user.id}").filter_by_dish_name(dish_name).filter_by_category_name(category_name).page(params[:page])
     render json: { message: "success", data: dishes }
   end
-
-  private
-
-  def user_params
-    params.permit(:name, :username, :email, :password, :password_confirmation, :profile_picture)
-  end
 end
