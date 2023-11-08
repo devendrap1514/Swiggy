@@ -43,14 +43,39 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       redirect_to new_user_session_path
     end
   end
+
+  def facebook
+    @user = User.from_omniauth(auth)
+    # when user present in database
+    if @user.present? && @user.id != nil
+      sign_out_all_scopes
+      flash[:success] = t 'devise.omniauth_callbacks.success', kind: 'Google'
+      sign_in_and_redirect @user, event: :authentication
+    elsif @user.id == nil
+      redirect_to "#{new_auth_registration_path}?name=#{@user.name}&uid=#{@user.uid}&provider=#{@user.provider}&avatar_url=#{@user.avatar_url}&email=#{@user.email}&username=#{@user.username}"
+    else
+      flash[:alert] =
+        t 'devise.omniauth_callbacks.failure', kind: 'Google', reason: "#{auth.info.email} is not authorized."
+      redirect_to new_user_session_path
+    end
+  end
+
+  def failure
+    redirect_to root_path
+  end
+
   protected
+
   def after_omniauth_failure_path_for(_scope)
     new_user_session_path
   end
+
   def after_sign_in_path_for(resource_or_scope)
     stored_location_for(resource_or_scope) || root_path
   end
+
   private
+
   def auth
     @auth ||= request.env['omniauth.auth']
   end

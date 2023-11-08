@@ -20,6 +20,10 @@
 <br>
 <%- if devise_mapping.omniauthable? %>
   <%- resource_class.omniauth_providers.each do |provider| %>
-    <%= button_to image_tag("google-sign-in-icon.svg"), omniauth_authorize_path(resource_name, provider), data: { turbo: false }, style: "all:unset;cursor:pointer;" %><br />
+    <% if provider == :facebook %>
+      <%= button_to "Sign in with #{provider}", omniauth_authorize_path(resource_name, provider), data: { turbo: false }, style: "cursor:pointer;" %><br />
+      <% next %>
+    <% end %>
+    <%= button_to "Sign in with #{provider}", omniauth_authorize_path(resource_name, provider), data: { turbo: false }, style: "cursor:pointer;" %><br />
   <% end %>
 <% end %>
