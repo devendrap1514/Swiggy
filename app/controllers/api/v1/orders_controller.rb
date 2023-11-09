@@ -34,7 +34,7 @@ class Api::V1::OrdersController < Api::V1::ApiController
       respond_to do |format|
         format.json {
           output = {}
-          output[:message] = "failed, restaurant_must_open"
+          output[:message] = "Restaurant must be open"
           render json: output
         }
         format.html { redirect_to request.referrer, notice: "failed, restaurant_must_open" }

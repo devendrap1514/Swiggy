@@ -1,21 +1,54 @@
-<% unless @orders.empty? %>
-  <table align="center", style="max-width: 25rem;">
-    <thead style="color:red">
-      <tr>
-        <th>Id</th>
-        <th>Price</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @orders.each do |item| %>
-        <tr>
-          <td><%= item.id %></td>
-          <td><%= item.order_price %></td>
-          <td><%= button_to "View", api_v1_order_order_items_path(item), method: :get %> </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-<% else %>
-  <h2 align="center">no order history</h2>
-<% end %>
+<style>
+  .container{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin: 0px 10px;
+  }
+  .item{
+    border: 1px solid;
+    padding: 10px;
+    border-radius: 10px;
+    display: flex;
+  }
+  .item:hover{
+    background-color: #D7DBDD;
+    box-shadow: 0 8px 16px 0 #888888;
+  }
+  .images-box{
+    display: grid;
+    width: 100px;
+    height: 100px;
+    grid-template-columns: 50px 50px;
+  }
+  .image{
+    width: 50px;
+    height: 50px;
+  }
+</style>
+
+<div class="container">
+  <% @orders.each do |order| %>
+    <%= link_to api_v1_order_order_items_path(order), class:"item" do %>
+      <div class="images-box">
+        <% if order.order_items.first %>
+          <%= image_tag order.order_items.first.restaurant_dish.dish.dish_images[0], class:"image" if order.order_items.first.restaurant_dish.dish.dish_images.attached? %>
+          <% if order.order_items.offset(1).first %>
+            <%= image_tag order.order_items.offset(1).first.restaurant_dish.dish.dish_images[0], class:"image" if order.order_items.offset(1).first.restaurant_dish.dish.dish_images.attached? %>
+            <% if order.order_items.offset(2).first %>
+              <%= image_tag order.order_items.offset(1).first.restaurant_dish.dish.dish_images[0], class:"image" if order.order_items.offset(2).first.restaurant_dish.dish.dish_images.attached? %>
+              <% if order.order_items.offset(3).first %>
+                <%= image_tag order.order_items.offset(1).first.restaurant_dish.dish.dish_images[0], class:"image" if order.order_items.offset(3).first.restaurant_dish.dish.dish_images.attached? %>
+              <% end %>
+            <% end %>
+          <% end %>
+        <% end %>
+      </div>
+      <div>
+        <div><%= order.order_items.map{ |item| item.restaurant_dish.dish.dish_name }.join(", ") %></div>
+        <div><%= order.created_at %></div>
+        <div><%= order.order_price %></div>
+      </div>
+    <% end %>
+  <% end %>
+</div>

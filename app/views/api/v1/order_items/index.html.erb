@@ -1,20 +1,81 @@
-<table align="center", style="max-width: 25rem;">
-  <thead style="color:red">
-    <tr>
-      <th>Restaurant</th>
-      <th>Dish</th>
-      <th>Quantity</th>
-      <th>Price</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @order_items.each do |item| %>
-      <tr>
-        <td><%= item.restaurant_dish.restaurant.restaurant_name %></td>
-        <td><%= item.restaurant_dish.dish.dish_name %></td>
-        <td><%= item.quantity %></td>
-        <td><%= item.price %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<style>
+  .container{
+    display: flex;
+    flex-direction: column;
+  }
+  .item{
+    padding: 10px;
+    margin: 6px 100px;
+    display: flex;
+    background-color: var(--main-color);
+    justify-content: space-evenly;
+    border: 0.5px solid;
+    border-radius: 10px;
+    position: relative;
+  }
+  .image-detail{
+    display: flex;
+  }
+  .image{
+    height: 100px;
+    width: 100px;
+  }
+  .detail{
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+  }
+  .price-quantity{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+  .dish{
+    font-size: 16px;
+    font-style: bold;
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+  .restaurant{
+    font-size: 12px;
+  }
+  .quantity{
+    text-align: right;
+  }
+  .remove{
+    all:unset;
+    position: absolute;
+    right: 7px;
+    top: 1px;
+    color: red;
+    font-size: 24px;
+    cursor: pointer;
+  }
+</style>
+
+<div class="container">
+  <% @order_items.each do |item| %>
+    <div class="item">
+      <div class="image">
+        <% if item.restaurant_dish.dish.dish_images.attached? %>
+          <%= image_tag item.restaurant_dish.dish.dish_images[0], style: "max-height:100%; max-width:100%;" %>
+        <% else %>
+          <%= image_tag "no_image.png", style: "max-height:100%; max-width:100%;" %>
+        <% end %>
+      </div>
+      <div class="detail">
+        <div class="dish"><%= item.restaurant_dish.dish.dish_name %></div>
+        <div class="restaurant"><%= item.restaurant_dish.restaurant.restaurant_name %></div>
+        <div class="status"><%= item.restaurant_dish.restaurant.status %></div>
+      </div>
+      <div class="price-quantity">
+        <div class="quantity">x
+          <%= item.quantity %>
+        </div>
+        <div class="price">&#8377
+          <%= item.price %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

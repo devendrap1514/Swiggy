@@ -1,15 +1,3 @@
-<div>
-  Restaurant Name: <%=@restaurant.restaurant_name %><br>
-  Address: <%=@restaurant.address %><br>
-  Status: <%=@restaurant.status %><br>
-  <%= button_to "Dishes", dishes_api_v1_restaurant_path(@restaurant), method: :get %>
-  <% if @restaurant.owner_id == current_user.id %>
-    <%= button_to "edit", edit_api_v1_restaurant_path(@restaurant), method: :get %>
-    <%= button_to "delete", { controller: "api/v1/restaurants", action: :destroy, id: @restaurant.id }, method: :delete%>
-  <% end %>
-</div>
-
-
 <style>
   .box{
     display: flex;
@@ -19,6 +7,7 @@
     overflow: hidden;
     background-color: var(--main-color);
     display: flex;
+    flex-direction: column;
     align-items: center;
     border: 1px solid;
     padding: 20px;
@@ -27,27 +16,27 @@
     transition: 0.4s;
     position: relative;
   }
-  .image{
-    display: flex;
-    align-items: center;
-    height: 100%;
-  }
-  .detail{
-    margin: 0px 0px 0px 10px;
-    align-content: center;
-  }
-  .dish{
+  .restaurant{
     font-size: 18px;
     font-style: bold;
   }
-  .category{
+  .address{
     font-size: 12px;
   }
 </style>
 
-<!-- <div class="box">
+<div class="box">
   <div class="nested-box">
-
+      <div class="restaurant"><%= @restaurant.restaurant_name %></div>
+      <div class="address"><%= @restaurant.address %></div>
+      <div class="status"><%= @restaurant.status %></div>
   </div>
 </div>
- -->
+<br>
+<div align="center">
+  <%= button_to "Dishes", dishes_api_v1_restaurant_path(@restaurant), method: :get %>
+  <% if @restaurant.owner_id == current_user.id %>
+    <%= button_to "edit", edit_api_v1_restaurant_path(@restaurant), method: :get %>
+    <%= button_to "delete", { controller: "api/v1/restaurants", action: :destroy, id: @restaurant.id }, method: :delete%>
+  <% end %>
+</div>
