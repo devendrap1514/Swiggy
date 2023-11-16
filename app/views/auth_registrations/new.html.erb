@@ -7,23 +7,19 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :uid %><br />
-    <%= f.text_field :uid, autofocus: true, autocomplete: "uid", value: params["uid"] || params["user"]["uid"] %>
+    <%= f.hidden_field :uid, autofocus: true, autocomplete: "uid", value: params["uid"] || params["user"]["uid"] %>
   </div>
 
   <div class="field">
-    <%= f.label :provider %><br />
-    <%= f.text_field :provider, autofocus: true, autocomplete: "provider", value: params["provider"] || params["user"]["provider"] %>
+    <%= f.hidden_field :provider, autofocus: true, autocomplete: "provider", value: params["provider"] || params["user"]["provider"] %>
   </div>
 
   <div class="field">
-    <%= f.label :avatar_url %><br />
-    <%= f.text_field :avatar_url, autofocus: true, autocomplete: "avatar_url", value: params["avatar_url"] || params["user"]["avatar_url"] %>
+    <%= f.hidden_field :avatar_url, autofocus: true, autocomplete: "avatar_url", value: params["avatar_url"] || params["user"]["avatar_url"] %>
   </div>
 
   <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name, autofocus: true, autocomplete: "name", value: params["name"] || params["user"]["name"] %>
+    <%= f.hidden_field :name, autofocus: true, autocomplete: "name", value: params["name"] || params["user"]["name"] %>
   </div>
 
   <div class="field">

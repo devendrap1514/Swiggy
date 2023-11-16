@@ -61,7 +61,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   def update_resource(resource, params)
-    if resource.provider == 'google_oauth2' || resource.provider == "facebook"
+    # byebug
+    if resource.provider != nil
       params.delete('current_password')
       resource.password = Devise.friendly_token[0, 20]
       resource.update_without_password(params)

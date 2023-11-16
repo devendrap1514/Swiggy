@@ -35,7 +35,7 @@ class User < ApplicationRecord
   validates :username, presence: true, uniqueness: { case_sensitive: false }, format: { with: /\A[0-9A-Za-z_]+\z/ }
 
   # contain atleast one small and capital letter, a number
-  validates :password, format: { with: /\A(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{6,}\z/ }
+  # validates :password, format: { with: /\A(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{6,}\z/, message: "contain atleast a-z, A-Z, 0-9 with 6 letter" }, unless: password.nil?
   validates_confirmation_of :password
 
   validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }
