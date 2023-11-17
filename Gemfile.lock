@@ -193,6 +193,9 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
     hashie (5.0.0)
+    httparty (0.21.0)
+      mini_mime (>= 1.0.0)
+      multi_xml (>= 0.5.2)
     i18n (1.14.1)
       concurrent-ruby (~> 1.0)
     importmap-rails (1.2.1)
@@ -349,6 +352,8 @@ GEM
       activerecord (>= 6.1.5)
       activesupport (>= 6.1.5)
       i18n
+    razorpay (3.1.0)
+      httparty (~> 0.14)
     rdoc (6.5.0)
       psych (>= 4.0.0)
     redis (5.0.8)
@@ -502,6 +507,7 @@ DEPENDENCIES
   pg
   puma (~> 5.0)
   rails (~> 7.0.8)
+  razorpay
   redis
   redis-client
   rspec-rails

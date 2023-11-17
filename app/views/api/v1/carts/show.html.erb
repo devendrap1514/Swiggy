@@ -85,5 +85,5 @@
 </div>
 
 <div align="center">
-  <%= button_to "Checkout", api_v1_orders_path, method: :post, style:"background: green;"%>
+  <%= button_to "Checkout", new_api_v1_order_path, method: :get, style:"background: green;" if @cart.present? %>
 </div>

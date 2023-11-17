@@ -26,8 +26,10 @@ Rails.application.routes.draw do
         resources :cart_items, only: %i[create show update destroy]
       end
 
-      resources :orders, only: %i[index create show destroy] do
+      resources :orders, only: %i[index new create show destroy] do
         resources :order_items, only: [:index]
+        get '/payment', action: :payment, on: :member
+        post '/create_payment', action: :create_payment, on: :member
       end
 
       resources :restaurants do

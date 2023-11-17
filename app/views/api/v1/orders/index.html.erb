@@ -36,9 +36,9 @@
           <% if order.order_items.offset(1).first %>
             <%= image_tag order.order_items.offset(1).first.restaurant_dish.dish.dish_images[0], class:"image" if order.order_items.offset(1).first.restaurant_dish.dish.dish_images.attached? %>
             <% if order.order_items.offset(2).first %>
-              <%= image_tag order.order_items.offset(1).first.restaurant_dish.dish.dish_images[0], class:"image" if order.order_items.offset(2).first.restaurant_dish.dish.dish_images.attached? %>
+              <%= image_tag order.order_items.offset(2).first.restaurant_dish.dish.dish_images[0], class:"image" if order.order_items.offset(2).first.restaurant_dish.dish.dish_images.attached? %>
               <% if order.order_items.offset(3).first %>
-                <%= image_tag order.order_items.offset(1).first.restaurant_dish.dish.dish_images[0], class:"image" if order.order_items.offset(3).first.restaurant_dish.dish.dish_images.attached? %>
+                <%= image_tag order.order_items.offset(3).first.restaurant_dish.dish.dish_images[0], class:"image" if order.order_items.offset(3).first.restaurant_dish.dish.dish_images.attached? %>
               <% end %>
             <% end %>
           <% end %>
@@ -48,6 +48,10 @@
         <div><%= order.order_items.map{ |item| item.restaurant_dish.dish.dish_name }.join(", ") %></div>
         <div><%= order.created_at %></div>
         <div><%= order.order_price %></div>
+      </div>
+      <div style="margin-left:auto">
+        <h6><%= order.order_status %></h6>
+        <h6><%= order.payment_status %></h6>
       </div>
     <% end %>
   <% end %>

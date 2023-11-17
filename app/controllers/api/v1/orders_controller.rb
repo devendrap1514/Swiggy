@@ -1,5 +1,5 @@
 class Api::V1::OrdersController < Api::V1::ApiController
-  before_action :find_order, only: %i[show destroy]
+  before_action :find_order, only: %i[show destroy create_payment]
 
   def index
     @orders = @current_user.orders
@@ -12,36 +12,64 @@ class Api::V1::OrdersController < Api::V1::ApiController
     end
   end
 
+  def new
+    @order = Order.new
+  end
+
   def create
+
     if @current_user.cart.present?
       cart_items = @current_user.cart.cart_items
-      order = order_now(cart_items) if restaurant_open(cart_items)
+
+      unless restaurant_open(cart_items)
+        respond_to do |format|
+          format.json {
+            output = {}
+            output[:message] = "Restaurant must be open"
+            render json: output
+          }
+          format.html { redirect_to request.referrer, notice: "Restaurant must be open" }
+        end and return
+      end
+
+      @order = @current_user.orders.new(order_params)
+
+      if @order.save
+        ActiveRecord::Base.transaction do
+          cart_items.each do |item|
+            @order.order_items.create(
+              restaurant_dish_id: item.restaurant_dish_id,
+              quantity: item.quantity,
+              price: item.price
+            )
+          end
+        end
+      else
+        render :new
+        return
+      end
 
       begin
-        @current_user.cart.destroy
         respond_to do |format|
           format.json {
             output = {}
             output[:message] = "success"
-            output[:message] = OrderSerializer.new order
+            output[:message] = OrderSerializer.new @order
             render json: output
           }
-          format.html { redirect_to api_v1_order_order_items_path(order) }
+          format.html { redirect_to "#{payment_api_v1_order_path(@order)}" }
         end and return
+        return
       rescue Exception => e
         render status: :internal_server_error, json: { message: e.message }
-      end if order
-      respond_to do |format|
-        format.json {
-          output = {}
-          output[:message] = "Restaurant must be open"
-          render json: output
-        }
-        format.html { redirect_to request.referrer, notice: "failed, restaurant_must_open" }
-      end and return
+      end
+
     else
       render status: :not_found, json: { message: "Cart is empty" }
     end
+  rescue Exception => e
+    @order.destroy
+    render json: {message: "Oops. Order not placed #{e.message}"}
   end
 
   def show
@@ -66,18 +94,31 @@ class Api::V1::OrdersController < Api::V1::ApiController
     true
   end
 
-  def order_now(cart_items)
+  def payment
+
+  end
+
+  def create_payment
+    if @order.update(razorpay_order_id: params[:razorpay_order_id], payment_status: "payment_confirmed")
+      @current_user.cart.destroy  # destroy_cart_item
+      redirect_to api_v1_order_order_items_path(@order)
+    else
+      render :payment
+    end
+  end
+
+  def create_order(cart_items)
     ActiveRecord::Base.transaction do
-      order = @current_user.orders.create
+      @order = @current_user.orders.create
       cart_items.each do |item|
-        order.order_items.create(
+        @order.order_items.create(
           restaurant_dish_id: item.restaurant_dish_id,
           quantity: item.quantity,
           price: item.price
         )
       end
-      order
     end
+    @order
   rescue Exception => e
     render json: {message: 'Oops. Order not placed'}
   end
@@ -90,6 +131,12 @@ class Api::V1::OrdersController < Api::V1::ApiController
       format.json { render status: :not_found, json: {message: 'Order not found'} }
       format.html { redirect_to "/not_found" }
     end
+  end
 
+
+  private
+
+  def order_params
+    params.require(:order).permit(:name, :mobile, :address, :order_status, :payment_status)
   end
 end

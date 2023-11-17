@@ -1,0 +1,14 @@
+<%= form_tag(create_payment_api_v1_order_path, method: :post) do %>
+  <script
+    src="https://checkout.razorpay.com/v1/checkout.js"
+    data-key="<%= ENV["RAZORPAY_KEY_ID"] %>"
+    data-amount="<%= 100 %>"
+    data-buttontext="Pay with Razorpay"
+    data-name="Swiggy"
+    data-description="A description of your product"
+    data-image="path/to/your/logo.png"
+    data-prefill.name="<%= current_user.name %>"
+    data-prefill.email="<%= current_user.email %>"
+    data-theme.color="#F37254"
+  ></script>
+<% end %>
