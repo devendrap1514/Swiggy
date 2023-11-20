@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_17_083313) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_20_053830) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -121,9 +121,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_17_083313) do
     t.string "order_status", null: false
     t.string "payment_status", null: false
     t.string "payment_method"
-    t.string "razorpay_order_id"
+    t.string "razorpay_payment_id"
     t.index ["customer_id"], name: "index_orders_on_customer_id"
-    t.index ["razorpay_order_id"], name: "index_orders_on_razorpay_order_id", unique: true
+    t.index ["razorpay_payment_id"], name: "index_orders_on_razorpay_payment_id", unique: true
   end
 
   create_table "restaurant_dishes", force: :cascade do |t|

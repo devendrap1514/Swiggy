@@ -20,9 +20,9 @@ class Api::V1::CartsController < Api::V1::ApiController
 
   def find_cart
     @cart = @current_user.cart
-    output = {}
     respond_to do |format|
       format.json {
+        output = {}
         output[:message] = "Cart is empty"
         render status: :not_found, json: output
       }

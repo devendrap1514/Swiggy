@@ -1,7 +1,10 @@
-<h3><%= @order.errors.full_messages %></h3>
+<h3><%= @order.errors.full_messages if @order.errors.any? %></h3>
 <%= form_with model: [:api, :v1, @order], method: :post do |f| %>
+  <%= f.label :name %>
   <%= f.text_field :name %>
+  <%= f.label :mobile %>
   <%= f.text_field :mobile %>
+  <%= f.label :address %>
   <%= f.text_field :address %>
   <%= f.hidden_field :order_status, value: :order_pending %>
   <%= f.hidden_field :payment_status, value: :payment_pending %>

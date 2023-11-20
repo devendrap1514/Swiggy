@@ -1,5 +1,5 @@
 class Api::V1::OrdersController < Api::V1::ApiController
-  before_action :find_order, only: %i[show destroy create_payment]
+  before_action :find_order, only: %i[show destroy payment create_payment]
 
   def index
     @orders = @current_user.orders
@@ -13,11 +13,13 @@ class Api::V1::OrdersController < Api::V1::ApiController
   end
 
   def new
+    unless @current_user.cart.present?
+      redirect_to root_path
+    end and return
     @order = Order.new
   end
 
   def create
-
     if @current_user.cart.present?
       cart_items = @current_user.cart.cart_items
 
@@ -95,11 +97,13 @@ class Api::V1::OrdersController < Api::V1::ApiController
   end
 
   def payment
-
+    if @order.payment_status == "payment_confirmed"
+      redirect_to api_v1_order_order_items_path(@order)
+    end
   end
 
   def create_payment
-    if @order.update(razorpay_order_id: params[:razorpay_order_id], payment_status: "payment_confirmed")
+    if @order.update(razorpay_payment_id: params[:razorpay_payment_id], payment_status: "payment_confirmed")
       @current_user.cart.destroy  # destroy_cart_item
       redirect_to api_v1_order_order_items_path(@order)
     else
