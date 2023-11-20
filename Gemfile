@@ -100,11 +100,6 @@ gem 'simplecov', require: false, group: :test
 gem 'arctic_admin'
 gem 'sidekiq'
 
-
-gem 'elasticsearch-model'
-gem 'elasticsearch-rails'
-
-
 gem "dotenv-rails"
 gem "omniauth"
 gem "omniauth-google-oauth2"
