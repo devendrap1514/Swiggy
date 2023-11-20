@@ -38,7 +38,7 @@
 
 <div class="container">
   <% @restaurants.each do |restaurant| %>
-    <a href="<%= api_v1_restaurant_path(restaurant) %>" class="item">
+    <a href="<%= api_v1_restaurant_path(restaurant) %>" class="item custom-hover">
       <div><%=restaurant.restaurant_name %></div>
       <div><%=restaurant.address %></div>
       <div style="color: red;"><%=restaurant.status %></div>

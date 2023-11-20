@@ -56,7 +56,7 @@
 <div class="container">
   <% if @cart.present? %>
     <% @cart.cart_items.each do |item| %>
-      <div class="item">
+      <div class="item custom-hover">
         <div class="image">
           <% if item.restaurant_dish.dish.dish_images.attached? %>
             <%= image_tag item.restaurant_dish.dish.dish_images[0], style: "max-height:100%; max-width:100%;" %>

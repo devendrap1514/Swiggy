@@ -11,10 +11,6 @@
     border-radius: 10px;
     display: flex;
   }
-  .item:hover{
-    background-color: #D7DBDD;
-    box-shadow: 0 8px 16px 0 #888888;
-  }
   .images-box{
     display: grid;
     width: 100px;
@@ -29,7 +25,7 @@
 
 <div class="container">
   <% @orders.each do |order| %>
-    <%= link_to api_v1_order_order_items_path(order), class:"item" do %>
+    <%= link_to api_v1_order_order_items_path(order), class:"item custom-hover" do %>
       <div class="images-box">
         <% if order.order_items.first %>
           <%= image_tag order.order_items.first.restaurant_dish.dish.dish_images[0], class:"image" if order.order_items.first.restaurant_dish.dish.dish_images.attached? %>
@@ -51,7 +47,8 @@
       </div>
       <div style="margin-left:auto">
         <h6><%= order.order_status %></h6>
-        <h6><%= order.payment_status %></h6>
+        <h6><%= order.payment_status if order.payment_status == "payment_confirmed" %></h6>
+        <%= button_to "Pay now", payment_api_v1_order_path(order), method: :get if order.payment_status == "payment_pending" %>
       </div>
     <% end %>
   <% end %>

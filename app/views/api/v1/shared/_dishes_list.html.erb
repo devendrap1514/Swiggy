@@ -31,7 +31,7 @@
 
 <div class="grid-container">
   <% dishes.each do |dish| %>
-    <a href="<%= api_v1_dish_path(dish) %>" class="grid-item">
+    <a href="<%= api_v1_dish_path(dish) %>" class="grid-item custom-hover">
       <div>
         <div align="center">
           <% if dish.dish_images.attached? %>
