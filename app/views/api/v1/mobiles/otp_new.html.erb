@@ -1,0 +1,5 @@
+<%= form_with url: api_v1_varify_otp_path do |f| %>
+  <%= f.label "+#{params[:country_code]}#{params[:phone_number]}" %>
+  <%= f.number_field :otp %>
+  <%= f.submit %>
+<% end %>

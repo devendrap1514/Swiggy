@@ -107,3 +107,6 @@ gem "omniauth-rails_csrf_protection"
 gem "omniauth-facebook"
 gem 'omniauth-twitter'
 gem 'razorpay'
+
+gem 'sinatra'
+gem 'twilio-ruby'

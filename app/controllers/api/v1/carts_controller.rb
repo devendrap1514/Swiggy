@@ -19,7 +19,7 @@ class Api::V1::CartsController < Api::V1::ApiController
   end
 
   def find_cart
-    @cart = @current_user.cart
+    @cart = current_user.cart
     respond_to do |format|
       format.json {
         output = {}

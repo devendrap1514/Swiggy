@@ -4,9 +4,11 @@
 #
 #  id                     :bigint           not null, primary key
 #  avatar_url             :string
+#  country_code           :string
 #  email                  :string
 #  encrypted_password     :string           default(""), not null
 #  name                   :string           not null
+#  phone_number           :string
 #  provider               :string
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
@@ -38,7 +40,9 @@ class User < ApplicationRecord
   # validates :password, format: { with: /\A(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{6,}\z/, message: "contain atleast a-z, A-Z, 0-9 with 6 letter" }, unless: password.nil?
   validates_confirmation_of :password
 
-  validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }
+  validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }, if: lambda { |obj| obj.mobile.blank?  }
+
+  validates :mobile, presence: true, format: { with: /\A[0-9]+\z/ }, length: { is: 10 }, if: lambda { |obj| obj.email.blank?  }
 
   validates :type, presence: true
 

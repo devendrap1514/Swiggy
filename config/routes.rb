@@ -11,11 +11,14 @@ Rails.application.routes.draw do
 
   root "api/v1/restaurant_dishes#index"
 
-  resources :auth_registrations, only: [:new, :create]
-  get "/auth_registrations/new"
-
   namespace :api do
     namespace :v1 do
+
+      resources :auth_registrations, only: [:new, :create]
+
+      resources :mobiles, only: [:new, :create]
+      get '/otp_new', to: "mobiles#otp_new"
+      post '/varify_otp', to: "mobiles#varify_otp"
 
       resources :users, only: %i[show] do
         get '/my_restaurant', action: :my_restaurant, on: :member

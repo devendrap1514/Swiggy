@@ -7,5 +7,5 @@ class Api::V1::ApiController < ApplicationController
   end
 
   before_action :authenticate_user!  # setup with devise
-  authorize_resource  # setup with cancan
+  # authorize_resource  # setup with cancan
 end

@@ -52,7 +52,8 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       flash[:success] = t 'devise.omniauth_callbacks.success', kind: kind
       sign_in_and_redirect @user, event: :authentication
     elsif @user.id == nil
-      redirect_to "#{new_auth_registration_path}?name=#{@user.name}&uid=#{@user.uid}&provider=#{@user.provider}&avatar_url=#{@user.avatar_url}&email=#{@user.email}&username=#{@user.username}"
+      # byebug
+      redirect_to "#{new_api_v1_auth_registration_path}?name=#{@user.name}&uid=#{@user.uid}&provider=#{@user.provider}&avatar_url=#{@user.avatar_url}&email=#{@user.email}&username=#{@user.username}&mobile="
     else
       flash[:alert] =
         t 'devise.omniauth_callbacks.failure', kind: 'Twitter', reason: "#{auth.info.email} is not authorized."

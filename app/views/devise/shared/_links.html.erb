@@ -23,3 +23,5 @@
     <%= button_to "Sign in with #{provider}", omniauth_authorize_path(resource_name, provider), data: { turbo: false }, style: "cursor:pointer;" %><br />
   <% end %>
 <% end %>
+
+<%= button_to "Sing in with Mobile", new_api_v1_mobile_path, method: :get %>

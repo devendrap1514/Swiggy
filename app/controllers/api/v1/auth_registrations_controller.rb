@@ -1,4 +1,4 @@
-class AuthRegistrationsController < ApplicationController
+class Api::V1::AuthRegistrationsController < ApplicationController
   def new
     @user = User.new
   end
@@ -18,7 +18,7 @@ class AuthRegistrationsController < ApplicationController
 
   private
   def new_user_params
-    params.require(:user).permit(:uid, :provider, :avatar_url, :type, :name, :username, :email, :profile_picture)
+    params.require(:user).permit(:uid, :provider, :avatar_url, :type, :name, :username, :email, :mobile, :profile_picture)
   end
 end
 

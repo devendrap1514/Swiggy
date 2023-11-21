@@ -55,7 +55,7 @@
       <div class="status"><%= @restaurant_dish.restaurant.status %></div>
     </div>
       <div class="price">&#8377 <%= @restaurant_dish.price %></div>
-    <% if @current_user.type == "Customer" %>
+    <% if current_user.type == "Customer" %>
       <div class="add-to-cart">
         <%= button_to image_tag("shopping-cart.png", size: "20x20"), api_v1_cart_cart_items_path(restaurant_dish_id: @restaurant_dish.id, quantity: 1), method: :post, style:"all:unset" %>
       </div>
