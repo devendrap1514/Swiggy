@@ -35,6 +35,10 @@
     margin: 10px 0px 0px 0px;
     gap: 20px;
   }
+  .image{
+    width: 100px;
+    height: 100px;
+  }
 </style>
 
 <div class="page">
@@ -42,11 +46,11 @@
     <div class="profile-card">
       <div class="profile_pic">
         <% if current_user.profile_picture.attached? %>
-          <%= image_tag(current_user.profile_picture, size: "100x100") %>
-        <% elsif current_user.avatar_url %>
-          <%= image_tag(current_user.avatar_url, size: "100x100") %>
+          <%= image_tag(current_user.profile_picture, class: "image") %>
+        <% elsif !current_user.avatar_url.blank? %>
+          <%= image_tag(current_user.avatar_url, class: "image") %>
         <% else %>
-          <%= image_tag("profile_pic.png", size: "100x100") %>
+          <%= image_tag("profile_pic.png", class: "image") %>
         <% end %>
       </div>
       <div>

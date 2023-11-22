@@ -4,11 +4,11 @@
 #
 #  id                  :bigint           not null, primary key
 #  address             :string           not null
-#  mobile              :string           not null
 #  name                :string           not null
 #  order_status        :string           not null
 #  payment_method      :string
 #  payment_status      :string           not null
+#  phone_number        :string           not null
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #  customer_id         :bigint           not null
@@ -27,8 +27,8 @@ class Order < ApplicationRecord
   belongs_to :customer, class_name: "User", foreign_key: 'customer_id'
   has_many :order_items, dependent: :destroy
 
-  validates :name, :mobile, :address, presence: true
-  validates :mobile, length: { is: 10 }
+  validates :name, :phone_number, :address, presence: true
+  validates :phone_number, length: { is: 10 }
   enum :order_status, {
     order_cancel: "order_cancel",
     order_pending: "order_pending",

@@ -4,11 +4,11 @@
 #
 #  id                  :bigint           not null, primary key
 #  address             :string           not null
-#  mobile              :string           not null
 #  name                :string           not null
 #  order_status        :string           not null
 #  payment_method      :string
 #  payment_status      :string           not null
+#  phone_number        :string           not null
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #  customer_id         :bigint           not null

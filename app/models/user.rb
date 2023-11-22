@@ -40,15 +40,24 @@ class User < ApplicationRecord
   # validates :password, format: { with: /\A(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{6,}\z/, message: "contain atleast a-z, A-Z, 0-9 with 6 letter" }, unless: password.nil?
   validates_confirmation_of :password
 
-  validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }, if: lambda { |obj| obj.mobile.blank?  }
+  validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }, if: lambda { |obj| obj.phone_number.blank?  }
 
-  validates :mobile, presence: true, format: { with: /\A[0-9]+\z/ }, length: { is: 10 }, if: lambda { |obj| obj.email.blank?  }
+  validates :phone_number, presence: true, uniqueness: true, format: { with: /\A[0-9]+\z/ }, length: { is: 10 }, if: lambda { |obj| obj.email.blank?  }
 
   validates :type, presence: true
 
   before_validation :remove_whitespace
 
   # after_create :send_welcome_mail
+
+  def self.from_number(_phone_number)
+    where(phone_number: _phone_number, uid: "").first_or_create do |user|
+      user.phone_number = _phone_number
+      user.username = Faker::Internet.username(separators: ['_'])
+      user.password = Devise.friendly_token[0, 20]
+      user.name = "Swiggy" # assuming the user model has a name
+    end
+  end
 
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
@@ -69,6 +78,6 @@ class User < ApplicationRecord
 
   def send_welcome_mail
     # this work when redis-server running and execute after sidekiq
-    UserMailer.with(user: self).welcome_email.deliver_later if self.email
+    # UserMailer.with(user: self).welcome_email.deliver_later if self.email
   end
 end

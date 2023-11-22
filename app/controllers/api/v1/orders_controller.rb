@@ -141,6 +141,6 @@ class Api::V1::OrdersController < Api::V1::ApiController
   private
 
   def order_params
-    params.require(:order).permit(:name, :mobile, :address, :order_status, :payment_status)
+    params.require(:order).permit(:name, :phone_number, :address, :order_status, :payment_status)
   end
 end

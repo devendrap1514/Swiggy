@@ -16,9 +16,10 @@ Rails.application.routes.draw do
 
       resources :auth_registrations, only: [:new, :create]
 
-      resources :mobiles, only: [:new, :create]
-      get '/otp_new', to: "mobiles#otp_new"
-      post '/varify_otp', to: "mobiles#varify_otp"
+      resources :phone_numbers, only: [:new, :create] do
+        get '/otp_new', action: :otp_new, on: :collection
+        post '/verify_otp', action: :verify_otp, on: :collection
+      end
 
       resources :users, only: %i[show] do
         get '/my_restaurant', action: :my_restaurant, on: :member

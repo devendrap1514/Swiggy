@@ -1,5 +1,8 @@
 class Api::V1::AuthRegistrationsController < ApplicationController
   def new
+    if current_user
+      redirect_to root_path
+    end
     @user = User.new
   end
 
@@ -18,7 +21,7 @@ class Api::V1::AuthRegistrationsController < ApplicationController
 
   private
   def new_user_params
-    params.require(:user).permit(:uid, :provider, :avatar_url, :type, :name, :username, :email, :mobile, :profile_picture)
+    params.require(:user).permit(:uid, :provider, :avatar_url, :type, :name, :username, :email, :phone_number, :profile_picture)
   end
 end
 

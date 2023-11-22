@@ -1,0 +1,15 @@
+<style>
+  .container{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+</style>
+
+<%= form_with url: api_v1_phone_numbers_path do |f| %>
+  <%= f.label :country_code %>
+  <%= f.text_field :country_code %>
+  <%= f.label :phone_number %>
+  <%= f.number_field :phone_number %>
+  <%= f.submit %>
+<% end %>

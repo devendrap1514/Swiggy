@@ -1,0 +1,9 @@
+<%= form_with url: verify_otp_api_v1_phone_numbers_path do |f| %>
+  <%= f.label "+#{params[:country_code]}#{params[:phone_number]}" %>
+  <br>
+  <%= f.hidden_field :country_code, value: params[:country_code] %>
+  <%= f.hidden_field :phone_number, value: params[:phone_number] %>
+  <%= f.label "OTP" %>
+  <%= f.number_field :otp %>
+  <%= f.submit %>
+<% end %>
