@@ -28,13 +28,20 @@ class Api::V1::RestaurantDishesController < Api::V1::ApiController
              end
 
     @restaurant_dishes = @restaurant_dishes.page(params[:page])
+
     respond_to do |format|
       format.json {
         output = {}
         output[:message] = "successfull"
         output[:data] = ActiveModelSerializers::SerializableResource.new(@restaurant_dishes, each_serializer: RestaurantDishSerializer)
         render json: output }
-      format.html
+      format.html {
+        if turbo_frame_request?
+          render partial: "restaurant_dishes"
+        else
+          render partial: "restaurant_dishes"
+        end
+      }
     end
   end
 

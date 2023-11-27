@@ -2,4 +2,4 @@
 
 <%= button_to "New Dish", new_api_v1_dish_path, method: :get %>
 <br>
-<%= render "api/v1/shared/dishes_list", dishes: @dishes %>
+<%= render "dishes", dishes: @dishes %>

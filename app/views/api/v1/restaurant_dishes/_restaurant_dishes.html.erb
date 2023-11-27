@@ -1,0 +1,28 @@
+<style>
+  :root{
+    --color: #888888;
+  }
+  .grid-container{
+    display: grid;
+    margin-left: 10px;
+    margin-right: 10px;
+    grid-template-columns: repeat(5, 1fr);
+    column-gap: 20px;
+    row-gap: 40px;
+  }
+</style>
+
+<%= render "restaurant_dishes_search" %>
+
+<br>
+
+<%= turbo_frame_tag "restaurant_dishes" do %>
+  <div class="grid-container">
+    <%= render @restaurant_dishes %>
+  </div>
+<% end %>
+<br>
+
+<div align="center", style="margin: 20px 0px 0px 0px">
+  <%= paginate @restaurant_dishes %>
+</div>

@@ -1,0 +1,37 @@
+<style>
+  #search_box{
+    border: 1px solid;
+    width: 10rem;
+  }
+  #search_button{
+    margin: 0px 0px 0px 5px;
+    border-radius: 50px;
+    padding: 5px 10px;
+    color: black;
+    border: 0.5px solid;
+    background-color: var(--main-color);
+  }
+  #form{
+    display: flex;
+    align-content: center;
+  }
+  #status_select{
+    margin: 0px 0px 0px 5px;
+  }
+</style>
+
+<%= turbo_frame_tag "restaurant_dishes" do %>
+  <div align="center">
+    <div style="display: inline-block">
+      <%= form_with url: api_v1_restaurant_dishes_path, method: :get, id: 'form' do |f| %>
+        <div>
+          <%= f.text_field :q, value: params[:q], placeholder: "search here...", id: 'search_box' %>
+        </div>
+        <div id="status_select">
+          <%= f.select :status, options_for_select(["all", "open", "close"], params[:status]) %>
+        </div>
+        <%= f.submit "Search", id: 'search_button' %>
+      <% end %>
+    </div>
+  </div>
+<% end %>
