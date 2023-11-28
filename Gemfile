@@ -112,3 +112,6 @@ gem 'sinatra'
 gem 'twilio-ruby'
 
 gem 'hotwire-rails'
+
+gem "bullet", group: "development"
+gem 'query_count'

@@ -18,9 +18,8 @@
   <div class="grid-container">
     <%= render @restaurant_dishes %>
   </div>
+  <div align="center", style="margin: 20px 0px 0px 0px">
+    <%= paginate @restaurant_dishes %>
+  </div>
 <% end %>
 <br>
-
-<div align="center", style="margin: 20px 0px 0px 0px">
-  <%= paginate @restaurant_dishes %>
-</div>
