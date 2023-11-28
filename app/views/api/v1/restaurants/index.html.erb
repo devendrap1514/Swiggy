@@ -1,7 +1,10 @@
 
 <%= render "api/v1/shared/search", locals: { path: api_v1_restaurants_path, is_show_status: true } %>
 
-<%= button_to "New Restaurant", new_api_v1_restaurant_path, method: :get %>
+<%= turbo_frame_tag "new" do %>
+  <%= button_to "New Restaurant", new_api_v1_restaurant_path, method: :get %>
+<% end %>
+
 <br>
 <style>
   .container{

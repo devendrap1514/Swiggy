@@ -103,15 +103,15 @@ class Api::V1::CartItemsController < Api::V1::ApiController
   end
 
   def find_cart
-    @cart = @current_user.cart
+    @cart = current_user.cart
     return render status: :not_found, json: 'Cart is empty' unless @cart
   end
 
   def find_cart_or_create
-    if @current_user.cart.present?
+    if current_user.cart.present?
       find_cart
     else
-      @cart = @current_user.create_cart
+      @cart = current_user.create_cart
     end
   rescue Exception => e
     render status: :internal_server_error, json: e.message

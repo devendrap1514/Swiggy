@@ -36,7 +36,11 @@
 <div align="center">
   <%= button_to "Dishes", dishes_api_v1_restaurant_path(@restaurant), method: :get %>
   <% if @restaurant.owner_id == current_user.id %>
-    <%= button_to "edit", edit_api_v1_restaurant_path(@restaurant), method: :get %>
-    <%= button_to "delete", { controller: "api/v1/restaurants", action: :destroy, id: @restaurant.id }, method: :delete%>
+
+    <%= turbo_frame_tag "my_edit" do %>
+      <%= button_to "edit", edit_api_v1_restaurant_path(@restaurant), method: :get %>
+    <% end %>
+
+    <%= button_to "delete", { controller: "api/v1/restaurants", action: :destroy, id: @restaurant.id }, method: :delete %>
   <% end %>
 </div>

@@ -110,3 +110,5 @@ gem 'razorpay'
 
 gem 'sinatra'
 gem 'twilio-ruby'
+
+gem 'hotwire-rails'

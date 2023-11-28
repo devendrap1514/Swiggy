@@ -34,7 +34,7 @@ class Api::V1::RestaurantsController < Api::V1::ApiController
   end
 
   def create
-    @restaurant = @current_user.restaurants.new(restaurant_params)
+    @restaurant = current_user.restaurants.new(restaurant_params)
     if @restaurant.save
       respond_to do |format|
         format.json { render json: @restaurant }
@@ -86,7 +86,7 @@ class Api::V1::RestaurantsController < Api::V1::ApiController
   end
 
   def find_current_user_restaurant
-    @restaurant = @current_user.restaurants.find_by_id(params[:id])
+    @restaurant = current_user.restaurants.find_by_id(params[:id])
     respond_to do |format|
       format.json { render status: :not_found, json: 'no such restaurant' unless @restaurant }
       format.html

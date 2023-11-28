@@ -2,7 +2,7 @@ class Api::V1::OrdersController < Api::V1::ApiController
   before_action :find_order, only: %i[show destroy payment create_payment]
 
   def index
-    @orders = @current_user.orders
+    @orders = current_user.orders
     output = {}
     output[:message] = "success"
     output[:data] = ActiveModelSerializers::SerializableResource.new(@orders, each_serializer: OrderSerializer)
@@ -13,15 +13,15 @@ class Api::V1::OrdersController < Api::V1::ApiController
   end
 
   def new
-    unless @current_user.cart.present?
+    unless current_user.cart.present?
       redirect_to root_path
     end and return
     @order = Order.new
   end
 
   def create
-    if @current_user.cart.present?
-      cart_items = @current_user.cart.cart_items
+    if current_user.cart.present?
+      cart_items = current_user.cart.cart_items
 
       unless restaurant_open(cart_items)
         respond_to do |format|
@@ -34,7 +34,7 @@ class Api::V1::OrdersController < Api::V1::ApiController
         end and return
       end
 
-      @order = @current_user.orders.new(order_params)
+      @order = current_user.orders.new(order_params)
 
       if @order.save
         ActiveRecord::Base.transaction do
@@ -104,7 +104,7 @@ class Api::V1::OrdersController < Api::V1::ApiController
 
   def create_payment
     if @order.update(razorpay_payment_id: params[:razorpay_payment_id], payment_status: "payment_confirmed")
-      @current_user.cart.destroy  # destroy_cart_item
+      current_user.cart.destroy  # destroy_cart_item
       redirect_to api_v1_order_order_items_path(@order)
     else
       render :payment
@@ -113,7 +113,7 @@ class Api::V1::OrdersController < Api::V1::ApiController
 
   def create_order(cart_items)
     ActiveRecord::Base.transaction do
-      @order = @current_user.orders.create
+      @order = current_user.orders.create
       cart_items.each do |item|
         @order.order_items.create(
           restaurant_dish_id: item.restaurant_dish_id,
@@ -128,7 +128,7 @@ class Api::V1::OrdersController < Api::V1::ApiController
   end
 
   def find_order
-    @order = @current_user.orders.find_by_id(params[:id])
+    @order = current_user.orders.find_by_id(params[:id])
     return if @order
 
     respond_to do |format|

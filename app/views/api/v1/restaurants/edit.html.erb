@@ -1,3 +1,5 @@
 <h1 align="center">Edit Restaurant</h1>
 
-<%= render "form", restaurant: @restaurant %>
+<%= turbo_frame_tag "my_edit" do %>
+  <%= render "form", restaurant: @restaurant %>
+<% end %>

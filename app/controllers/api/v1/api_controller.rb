@@ -7,5 +7,6 @@ class Api::V1::ApiController < ApplicationController
   end
 
   before_action :authenticate_user!  # setup with devise
+  # uninitialized constant ControllerName if model not exist
   # authorize_resource  # setup with cancan
 end

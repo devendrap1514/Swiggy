@@ -1,3 +1,5 @@
 <h1 align="center">New Dish</h1>
 
-<%= render "form", restaurant: @restaurant %>
+<%= turbo_frame_tag "new" do %>
+  <%= render "form", restaurant: @restaurant %>
+<% end %>

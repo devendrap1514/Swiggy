@@ -20,18 +20,16 @@
   }
 </style>
 
-<%= turbo_frame_tag "restaurant_dishes" do %>
-  <div align="center">
-    <div style="display: inline-block">
-      <%= form_with url: api_v1_restaurant_dishes_path, method: :get, id: 'form' do |f| %>
-        <div>
-          <%= f.text_field :q, value: params[:q], placeholder: "search here...", id: 'search_box' %>
-        </div>
-        <div id="status_select">
-          <%= f.select :status, options_for_select(["all", "open", "close"], params[:status]) %>
-        </div>
-        <%= f.submit "Search", id: 'search_button' %>
-      <% end %>
-    </div>
+<div align="center">
+  <div style="display: inline-block">
+    <%= form_with url: api_v1_restaurant_dishes_path, method: :get, id: 'form', data: { turbo_frame: "restaurant_dishes" } do |f| %>
+      <div>
+        <%= f.text_field :q, value: params[:q], placeholder: "search here...", id: 'search_box' %>
+      </div>
+      <div id="status_select">
+        <%= f.select :status, options_for_select(["all", "open", "close"], params[:status]) %>
+      </div>
+      <%= f.submit "Search", id: 'search_button' %>
+    <% end %>
   </div>
-<% end %>
+</div>

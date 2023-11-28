@@ -1,6 +1,6 @@
 class Api::V1::OrderItemsController < Api::V1::ApiController
   def index
-    order = @current_user.orders.find_by_id(params[:order_id])
+    order = current_user.orders.find_by_id(params[:order_id])
     if order
       @order_items = order.order_items
       output = {}
