@@ -14,12 +14,12 @@
 
 <br>
 
-<%= turbo_frame_tag "restaurant_dishes" do %>
+<%# <%= turbo_frame_tag "restaurant_dishes_index" do %> %>
   <div class="grid-container">
     <%= render @restaurant_dishes %>
   </div>
   <div align="center", style="margin: 20px 0px 0px 0px">
     <%= paginate @restaurant_dishes %>
   </div>
-<% end %>
+<%# <% end %> %>
 <br>

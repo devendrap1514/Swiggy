@@ -38,19 +38,19 @@ class Api::V1::RestaurantsController < Api::V1::ApiController
     if @restaurant.save
       respond_to do |format|
         format.json { render json: @restaurant }
-        format.html { redirect_to root_path }
+        format.html { redirect_to api_v1_restaurants_path }
       end
     else
 
       respond_to do |format|
         format.json { render status: :unprocessable_entity, json: { message: @restaurant.errors.full_messages } }
-        format.html { render :new }
+        format.html { render :new, status: :unprocessable_entity }
       end
     end
   rescue Exception => e
     respond_to do |format|
       format.json { render status: :internal_server_error, json: { message: 'Status value in (open, close)', error: e.message } }
-      format.html { render :new }
+      format.html { render :new, status: :unprocessable_entity }
     end
   end
 
@@ -68,19 +68,22 @@ class Api::V1::RestaurantsController < Api::V1::ApiController
     if @restaurant.update(restaurant_params)
       respond_to do |format|
         format.json { render json: @restaurant }
-        format.html { redirect_to root_path }
+        format.html { redirect_to api_v1_restaurant_path(@restaurant) }
       end
     else
       respond_to do |format|
         format.json { render json: { message: @restaurant.errors.full_messages }, status: :unprocessable_entity }
-        format.html { render :edit }
+        format.html { render :edit, status: :unprocessable_entity }
       end
     end
   end
 
   def destroy
     @restaurant.destroy
-    render status: :ok, json: 'Deleted Successfully'
+    respond_to do |format|
+      format.json { render status: :ok, json: 'Deleted Successfully' }
+      format.html { redirect_to api_v1_restaurants_path }
+    end
   rescue Exception => e
     render status: :internal_server_error, json: { message: e.message }
   end

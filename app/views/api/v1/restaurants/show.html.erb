@@ -37,8 +37,8 @@
   <%= button_to "Dishes", dishes_api_v1_restaurant_path(@restaurant), method: :get %>
   <% if @restaurant.owner_id == current_user.id %>
 
-    <%= turbo_frame_tag "my_edit" do %>
-      <%= button_to "edit", edit_api_v1_restaurant_path(@restaurant), method: :get %>
+    <%= turbo_frame_tag "restaurant_#{@restaurant.id}" do %>
+      <%= button_to "edit", edit_api_v1_restaurant_path(@restaurant), method: :get, data: { turbo_frame: "_top" } %>
     <% end %>
 
     <%= button_to "delete", { controller: "api/v1/restaurants", action: :destroy, id: @restaurant.id }, method: :delete %>

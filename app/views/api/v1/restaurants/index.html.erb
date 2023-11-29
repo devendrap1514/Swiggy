@@ -2,8 +2,9 @@
 <%= render "api/v1/shared/search", locals: { path: api_v1_restaurants_path, is_show_status: true } %>
 
 <%= turbo_frame_tag "new" do %>
-  <%= button_to "New Restaurant", new_api_v1_restaurant_path, method: :get %>
+  <%= button_to "New Restaurant", new_api_v1_restaurant_path, method: :get, data: { turbo_frame: "_top" } %>
 <% end %>
+
 
 <br>
 <style>
@@ -39,6 +40,7 @@
   }
 </style>
 
+
 <div class="container">
   <% @restaurants.each do |restaurant| %>
     <a href="<%= api_v1_restaurant_path(restaurant) %>" class="item custom-hover">
@@ -48,7 +50,7 @@
     </a>
   <% end %>
 </div>
-
 <div align="center", style="margin: 20px 0px 0px 0px">
   <%= paginate @restaurants %>
 </div>
+

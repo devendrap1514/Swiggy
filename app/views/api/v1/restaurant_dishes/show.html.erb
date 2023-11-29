@@ -40,6 +40,8 @@
   }
 </style>
 
+<%# <% turbo_page_requires_reload %> %>
+
 <div class="box">
   <div class="nested-box">
     <div style="width: 120px; height: 120px;">
@@ -63,10 +65,12 @@
   </div>
 </div>
 
-<% if @restaurant_dish.restaurant.owner_id == current_user.id %>
-  <%= button_to "edit", edit_api_v1_restaurant_dish_path(@restaurant_dish), method: :get %>
-  <%= button_to "delete", { controller: "api/v1/restaurant_dishes", action: :destroy, id: @restaurant_dish.id }, method: :delete%>
-<% end %>
+<div align="center">
+  <% if @restaurant_dish.restaurant.owner_id == current_user.id %>
+    <%= button_to "edit", edit_api_v1_restaurant_dish_path(@restaurant_dish), method: :get %>
+    <%= button_to "delete", { controller: "api/v1/restaurant_dishes", action: :destroy, id: @restaurant_dish.id }, method: :delete%>
+  <% end %>
+</div>
 
 <br>
 <br>
@@ -74,4 +78,4 @@
   <h3 align="center">Similar Dishes</h3>
 <% end %>
 
-<%= render "restaurant_dishes", restaurant_dishes: @restaurant_dishes %>
+<%= render "restaurant_dishes" %>
