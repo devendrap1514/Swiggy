@@ -1,7 +1,6 @@
 class Api::V1::PhoneNumbersController < Api::V1::ApiController
   include Api::V1::TwilioHelper
   skip_before_action :authenticate_user!
-  before_action
 
   def new
   end

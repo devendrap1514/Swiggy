@@ -2,6 +2,8 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
+
+    can :manage, PhoneNumber
     user ||= User.new  # Guest user
 
     if user.type == 'Owner'
