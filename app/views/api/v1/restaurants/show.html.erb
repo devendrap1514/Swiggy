@@ -39,8 +39,8 @@
 
     <%= turbo_frame_tag "restaurant_#{@restaurant.id}" do %>
       <%= button_to "edit", edit_api_v1_restaurant_path(@restaurant), method: :get, data: { turbo_frame: "_top" } %>
+      <%= button_to "delete", { controller: "api/v1/restaurants", action: :destroy, id: @restaurant.id }, method: :delete, form: { data: { turbo_frame: "_top" } } %>
     <% end %>
 
-    <%= button_to "delete", { controller: "api/v1/restaurants", action: :destroy, id: @restaurant.id }, method: :delete %>
   <% end %>
 </div>

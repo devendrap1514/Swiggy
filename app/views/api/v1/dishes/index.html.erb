@@ -1,5 +1,11 @@
 <%= render "api/v1/shared/search", locals: { path: api_v1_dishes_path, is_show_status: false } %>
 
-<%= button_to "New Dish", new_api_v1_dish_path, method: :get %>
+<%= turbo_frame_tag "new" do %>
+  <%= button_to "New Dish", new_api_v1_dish_path, method: :get, data: { turbo_frame: "_top" } %>
+<% end %>
 <br>
+
 <%= render "dishes", dishes: @dishes %>
+<div class="grid-footer">
+  <%= paginate @dishes %>
+</div>

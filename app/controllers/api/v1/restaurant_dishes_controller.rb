@@ -36,6 +36,11 @@ class Api::V1::RestaurantDishesController < Api::V1::ApiController
         output[:data] = ActiveModelSerializers::SerializableResource.new(@restaurant_dishes, each_serializer: RestaurantDishSerializer)
         render json: output }
       format.html {
+        if turbo_frame_request?
+          render partial: "restaurant_dishes"
+        else
+          render "index"
+        end
       }
     end
   end

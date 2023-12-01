@@ -1,62 +1,64 @@
-<style>
-  :root{
-    --color: #888888;
-  }
-  .grid-container{
-    display: grid;
-    margin-left: 10px;
-    margin-right: 10px;
-    grid-template-columns: repeat(5, 1fr);
-    column-gap: 20px;
-    row-gap: 40px;
-  }
-  .grid-item{
-    border: 1px solid;
-    padding: 10px;
-    border-radius: 25px 5px 25px 5px;
-    display: flex;
-    flex-direction: column;
-  }
-  .image{
-    text-align: center;
-    width: 100%;
-    height: fit-content;
-    position: relative;
-  }
-  .dish{
-    font-size: 16px;
-    font-style: bold;
-    margin-top: 5px;
-    margin-bottom: 5px;
-  }
-  .restaurant{
-    font-size: 12px;
-  }
-  .price{
-    border-radius: 4px;
-    font-size: 14px;
-    position: absolute;
-    float: right;
-    right: 5px;
-    top: 5px;
-    background: #000000;
-    padding: 4px;
-    color: yellow;
-  }
-</style>
+<div id="<%= dom_id restaurant_dish %>">
+  <style>
+    :root{
+      --color: #888888;
+    }
+    .grid-container{
+      display: grid;
+      margin-left: 10px;
+      margin-right: 10px;
+      grid-template-columns: repeat(5, 1fr);
+      column-gap: 20px;
+      row-gap: 40px;
+    }
+    .grid-item{
+      border: 1px solid;
+      padding: 10px;
+      border-radius: 25px 5px 25px 5px;
+      display: flex;
+      flex-direction: column;
+    }
+    .image{
+      text-align: center;
+      width: 100%;
+      height: fit-content;
+      position: relative;
+    }
+    .dish{
+      font-size: 16px;
+      font-style: bold;
+      margin-top: 5px;
+      margin-bottom: 5px;
+    }
+    .restaurant{
+      font-size: 12px;
+    }
+    .price{
+      border-radius: 4px;
+      font-size: 14px;
+      position: absolute;
+      float: right;
+      right: 5px;
+      top: 5px;
+      background: #000000;
+      padding: 4px;
+      color: yellow;
+    }
+  </style>
 
-<%= link_to api_v1_restaurant_dish_path(restaurant_dish), class: "grid-item custom-hover" do %>
-  <% restaurant = RestaurantDish.includes(:restaurant).where(id: restaurant_dish.id).first.restaurant %>
-  <% dish = RestaurantDish.includes(:dish).where(id: restaurant_dish.id).first.dish %>
-  <div class="image">
-    <% if dish.dish_images.attached? %>
-      <%= image_tag dish.dish_images[0], class: "image" %>
-    <% else %>
-      <%= image_tag "no_image.png", class: "image" %>
-    <% end %>
-    <div class="price">&#8377 <%= restaurant_dish.price %></div>
-  </div>
-  <h5 class="dish"><%= dish.dish_name %></h5>
-  <div class="restaurant"><%= restaurant.restaurant_name %>, <%= restaurant.address %></div>
-  <div class="status"><%= restaurant.status %></div>
+<%= link_to api_v1_restaurant_dish_path(restaurant_dish), class: "grid-item custom-hover", data: { turbo_frame: "_top" } do %>
+    <% restaurant = RestaurantDish.includes(:restaurant).where(id: restaurant_dish.id).first.restaurant %>
+    <% dish = RestaurantDish.includes(:dish).where(id: restaurant_dish.id).first.dish %>
+    <div class="image">
+      <% if dish.dish_images.attached? %>
+        <%= image_tag dish.dish_images[0], class: "image" %>
+      <% else %>
+        <%= image_tag "no_image.png", class: "image" %>
+      <% end %>
+      <div class="price">&#8377 <%= restaurant_dish.price %></div>
+    </div>
+    <h5 class="dish"><%= dish.dish_name %></h5>
+    <div class="restaurant"><%= restaurant.restaurant_name %>, <%= restaurant.address %></div>
+    <div class="status"><%= restaurant.status %></div>
 <% end %>
+</div>

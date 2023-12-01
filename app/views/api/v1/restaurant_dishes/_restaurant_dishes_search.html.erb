@@ -20,13 +20,12 @@
   }
 </style>
 
+
 <div align="center">
   <div style="display: inline-block">
-    <%# , data: { turbo_frame: "restaurant_dishes_index", controller: "form-submission" } %>
-    <%= form_with url: api_v1_restaurant_dishes_path, method: :get, id: 'form' do |f| %>
+    <%= form_with url: api_v1_restaurant_dishes_path, method: :get, id: 'form', data: { turbo_frame: "restaurant_dishes", controller: "form-submission" } do |f| %>
       <div>
-        <%# , data: { action: "input->form-submission#search" } %>
-        <%= f.text_field :q, value: params[:q], placeholder: "search here...", id: 'search_box' %>
+        <%= f.text_field :q, value: params[:q], placeholder: "search here...", id: 'search_box', data: { action: "input->form-submission#search" } %>
       </div>
       <div id="status_select">
         <%= f.select :status, options_for_select(["all", "open", "close"], params[:status]) %>

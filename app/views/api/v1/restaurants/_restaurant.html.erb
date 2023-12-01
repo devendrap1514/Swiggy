@@ -1,0 +1,7 @@
+<div id="<%= dom_id restaurant %>">
+  <%= link_to api_v1_restaurant_path(restaurant), class:"item custom-hover", data: { turbo_frame: "_top" } do %>
+    <div><%=restaurant.restaurant_name %></div>
+    <div><%=restaurant.address %></div>
+    <div style="color: red;"><%=restaurant.status %></div>
+  <% end %>
+</div>
