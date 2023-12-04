@@ -15,7 +15,7 @@ class Api::V1::AuthRegistrationsController < ApplicationController
       flash[:success] = t 'devise.omniauth_callbacks.success', kind: 'Google'
       sign_in_and_redirect @user, event: :authentication
     else
-      render :new, user: params
+      render :new, user: params, status: :unprocessable_entity
     end
   end
 
