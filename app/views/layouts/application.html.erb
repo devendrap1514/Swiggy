@@ -9,6 +9,7 @@
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
     <link rel="stylesheets" href="style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <style>
       #header {
         border:1px solid #000000;
@@ -61,6 +62,7 @@
           <%= link_to "HOME", api_v1_restaurant_dishes_path %>
           <%= link_to "DISHES", api_v1_dishes_path %>
           <%= link_to "RESTAURANT", api_v1_restaurants_path %>
+          <%= link_to "CHAT ROOM", messages_path %>
         </div>
 
         <div class="home-profile_pic">

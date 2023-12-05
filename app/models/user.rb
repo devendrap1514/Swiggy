@@ -31,6 +31,8 @@ class User < ApplicationRecord
 
   has_one_attached :profile_picture
 
+  has_many :messages
+
   validates :name, presence: true
 
   # allow only alphanumeric and underscore
