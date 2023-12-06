@@ -1,0 +1,4 @@
+<%= form_with model: [:api, :v1, @message], method: :patch do |f| %>
+  <%= f.text_field :text, autofocus: true, autocomplete: "name" %>
+  <%= f.submit %>
+<% end %>

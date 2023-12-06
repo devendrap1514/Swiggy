@@ -76,7 +76,6 @@
           <div class="price">&#8377
             <%= item.price %>
           </div>
-        <a href="api_v1_cart_items_path(#{item})" class="remove" method="delete">x</a>
         <%= button_to "x", api_v1_cart_cart_item_path(item), class:"remove", method: :delete %>
         </div>
       </div>

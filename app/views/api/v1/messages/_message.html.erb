@@ -1,0 +1,19 @@
+<%= turbo_frame_tag message do %>
+  <style>
+    .message{
+      display: flex;
+      justify-content: space-between;
+    }
+  </style>
+  <div class="message">
+    <div>
+      <div style="color: <%= ['#2DA0D9', '#2DD94F', '#D76B1E'].sample %>"> <%= message.user.name %> </div>
+      <div> <%= message.text %> </div>
+    </div>
+    <%= button_to "Delete", api_v1_message_path(message), method: :delete %>
+    <%= turbo_frame_tag "edit" do %>
+      <%= button_to "Edit", edit_api_v1_message_path(message), method: :get, data: { turbo_frame: "_top" } %>
+    <% end %>
+  </div>
+  <br>
+<% end %>

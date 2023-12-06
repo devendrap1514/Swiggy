@@ -46,10 +46,10 @@ Rails.application.routes.draw do
       end
 
       resources :restaurant_dishes, only: %i[index create show edit update destroy]
+      resources :messages
 
     end
   end
-  resources :messages, only: %i[index create]
 
   mount Sidekiq::Web => "/sidekiq"
 
