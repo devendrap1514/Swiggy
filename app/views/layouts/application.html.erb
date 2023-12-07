@@ -8,12 +8,7 @@
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
-    <link rel="stylesheets" href="style.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <style>
-      :root{
-    --color: #888888;
-  }
       #header {
         border:1px solid #000000;
         display: flex;
@@ -49,6 +44,27 @@
         transition: 0.4s;
         box-shadow: 0 8px 16px 0 #888888;
       }
+      .dropbtn {
+        float: left;
+        color: black;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+      }
+
+      /* Dropdown button on hover & focus */
+      .dropbtn:hover, .dropbtn:focus {
+        background-color: #ddd;
+        color: black;
+      }
+
+      /* The container <div> - needed to position the dropdown content */
+      .dropdown {
+        position: relative;
+        display: inline-block;
+      }
+
+      /* Dropdown Content (Hidden by Default) */
       .dropdown-content {
         display: none;
         position: absolute;
@@ -57,14 +73,38 @@
         box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
         z-index: 1;
       }
+
+      /* Links inside the dropdown */
       .dropdown-content a {
         color: black;
         padding: 12px 16px;
         text-decoration: none;
         display: block;
       }
-      .dropdown:hover .dropdown-content {display: block;}
+
+      .dropdown-content a:hover {background-color: #ddd;}
+
+      .show {display:block;}
     </style>
+    <script type="text/javascript">
+      function myFunction() {
+        document.getElementById("myDropdown").classList.toggle("show");
+      }
+
+      // Close the dropdown menu if the user clicks outside of it
+      window.onclick = function(event) {
+        if (!event.target.matches('.dropbtn')) {
+          var dropdowns = document.getElementsByClassName("dropdown-content");
+          var i;
+          for (i = 0; i < dropdowns.length; i++) {
+            var openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains('show')) {
+              openDropdown.classList.remove('show');
+            }
+          }
+        }
+      }
+    </script>
   </head>
 
   <body>
@@ -77,21 +117,19 @@
           <%= link_to "HOME", api_v1_restaurant_dishes_path %>
           <%= link_to "DISHES", api_v1_dishes_path %>
           <%= link_to "RESTAURANT", api_v1_restaurants_path %>
-          <%= link_to "CHAT ROOM", api_v1_messages_path %>
+          <div style="display: inline;"><%= link_to "CHAT ROOM", api_v1_messages_path %></div>
         </div>
 
-        <div>
-          <div class="dropdown">
-            <button class="dropbtn">OPTION ></button>
-            <div class="dropdown-content">
-              <% if current_user.type == "Customer" %>
-
-                <%= link_to "CART", api_v1_cart_path, method: :get  %>
-                <%= link_to "ORDERS", api_v1_orders_path, method: :get %>
-              </div>
-            <% end %>
+        <div style="display: flex; align-items: center;">
+          <% if current_user.type == "Customer" %>
+            <div class="dropdown">
+            <a onclick="myFunction()" class="dropbtn">MENU</a>
+            <div id="myDropdown" class="dropdown-content">
+              <%= link_to "CART", api_v1_cart_path, method: :get  %>
+              <%= link_to "ORDERS", api_v1_orders_path, method: :get %>
             </div>
           </div>
+          <% end %>
           <div class="home-profile_pic">
             <%= link_to api_v1_user_path(current_user) do %>
               <% if current_user.profile_picture.attached? %>
