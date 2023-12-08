@@ -29,6 +29,12 @@
   }
 </style>
 
-<div class="grid-container">
-  <%= render dishes %>
-</div>
+<% unless @dishes.empty? %>
+  <div class="grid-container">
+    <%= render @dishes %>
+  </div>
+<% else %>
+  <div>
+    no dish
+  </div>
+<% end %>
