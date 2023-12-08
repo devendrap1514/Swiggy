@@ -4,15 +4,22 @@
       display: flex;
       justify-content: space-between;
     }
+    .button-container{
+      display: flex;
+      flex-direction: row;
+      gap: 5px;
+    }
   </style>
   <div class="message">
     <div>
       <div style="color: <%= ['#2DA0D9', '#2DD94F', '#D76B1E'].sample %>"> <%= message.user.name %> </div>
       <div> <%= message.text %> </div>
     </div>
-    <%= button_to "Delete", api_v1_message_path(message), method: :delete %>
-    <%= turbo_frame_tag "edit" do %>
+    <div class="button-container">
+      <%= button_to "Delete", api_v1_message_path(message), method: :delete %>
+      <%= turbo_frame_tag "edit" do %>
       <%= button_to "Edit", edit_api_v1_message_path(message), method: :get, data: { turbo_frame: "_top" } %>
+    </div>
     <% end %>
   </div>
   <br>

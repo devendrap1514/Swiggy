@@ -33,6 +33,7 @@ Rails.application.routes.draw do
       resources :orders, only: %i[index new create show destroy] do
         resources :order_items, only: [:index]
         get '/payment', action: :payment, on: :member
+        patch '/cancel_payment', action: :cancel_payment, on: :member
         post '/create_payment', action: :create_payment, on: :member
       end
 

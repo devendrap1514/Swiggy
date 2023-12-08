@@ -1,11 +1,12 @@
 class Api::V1::OrdersController < Api::V1::ApiController
-  before_action :find_order, only: %i[show destroy payment create_payment]
+  before_action :find_order, only: %i[show cancel_payment destroy payment create_payment]
 
   def index
     @orders = current_user.orders
     output = {}
     output[:message] = "success"
     output[:data] = ActiveModelSerializers::SerializableResource.new(@orders, each_serializer: OrderSerializer)
+
     respond_to do |format|
       format.json { render status: :ok, json: output }
       format.html {  }
@@ -104,10 +105,18 @@ class Api::V1::OrdersController < Api::V1::ApiController
 
   def create_payment
     if @order.update(razorpay_payment_id: params[:razorpay_payment_id], payment_status: "payment_confirmed")
-      current_user.cart.destroy  # destroy_cart_item
+      current_user.cart.destroy if current_user.cart # destroy_cart_item
       redirect_to api_v1_order_order_items_path(@order)
     else
       render :payment
+    end
+  end
+
+  def cancel_payment
+    if @order.update(razorpay_payment_id: nil, payment_status: "payment_failed")
+      redirect_to api_v1_orders_path
+    else
+      flash.now[:notice] = "..."
     end
   end
 

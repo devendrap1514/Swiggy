@@ -17,9 +17,17 @@ class Api::V1::MessagesController < Api::V1::ApiController
   end
 
   def update
-    return unless @message.user == current_user
+    unless @message.user == current_user
+      flash.now[:notice] = "..."
+      render :edit
+      return
+    end
     if @message.update(message_params)
+      respond_to do |format|
+        format.html{ redirect_to api_v1_messages_path }
+      end
     else
+      render :edit, status: :unprocessable_entity
     end
   end
 

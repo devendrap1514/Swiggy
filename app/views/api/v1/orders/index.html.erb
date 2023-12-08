@@ -11,45 +11,37 @@
     border-radius: 10px;
     display: flex;
   }
-  .images-box{
-    display: grid;
-    width: 100px;
-    height: 100px;
-    grid-template-columns: 50px 50px;
-  }
-  .image{
-    width: 50px;
-    height: 50px;
+  .payment-buttons{
+    display: inline-flex;
+    flex-direction: row;
+    border-top: 0.5px solid red;
+    border-left: 0.5px solid red;
+    border-right: 0.5px solid red;
   }
 </style>
 
 <div class="container">
   <% @orders.each do |order| %>
-    <%= link_to api_v1_order_order_items_path(order), class:"item custom-hover" do %>
-      <div class="images-box">
-        <% if order.order_items.first %>
-          <%= image_tag order.order_items.first.restaurant_dish.dish.dish_images[0], class:"image" if order.order_items.first.restaurant_dish.dish.dish_images.attached? %>
-          <% if order.order_items.offset(1).first %>
-            <%= image_tag order.order_items.offset(1).first.restaurant_dish.dish.dish_images[0], class:"image" if order.order_items.offset(1).first.restaurant_dish.dish.dish_images.attached? %>
-            <% if order.order_items.offset(2).first %>
-              <%= image_tag order.order_items.offset(2).first.restaurant_dish.dish.dish_images[0], class:"image" if order.order_items.offset(2).first.restaurant_dish.dish.dish_images.attached? %>
-              <% if order.order_items.offset(3).first %>
-                <%= image_tag order.order_items.offset(3).first.restaurant_dish.dish.dish_images[0], class:"image" if order.order_items.offset(3).first.restaurant_dish.dish.dish_images.attached? %>
-              <% end %>
-            <% end %>
-          <% end %>
-        <% end %>
-      </div>
-      <div>
-        <div><%= order.order_items.map{ |item| item.restaurant_dish.dish.dish_name }.join(", ") %></div>
-        <div><%= order.created_at %></div>
-        <div><%= order.order_price %></div>
-      </div>
-      <div style="margin-left:auto">
-        <h6><%= order.order_status %></h6>
-        <h6><%= order.payment_status if order.payment_status == "payment_confirmed" %></h6>
-        <%= button_to "Pay now", payment_api_v1_order_path(order), method: :get if order.payment_status == "payment_pending" %>
-      </div>
-    <% end %>
+    <div>
+      <% if order.payment_status == "payment_pending" %>
+        <div style="display: flex;justify-content: end;">
+          <div class="payment-buttons">
+            <%= button_to "Cancel", cancel_payment_api_v1_order_path(order), method: :patch %>
+            <%= button_to "Pay now", payment_api_v1_order_path(order), method: :get %>
+          </div>
+        </div>
+      <% end %>
+      <%= link_to api_v1_order_order_items_path(order), class:"item custom-hover" do %>
+        <div>
+          <div><%= order.order_items.map{ |item| item.restaurant_dish.dish.dish_name }.join(", ") %></div>
+          <div><%= order.created_at %></div>
+          <div><%= order.order_price %></div>
+        </div>
+        <div style="margin-left:auto">
+          <h6><%= order.order_status %></h6>
+          <h6><%= order.payment_status %></h6>
+        </div>
+      <% end %>
+    </div>
   <% end %>
 </div>

@@ -46,6 +46,8 @@ class Order < ApplicationRecord
     cash_payment: "cash_payment"
   }
 
+  default_scope { order(created_at: :desc) }
+
   def order_price
     order_items.sum(:price)
   end
