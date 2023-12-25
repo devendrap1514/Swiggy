@@ -17,7 +17,6 @@
 #  fk_rails_...  (user_id => users.id)
 #
 class Message < ApplicationRecord
-  broadcasts
   paginates_per 20
 
   belongs_to :user
