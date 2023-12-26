@@ -24,6 +24,7 @@ Rails.application.routes.draw do
       resources :users, only: %i[show] do
         get '/my_restaurant', action: :my_restaurant, on: :member
         get '/my_dishes', action: :my_dishes, on: :member
+        get '/my_profile', action: :my_profile, on: :collection
       end
 
       resource :cart, only: %i[show destroy] do
@@ -47,7 +48,9 @@ Rails.application.routes.draw do
       end
 
       resources :restaurant_dishes, only: %i[index create show edit update destroy]
-
+      resources :rooms do
+        resources :messages
+      end
     end
   end
 

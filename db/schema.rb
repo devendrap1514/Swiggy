@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_22_065309) do
+ActiveRecord::Schema[7.0].define(version: 2023_12_26_105759) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -100,6 +100,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_22_065309) do
     t.index ["category_id"], name: "index_dishes_on_category_id"
   end
 
+  create_table "messages", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "room_id", null: false
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["room_id"], name: "index_messages_on_room_id"
+    t.index ["user_id"], name: "index_messages_on_user_id"
+  end
+
   create_table "order_items", force: :cascade do |t|
     t.bigint "restaurant_dish_id"
     t.bigint "order_id", null: false
@@ -146,6 +156,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_22_065309) do
     t.index ["owner_id"], name: "index_restaurants_on_owner_id"
   end
 
+  create_table "rooms", force: :cascade do |t|
+    t.string "name"
+    t.boolean "is_private", default: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_rooms_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name", null: false
     t.string "username", null: false
@@ -172,10 +191,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_22_065309) do
   add_foreign_key "cart_items", "restaurant_dishes"
   add_foreign_key "carts", "users", column: "customer_id"
   add_foreign_key "dishes", "categories"
+  add_foreign_key "messages", "rooms"
+  add_foreign_key "messages", "users"
   add_foreign_key "order_items", "orders"
   add_foreign_key "order_items", "restaurant_dishes"
   add_foreign_key "orders", "users", column: "customer_id"
   add_foreign_key "restaurant_dishes", "dishes"
   add_foreign_key "restaurant_dishes", "restaurants"
   add_foreign_key "restaurants", "users", column: "owner_id"
+  add_foreign_key "rooms", "users"
 end

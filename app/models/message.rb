@@ -3,29 +3,25 @@
 # Table name: messages
 #
 #  id         :bigint           not null, primary key
-#  text       :string
+#  content    :text
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  room_id    :bigint           not null
 #  user_id    :bigint           not null
 #
 # Indexes
 #
+#  index_messages_on_room_id  (room_id)
 #  index_messages_on_user_id  (user_id)
 #
 # Foreign Keys
 #
+#  fk_rails_...  (room_id => rooms.id)
 #  fk_rails_...  (user_id => users.id)
 #
 class Message < ApplicationRecord
-  paginates_per 20
-
   belongs_to :user
+  belongs_to :room
 
-  validates :text, presence: true
-
-  after_create_commit -> { broadcast_append_to "messages", partial: "api/v1/messages/message" }
-  after_update_commit -> { broadcast_replace_to "messages", partial: "api/v1/messages/message" }
-  after_destroy_commit -> { broadcast_remove_to "messages" }
-
-  default_scope { order(created_at: :desc) }
+  after_create_commit { broadcast_append_to self.room, partial: "api/v1/messages/message" }
 end

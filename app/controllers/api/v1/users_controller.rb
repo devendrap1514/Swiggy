@@ -1,14 +1,37 @@
 class Api::V1::UsersController < Api::V1::ApiController
 
+  before_action :find_user, only: [:show]
+
   def show
     output = {}
     output[:message] = "success"
-    output[:data] = UserSerializer.new current_user
+    output[:data] = UserSerializer.new @user
 
-    respond_to do |format|
-      format.json { render json: output }
-      format.html {  }
+    if @user == @current_user
+      respond_to do |format|
+        format.html { redirect_to my_profile_api_v1_users_path }
+        format.json { render json: output }
+      end
+    else
+      respond_to do |format|
+        format.html {  }
+        format.json { render json: output }
+      end
     end
+  end
+
+  def find_user
+    @user = User.find_by_id(params[:id])
+    unless @user
+      respond_to do |format|
+        format.html { redirect_to "/not_found" }
+        format.json { render "not found" }
+      end
+    end
+  end
+
+  def my_profile
+
   end
 
   def my_restaurant

@@ -31,6 +31,7 @@ class User < ApplicationRecord
 
   has_one_attached :profile_picture
 
+  has_many :rooms
   has_many :messages
 
   validates :name, presence: true
@@ -51,6 +52,10 @@ class User < ApplicationRecord
   before_validation :remove_whitespace
 
   # after_create :send_welcome_mail
+
+  scope :all_except, ->(user) { where.not(id: user) }
+
+  after_create_commit { broadcast_append_to "users" }
 
   def self.from_number(_phone_number)
     where(phone_number: _phone_number, uid: "").first_or_create do |user|

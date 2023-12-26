@@ -8,6 +8,7 @@
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+
     <style>
       #header {
         border:1px solid #000000;
@@ -81,6 +82,15 @@
       .dropdown-content a:hover {background-color: #ddd;}
 
       .show {display:block;}
+
+      <%= ".msg-#{current_user&.id}" %> {
+        background-color: #007bff !important;
+        padding: 10px;
+      }
+      <%= ".cont-#{current_user&.id}" %> {
+        display: flex;
+        justify-content: flex-end
+      }
     </style>
     <script type="text/javascript">
       function myFunction() {
@@ -113,6 +123,7 @@
           <%= link_to "HOME", api_v1_restaurant_dishes_path %>
           <%= link_to "DISHES", api_v1_dishes_path %>
           <%= link_to "RESTAURANT", api_v1_restaurants_path %>
+          <%= link_to "CHAT", api_v1_rooms_path %>
         </div>
 
         <div style="display: flex; align-items: center;">
@@ -126,7 +137,7 @@
           </div>
           <% end %>
           <div class="home-profile_pic">
-            <%= link_to api_v1_user_path(current_user) do %>
+            <%= link_to my_profile_api_v1_users_path do %>
               <% if current_user.profile_picture.attached? %>
                 <%= image_tag(current_user.profile_picture, size: "30x30") %>
               <% else %>
