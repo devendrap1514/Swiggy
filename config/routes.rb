@@ -47,7 +47,6 @@ Rails.application.routes.draw do
       end
 
       resources :restaurant_dishes, only: %i[index create show edit update destroy]
-      resources :messages
 
     end
   end
