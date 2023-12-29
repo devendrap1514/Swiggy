@@ -1,1 +1,10 @@
-<div> <%= link_to user.username, api_v1_user_path(user) %> </div>
+<%
+u = if defined?(user)
+  user
+elsif defined?(customer)
+  customer
+elsif defined?(owner)
+  owner
+end
+%>
+<div> <%= link_to u.username, api_v1_user_path(u) %> </div>

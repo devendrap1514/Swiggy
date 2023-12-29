@@ -55,7 +55,7 @@ class User < ApplicationRecord
 
   scope :all_except, ->(user) { where.not(id: user) }
 
-  after_create_commit { broadcast_append_to "users" }
+  after_create_commit { broadcast_append_to "users", partial: "api/v1/users/user" }
 
   def self.from_number(_phone_number)
     where(phone_number: _phone_number, uid: "").first_or_create do |user|
