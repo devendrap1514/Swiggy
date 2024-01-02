@@ -1,0 +1,6 @@
+<%= turbo_frame_tag "rooms" do %>
+  <%= render @rooms %>
+  <div align="center", style="margin: 20px 0px 0px 0px">
+    <%= paginate @rooms %>
+  </div>
+<% end %>

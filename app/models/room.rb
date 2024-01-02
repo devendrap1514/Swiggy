@@ -18,7 +18,7 @@
 #  fk_rails_...  (user_id => users.id)
 #
 class Room < ApplicationRecord
-
+  paginates_per 10
   belongs_to :user, optional: true
   has_many :messages
   has_many :participants, dependent: :destroy

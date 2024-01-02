@@ -2,8 +2,8 @@ class Api::V1::RoomsController < Api::V1::ApiController
 
   def index
     redirect_to '' unless @current_user
-    @rooms = Room.public_rooms
-    @users = User.all_except(@current_user)
+    @rooms = Room.public_rooms.page(params[:page])
+    @users = User.all_except(@current_user).page(params[:page])
 
     @room = Room.new
   end

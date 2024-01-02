@@ -25,6 +25,7 @@
 #  index_users_on_username              (username)
 #
 class User < ApplicationRecord
+  paginates_per 10
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :omniauthable, omniauth_providers: [:google_oauth2, :facebook, :twitter], authentication_keys: [:username]
